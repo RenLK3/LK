@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link href="/admin/layui/css/layui.css" rel="stylesheet"/>
+    <link href="/admin/style/admin.css" rel="stylesheet"/>
+    <link href="/admin/hplus/css/plugins/jsTree/style.min.css" rel="stylesheet">
+    <!--    <link href="/layui/hplus/css/animate.css" rel="stylesheet">-->
+    <link href="/admin/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-xs6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    部门列表
+                </div>
+                <div class="layui-card-body">
+                    <div class="layui-btn-container">
+                        <button class="layui-btn layui-btn-xs layui-bg-cyan" lay-node-event="add"><i
+                                class="layui-icon layui-icon-ok-circle"></i>添加
+                        </button>
+                        <button class="layui-btn layui-btn-xs layui-bg-orange" lay-node-event="edit"><i
+                                class="layui-icon layui-icon-refresh"></i>修改
+                        </button>
+                        <button class="layui-btn layui-btn-xs layui-btn-danger" lay-node-event="del"><i
+                                class="layui-icon layui-icon-refresh"></i>删除
+                        </button>
+                    </div>
+                    <div id="deptTree"></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-md9">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    人员搜索
+                </div>
+                <div class="layui-card-body layui-form" lay-filter="user-search">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">登录名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="loginName" placeholder="登录名称" class="layui-input">
+                        </div>
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-inline">
+                            <select name="state" class="layui-select">
+                                <option value="">所有</option>
+                                <option value="0">正常</option>
+                                <option value="1">停用</option>
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-useradmin layui-bg-blue" lay-submit lay-filter="user-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>搜索
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    部门人员
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="table-dept-manager" lay-filter="table-dept-manager"></table>
+                    <script type="text/html" id="table-dept-manager-toolbarDemo">
+                        <div class="layui-btn-container">
+                            <button class="layui-btn layui-btn-sm layui-bg-cyan" lay-event="Add"><i
+                                    class="layui-icon layui-icon-add-1"></i>添加
+                            </button>
+                        </div>
+                    </script>
+                    <script type="text/html" id="table-dept-manager-barDemo">
+                        <!--                        <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>修改</a>-->
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
+                                class="layui-icon layui-icon-delete"></i>删除</a>
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 添加部门人员 -->
+<div id="selectUser" style="display: none">
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-hide" id="table-user-manager" lay-filter="table-user-manager"></table>
+                <script type="text/html" id="table-user-manager-toolbarDemo">
+                    <div class="layui-btn-container">
+                        <button class="layui-btn layui-btn-sm layui-bg-blue" lay-event="Add"><i
+                                class="layui-icon layui-icon-add-1"></i>添加
+                        </button>
+                    </div>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/admin/layui/layui.js"></script>
+<script type="text/javascript" src="/admin/axios/axios.min.js"></script>
+<script src="/admin/hplus/js/jquery.min.js?v=2.1.4"></script>
+<script src="/admin/hplus/js/bootstrap.min.js?v=3.3.7"></script>
+<!-- jsTree plugin javascript -->
+<script src="/admin/hplus/js/plugins/jsTree/jstree.min.js"></script>
+<script type="application/javascript">
+    function getTreeSelected() {
+        let ref = $('#deptTree').jstree(true);
+        let sel = ref.get_selected();
+        if (!sel.length) {
+            return 0;
+        }
+        sel = sel[0];
+        return parseInt(sel);
+    }
+</script>
+<script>
+    layui.config({
+        base: '../admin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table', 'form', 'util', 'admin'], function () {
+        let $ = layui.$,
+            form = layui.form,
+            util = layui.util,
+            admin = layui.admin,
+            table = layui.table;
+
+        let addFlag = [[${@permission.hasPerm('system:menu:add')}]];
+        let editFlag = [[${@permission.hasPerm('system:menu:edit')}]];
+        let removeFlag = [[${@permission.hasPerm('system:menu:remove')}]];
+
+        let ctx = '[[@{/}]]';
+        let prefix = ctx + "system/dept";
+
+        let deptTree = $('#deptTree').jstree({
+            'core': {
+                'data': {
+                    'url': prefix + '/tree',
+                    'data': function (node) {
+                        if (node.id === '#') {
+                            return {'id': 0};
+                        }
+                        return {'id': node.id};
+                    }
+                }
+            }
+        });
+
+        $('#deptTree').on("changed.jstree", function (e, data) {
+            let sel = data.selected[0];
+            console.log()
+            if(sel === undefined){
+                sel = 0;
+            }
+            table.reload('table-dept-manager', {
+                where: {deptId: data.selected[0]}
+            });
+        });
+
+        table.render({
+            elem: '#table-dept-manager'
+            , toolbar: '#table-dept-manager-toolbarDemo'
+            , method: 'post'
+            , url: prefix + '/list'
+            , where: {deptId: 0}
+            , page: true
+            , cols: [
+                [
+                    {field: 'userId', title: '用户ID', align: 'center'}
+                    , {field: 'loginName', align: 'center', title: '登录账号'}
+                    , {field: 'userName', align: 'center', title: '用户名称'}
+                    , {
+                    field: 'level', title: '级别', align: 'center', templet: function (obj) {
+                        let level = 99;
+                        obj.roles.forEach(role => {
+                            if (role.level < level) {
+                                level = role.level;
+                            }
+                        });
+                        if (level === 99) {
+                            level = '无角色';
+                        }
+                        return level;
+                    }
+                }
+                    , {title: '操作', width: 90, toolbar: '#table-dept-manager-barDemo'}
+                ]
+            ]
+        });
+
+        table.render({
+            elem: '#table-user-manager'
+            , method: 'post'
+            , url: ctx + 'system/user/list'//数据接口
+            , toolbar: '#table-user-manager-toolbarDemo'
+            , page: true //开启分页
+            , cols: [
+                [
+                    {type: 'checkbox'}
+                    , {field: 'userId', title: '用户ID', align: 'center', width: 137}
+                    , {field: 'loginName', align: 'center', title: '登录账号', width: 225}
+                    , {field: 'userName', align: 'center', title: '用户名称', width: 225}
+                ]
+            ]
+        });
+
+        table.on('toolbar(table-user-manager)', function (obj) {
+            let checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'Add':
+                    if (addFlag) {
+                        let data = checkStatus.data;
+                        let arr= [];
+                        data.forEach(item=>{
+                            arr.push(item.userId);
+                        })
+
+                        axios({
+                            method: 'post',
+                            url: prefix + '/userDept',
+                            params: {
+                                deptId: getTreeSelected(),
+                                userId: arr.toString()
+                            }
+                        }).then(response => {
+                            let res = response.data;
+
+                            // deptTree.update({
+                            //     autoRow: true
+                            // })
+                        });
+                        layer.closeAll();
+                    } else {
+                        layer.msg('你没有添加角色权限！', {icon: 5});
+                    }
+                    break;
+            }
+        });
+
+        table.on('toolbar(table-dept-manager)', function (obj) {
+            switch (obj.event) {
+                case 'Add':
+                    if (addFlag) {
+                        layer.open({
+                            title: '选择用户'
+                            , type: 1
+                            //,skin: 'layui-layer-rim'
+                            , shadeClose: true
+                            , area:  ['700px', '500px']
+                            , content: $('#selectUser')
+                        });
+                    } else {
+                        layer.msg('你没有添加角色权限！', {icon: 5});
+                    }
+                    break;
+            }
+        });
+
+        //监听行工具事件
+        table.on('tool(table-dept-manager)', function (obj) {
+            let data = obj.data;
+            if (obj.event === 'del') {
+                //console.log(data)
+                axios({
+                    method: 'post',
+                    url: prefix + '/delUserDept',
+                    params: {
+                        userId: data.userId
+                    }
+                }).then(response => {
+                    let res = response.data;
+
+                    table.reload('table-dept-manager')
+                });
+            }
+        });
+
+        form.on('submit(user-search)', function (obj) {
+            table.reload('table-dept-manager', {
+                where: {
+                    deptId: getTreeSelected(),
+                    loginName: obj.field.loginName,
+                    status: obj.field.state
+                }
+            });
+        })
+
+        util.event('lay-node-event', {
+            add: function () {
+                let pId = 0;
+                if ((pId = getTreeSelected()) == 0) {
+                    layer.alert('请选中部门');
+                } else {
+                    layer.prompt({title: '请输入名称，并确认', formType: 0}, function (text, index) {
+                        layer.close(index);
+                        axios({
+                            method: 'post',
+                            url: prefix + '/addDept',
+                            params: {
+                                pId: pId,
+                                name: text
+                            }
+                        }).then(response => {
+                            let res = response.data;
+                            // deptTree.update({
+                            //     autoRow: true
+                            // })
+                            $('#deptTree').jstree(true).refresh();
+                        });
+                    });
+                }
+            },
+            edit: function () {
+                let id = getTreeSelected();
+                if (id != 0) {
+                    // let node = ref.get_node(sel);
+                    // console.log(node.text)
+                    layer.prompt({title: '请输入名称，并确认', formType: 0}, function (text, index) {
+                        layer.close(index);
+                        axios({
+                            method: 'post',
+                            url: prefix + '/editDept',
+                            params: {
+                                id: id,
+                                name: text
+                            }
+                        }).then(response => {
+                            let res = response.data;
+                            $('#deptTree').jstree(true).refresh();
+                        });
+                    });
+                } else {
+                    layer.alert('请选中部门');
+                }
+                //ref.edit(sel);
+            },
+            del: function () {
+                let id = getTreeSelected();
+                if (id != 0) {
+                    axios({
+                        method: 'post',
+                        url: prefix + '/delDept',
+                        params: {
+                            id: id
+                        }
+                    }).then(response => {
+                        let res = response.data;
+                        $('#deptTree').jstree(true).refresh();
+                    });
+                } else {
+                    layer.alert('请选中部门');
+                }
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link href="/admin/layui/css/layui.css" rel="stylesheet"/>
+    <link href="/admin/style/admin.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="layui-fluid">
+
+    <div class="layui-card">
+        <div class="layui-card-header">
+            菜单管理
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <div id="TreeTable"></div>
+                    <script type="text/html" id="switchTpl">
+                        <input type="checkbox" name="state" value="{{d.menuId}}" lay-skin="switch" lay-text="开启|关闭"
+                               lay-filter="State" {{ d.visible== 0 ? 'checked' : '' }}>
+                    </script>
+                    <script type="text/html" id="TreeTable-toolbarDemo">
+                        <div class="layui-btn-container">
+                            <button class="layui-btn layui-btn-sm layui-bg-cyan" lay-event="Add"><i
+                                    class="layui-icon layui-icon-add-1"></i>添加菜单
+                            </button>
+                        </div>
+                    </script>
+                    <script type="text/html" id="TreeTable-barDemo">
+                        <a class="layui-btn layui-btn-xs layui-bg-orange" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>修改</a>
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
+                                class="layui-icon layui-icon-delete"></i>删除</a>
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/admin/layui/layui.js"></script>
+
+<script>
+    layui.config({
+        base: '../admin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table', 'treeTable', 'form', 'admin'], function () {
+        var $ = layui.$,
+            form = layui.form
+            , table = layui.table
+            , admin = layui.admin
+            , treeTable = layui.treeTable;
+
+        let addFlag = [[${@permission.hasPerm('system:menu:add')}]];
+        let editFlag = [[${@permission.hasPerm('system:menu:edit')}]];
+        let removeFlag = [[${@permission.hasPerm('system:menu:remove')}]];
+
+        let ctx = '[[@{/}]]';
+        let prefix = ctx + "system/menu";
+
+        //let menus = @(new HtmlString(JsonConvert.SerializeObject(menus)));
+
+        treeTable.render({
+            id: 'TreeTable',
+            elem: '#TreeTable',
+            url: prefix + '/list',
+            defaultExpandLevel: 0,
+            toolbar: '#TreeTable-toolbarDemo',
+            //even: true,
+            tree: {
+                iconIndex: 2,
+                isPidData: true,
+                defaultClose: false,
+                pidName: 'parentId',
+                idName: 'menuId'
+            },
+            cols: [
+                [{
+                    type: 'radio',
+                    hide: true
+                }, {
+                    field: 'menuId',
+                    title: '菜单ID',
+                    width: 50,
+                    align: 'center'
+                }, {
+                    field: 'menuName',
+                    title: '菜单名称',
+                    width: 200
+                }, {
+                    field: 'icon',
+                    title: '图标'
+                }, {
+                    field: 'perms',
+                    title: '权限'
+                }, {
+                    field: 'url',
+                    title: '地址'
+                }, {
+                    field: 'visible',
+                    title: '状态',
+                    templet: '#switchTpl',
+                    width: 100,
+                    align: 'center'
+                }, {
+                    field: 'createTime',
+                    title: '时间',
+                    align: 'center'
+                }, {
+                    title: '操作',
+                    align: 'center',
+                    width: 150,
+                    toolbar: '#TreeTable-barDemo'
+                }
+                ]
+            ]
+        });
+
+        treeTable.on('row(TreeTable)', function (obj) { //注：test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data;
+            //selectedData = data;
+
+            //$('table[class="layui-table"] tbody tr').removeClass('layui-table-click');
+
+            //选中行样式
+            //obj.tr.addClass('layui-table-click').siblings();
+
+        });
+
+        //头工具栏事件
+        treeTable.on('toolbar(TreeTable)', function (obj) {
+            //var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'Add':
+                    if (addFlag) {
+                        let url = prefix + '/add';
+                        let title = "新增菜单";
+                        let l = parent === self ? layui : top.layui;
+                        l.index.openTabsPage(url, title);
+                    } else {
+                        layer.msg('你没有添加菜单权限！', {icon: 5});
+                    }
+                    // var pop = layer.open({
+                    //     title: '添加菜单',
+                    //     type: 1,
+                    //     shadeClose: true,
+                    //     area: ['700px', '520px'],
+                    //     content: $("#pop-content")
+                    // });
+                    //
+                    // form.on('submit(component-form-element)', function (data) {
+                    //
+                    //     //console.log(data);
+                    //
+                    //     // $.ajax({
+                    //     //     url: "@Url.Action("Add", "Menu")",
+                    //     //     type: "post",
+                    //     //     data: {
+                    //     //         menu: data.field
+                    //     //     },
+                    //     //     dataType: "json",
+                    //     //     success: function (r) {
+                    //     //         if (r.code === 0) {
+                    //     //             //layer.alert('添加成功');
+                    //     //             treeTable.reload('TreeTable');
+                    //     //             layer.close(pop);
+                    //     //         } else {
+                    //     //             layer.alert(r.msg, {
+                    //     //                 icon: 5,
+                    //     //                 title: '失败'
+                    //     //             });
+                    //     //         }
+                    //     //     }
+                    //     // });
+                    //
+                    //     return false;
+                    // });
+
+                    break;
+            }
+        });
+
+        //监听行工具事件
+        treeTable.on('tool(TreeTable)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                if (removeFlag) {
+                    $.ajax({
+                        url: prefix + "/remove",
+                        type: "post",
+                        data: {menuId: data.menuId},
+                        dataType: "json",
+                        success: function (r) {
+                            if (r.code === 0) {
+                                layer.msg('删除成功');
+                                // table.reload('table-role-manager');
+                                obj.del();
+                            } else {
+                                layer.alert(r.msg, {
+                                    icon: 5,
+                                    title: '失败'
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    layer.msg('你没有删除菜单权限！', {icon: 5});
+                }
+                // $.ajax({
+                //     url: "@Url.Action("Del", "Menu")",
+                //     type: "post",
+                //     data: {
+                //         menuid: obj.data.Id
+                //     },
+                //     dataType: "json",
+                //     success: function (r) {
+                //         if (r.code === 0) {
+                //             //layer.alert('添加成功');
+                //             treeTable.reload('TreeTable');
+                //             layer.close(pop);
+                //         } else {
+                //             layer.alert(r.msg, {
+                //                 icon: 5,
+                //                 title: '失败'
+                //             });
+                //         }
+                //     }
+                // });
+            } else if (obj.event === 'edit') {
+                if (editFlag) {
+                    let url = prefix + '/edit?id=' + data.menuId;
+                    let title = "编辑菜单";
+                    let l = parent === self ? layui : top.layui;
+                    l.index.openTabsPage(url, title);
+                } else {
+                    layer.msg('你没有编辑菜单权限！', {icon: 5});
+                }
+                // 更改菜单下拉框 好难
+                // console.log(menus);
+                // for (var i in menus) {
+                //     if (menus[i].Id === data.ParentId) {
+                //         console.log(menus[i]);
+                //         $('#ParentId').siblings().find('div input').attr({value: menus[i].Name});  // 更改输入框
+                //     } else if (0 === data.ParentId) {
+                //         $('#ParentId').siblings().find('div input').attr({value: '主目录'});  // 更改输入框
+                //     }
+                // }
+                // $('#ParentId').siblings().find('dl').find('dd').removeClass('layui-this');  // 取消所有选中
+                // $('#ParentId').siblings().find('dl').find('dd[lay-value="' + data.Id + '"]').attr({class: 'layui-this'}); // 选中
+                //
+                // //console.log(data);
+                //
+                // $('#Name').attr({value: data.Name});
+                // $('#Type').attr({value: data.Type});
+                // $('#URL').attr({value: data.URL});
+                // //$('#ParentId').attr({ value: data.ParentId });
+                // $('#Icon').attr({value: data.Icon});
+                // $('#Perms').attr({value: data.Perms});
+                // // $('#ParentId').attr({ value: data.DeptId });
+                // var changeview = layer.open({
+                //     title: '修改菜单'
+                //     , type: 1
+                //     //,skin: 'layui-layer-rim'
+                //     , shadeClose: true
+                //     , area: admin.screen() < 2 ? ['80%', '300px'] : ['700px', '500px']
+                //     , content: $("#edit-pop-content")
+                // });
+                //
+                // form.on('submit(component-form-element)', function (data) {
+                //     var newData = data.field;
+                //     var oldData = obj.data;
+                //     newData.Id = oldData.Id;
+                //     newData.State = oldData.State;
+                //     // $.ajax({
+                //     //     url: "@Url.Action("Update", "Menu")",
+                //     //     type: "post",
+                //     //     data: {user: newData},
+                //     //     dataType: "json",
+                //     //     success: function (r) {
+                //     //         if (r.code === 0) {
+                //     //             layer.msg('修改成功');
+                //     //             //console.log(data.field);
+                //     //             table.reload('table-user-manager');
+                //     //             layer.close(changeview);
+                //     //         } else {
+                //     //             layer.alert(r.msg, {
+                //     //                 icon: 5,
+                //     //                 title: '失败'
+                //     //             });
+                //     //         }
+                //     //     }
+                //     // });
+                //
+                //     return false;
+                // });
+
+            }
+        });
+
+        //监听操作
+        form.on('switch(State)', function (obj) {
+            console.log(this.value + ' ' + this.name + '：' + obj.elem.checked);
+            // $.ajax({
+            //     url: "@Url.Action("State", "Menu")",
+            //     type: "post",
+            //     data: {
+            //         menu: {Id: this.value, State: obj.elem.checked ? 1 : 0}
+            //     },
+            //     dataType: "json",
+            //     success: function (r) {
+            //         if (r.code === 0) {
+            //
+            //         } else {
+            //             layer.alert(r.msg, {
+            //                 icon: 5,
+            //                 title: '失败'
+            //             });
+            //         }
+            //     }
+            // });
+            return false;
+        });
+    });
+</script>
+</body>
+
+</html>

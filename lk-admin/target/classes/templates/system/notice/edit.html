@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/admin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/admin/style/admin.css" media="all"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">修改用户</div>
+        <div class="layui-card-body layui-form" lay-filter="component-form-element">
+            <div class="layui-form-item">
+                <div class="layui-col-md6">
+                    <label class="layui-form-label">名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input" th:value="${notice.name}">
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <label class="layui-form-label">标题：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input" th:value="${notice.title}">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-col-md10">
+                    <label class="layui-form-label">内容：</label>
+                    <div class="layui-input-block">
+                        <textarea name="content" lay-verify="required" placeholder="" class="layui-textarea">[[${notice.content}]]</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-col-md10">
+                    <label class="layui-form-label">备注：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="remark" placeholder="" autocomplete="off" class="layui-input" th:value="${notice.remark}">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="component-form-element">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/admin/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '../../../admin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form'], function () {
+        let $ = layui.$
+            , admin = layui.admin
+            , element = layui.element
+            , form = layui.form;
+
+        let ctx = '[[@{/}]]';
+        let prefix = ctx + "system/notice";
+
+        let args = new URL(location.href).searchParams;
+
+        form.on('submit(component-form-element)', function (obj) {
+            let data = obj.field;
+            $.ajax({
+                url: prefix + "/edit",
+                type: "post",
+                data: {
+                    noticeId: args.get('id'),
+                    name: data.name,
+                    title: data.title,
+                    content: data.content,
+                    remark: data.remark
+                },
+                dataType: "json",
+                success: function (r) {
+                    if (r.code === 0) {
+                        layer.msg('修改成功');
+                        setTimeout(function () {parent.layui.admin.events.closeThisTabs();}, 700)
+                    } else {
+                        layer.alert(r.msg, {
+                            icon: 5,
+                            title: '失败'
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

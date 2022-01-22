@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/admin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/admin/style/admin.css" media="all"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">修改菜单</div>
+        <div class="layui-card-body layui-form" lay-filter="component-form-element">
+            <div class="layui-form-item">
+                <div class="layui-col-md6">
+                    <label class="layui-form-label">名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="menuName"  placeholder="" autocomplete="off"
+                               class="layui-input" th:value="${menu.menuName}">
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <label class="layui-form-label">类型：</label>
+                    <div class="layui-input-inline">
+                        <select name="menuType" lay-verify="required" autocomplete="off" class="layui-select">
+                            <option value="M" th:attr="selected=${menu.menuType.equals('M') ? true : false }">目录
+                            </option>
+                            <option value="C" th:attr="selected=${menu.menuType.equals('C') ? true : false }">菜单
+                            </option>
+                            <option value="F" th:attr="selected=${menu.menuType.equals('F') ? true : false }">按钮
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-col-md6">
+                    <label class="layui-form-label">级别：</label>
+                    <div class="layui-input-inline">
+                        <div id="level" class="xm-select-demo"></div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md6">
+                    <label class="layui-form-label">父菜单：</label>
+                    <div class="layui-input-inline">
+                        <div id="parentMenuId" class="xm-select-demo"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-col-md6">
+                    <label class="layui-form-label">图标：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="icon" placeholder="" autocomplete="off" th:value="${menu.icon}"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <label class="layui-form-label">权限标识：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="perms" placeholder="" autocomplete="off" th:value="${menu.perms}"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">地址：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="url" placeholder="" autocomplete="off" th:value="${menu.url}"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注：</label>
+                <div class="layui-input-block">
+                    <textarea name="remark" placeholder="" class="layui-textarea">[[${menu.remark}]]</textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="component-form-element">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/admin/layui/layui.js"></script>
+<script type="text/javascript" src="/admin/layui/xm-select.js"></script>
+<script type="text/javascript" src="/admin/axios/axios.min.js"></script>
+
+<script type="text/javascript">
+    layui.config({
+        base: '../../admin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form'], function () {
+        let $ = layui.$
+            , admin = layui.admin
+            , element = layui.element
+            , form = layui.form;
+
+        let ctx = '[[@{/}]]';
+        let prefix = ctx + "system/menu";
+        let args = new URL(location.href).searchParams;
+        let thisLevel = [[${@html.getLoginRoleLevel()}]]
+
+        // console.log(params.get("id"))
+
+        let data = [];
+        for (let i = thisLevel; i < 99; i++) {
+            if (i == thisLevel) {
+                data.push({name: '' + i, value: i, selected: true})
+            } else {
+                data.push({name: '' + i, value: i})
+            }
+        }
+
+        let level = xmSelect.render({
+            el: '#level',
+            radio: true,
+            clickClose: true,
+            name: 'level',
+            layVerify: 'required',
+            // max: 1,
+            // maxMethod(seles, item) {
+            //     layer.alert('不能超过1个', {icon: 3, title: '警告'});
+            // },
+            data: data
+        })
+
+        let parentMenuId = xmSelect.render({
+            el: '#parentMenuId',
+            //autoRow: true,
+            radio: true,
+            clickClose: true,
+            name: 'parentId',
+            //filterable: true,
+            // expandedKeys: true,
+            // max: 1,
+            // maxMethod(seles, item) {
+            //     layer.alert('不能超过1个', {icon: 3, title: '警告'});
+            // },
+            // prop: {
+            //     name: 'menuName',
+            //     value: 'menuId',
+            // },
+            model: {label: {type: 'text'}},
+            tree: {
+                show: true,
+                //showFolderIcon: true,
+                showLine: true,
+                strict: false,
+                //indent: 20,
+                expandedKeys: [-1],
+            },
+            // toolbar: {
+            //     show: true,
+            //     list: ['ALL', 'REVERSE', 'CLEAR']
+            // },
+            filterable: true,
+            height: 'auto',
+            data: [],
+            show: function (obj) {
+                parentMenuId.changeExpandedKeys(true);
+            }
+        })
+
+        axios({
+            method: 'post',
+            url: prefix + '/menuTreeData',
+            params: {
+                selectId: [[${menu.parentId}]]
+            }
+        }).then(response => {
+            let res = response.data;
+
+            parentMenuId.update({
+                data: res.data,
+                autoRow: true,
+            })
+        });
+
+        //let args = new URL(location.href).searchParams;
+
+        form.on('submit(component-form-element)', function (obj) {
+            let data = obj.field;
+            console.log(data)
+
+                axios({
+                    method: 'post',
+                    url: prefix + '/edit',
+                    params: {
+                        menuId: args.get('id'),
+                        parentId: data.parentId,
+                        menuName: data.menuName,
+                        menuType: data.menuType,
+                        perms: data.perms,
+                        icon: data.icon,
+                        level: data.level,
+                        url: data.url,
+                        remark: data.remark
+                    }
+                }).then(response => {
+                    let res = response.data;
+
+                    if (res.code === 0) {
+                        layer.msg('修改成功');
+                    } else {
+                        layer.alert(res.msg, {
+                            icon: 5,
+                            title: '失败'
+                        });
+                    }
+                });
+
+
+
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

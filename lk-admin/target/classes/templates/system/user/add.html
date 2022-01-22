@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/admin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/admin/style/admin.css" media="all"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">添加用户</div>
+        <div class="layui-card-body layui-form" lay-filter="component-form-element">
+            <div class="layui-row layui-col-space10 layui-form-item" >
+                <div class="layui-col-lg6">
+                    <label class="layui-form-label">登录账号：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="loginName" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-col-lg6">
+                    <label class="layui-form-label">用户名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="userName" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row layui-col-space10 layui-form-item">
+                <div class="layui-col-lg6">
+                    <label class="layui-form-label">性别：</label>
+                    <div class="layui-input-inline">
+                        <select name="sex" class="layui-select">
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-col-lg6">
+                    <label class="layui-form-label">密码：</label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="fullname" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注：</label>
+                <div class="layui-input-block">
+                    <textarea name="remark" placeholder="" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-bg-blue" lay-submit lay-filter="component-form-element">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/admin/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '../../admin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , element = layui.element
+            , form = layui.form;
+
+        let ctx = '[[@{/}]]';
+        let prefix = ctx + "system/user";
+
+        form.on('submit(component-form-element)', function (obj) {
+            let data = obj.field;
+            $.ajax({
+                url: prefix + "/add",
+                type: "post",
+                data: {
+                    loginName: data.loginName,
+                    userName: data.userName,
+                    sex: data.sex,
+                    remark: data.remark
+                },
+                dataType: "json",
+                success: function (r) {
+                    if (r.code === 0) {
+                        layer.msg('添加成功');
+                        setTimeout(function (){parent.layui.admin.events.closeThisTabs();},500)
+                    } else {
+                        layer.alert(r.msg, {
+                            icon: 5,
+                            title: '失败'
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

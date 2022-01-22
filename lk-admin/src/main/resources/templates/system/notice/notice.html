@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/admin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/admin/style/admin.css" media="all"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">
+            搜索通知
+        </div>
+        <div class="layui-card-body layui-form" lay-filter="notice-search">
+            <div class="layui-form-item">
+                <label class="layui-form-label">名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" placeholder="名称" class="layui-input">
+                </div>
+                <label class="layui-form-label">标题</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="title" placeholder="标题" class="layui-input">
+                </div>
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <select name="state" class="layui-select">
+                        <option value="">所有</option>
+                        <option value="0">正常</option>
+                        <option value="1">停用</option>
+                    </select>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-useradmin layui-bg-blue" lay-submit lay-filter="notice-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-header">
+            通知管理
+        </div>
+        <div class="layui-card-body">
+            <table class="layui-hide" id="table-notice-manager" lay-filter="table-notice-manager"></table>
+            <script type="text/html" id="switchTpl">
+                <input type="checkbox" name="state" value="{{d.noticeId}}" lay-skin="switch" lay-text="开启|关闭"
+                       lay-filter="State" {{ d.status=== '0' ? 'checked' : '' }}>
+            </script>
+
+            <script type="text/html" id="table-notice-manager-toolbarDemo">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm layui-bg-cyan" lay-event="Add"><i class="layui-icon layui-icon-add-1"></i>添加
+                    </button>
+                    <button class="layui-btn layui-btn-sm layui-bg-orange" lay-event="Notice"><i
+                            class="layui-icon layui-icon-notice"></i>通知
+                    </button>
+                </div>
+            </script>
+            <script type="text/html" id="table-notice-manager-barDemo">
+                <a class="layui-btn layui-btn-xs layui-bg-orange" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>修改</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
+                        class="layui-icon layui-icon-delete"></i>删除</a>
+            </script>
+        </div>
+    </div>
+</div>
+
+
+<!-- 添加部门人员 -->
+<div id="selectUser" style="display: none">
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-hide" id="table-user-manager" lay-filter="table-user-manager"></table>
+                <script type="text/html" id="table-user-manager-toolbarDemo">
+                    <div class="layui-btn-container">
+                        <button class="layui-btn layui-btn-sm" lay-event="Notice"><i
+                                class="layui-icon layui-icon-add-1"></i>通知
+                        </button>
+                    </div>
+                </script>
+                <input type="text" id="selectNotice" hidden value="">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/admin/layui/layui.js"></script>
+<script type="text/javascript" src="/admin/layui/xm-select.js"></script>
+<script type="text/javascript" src="/admin/axios/axios.min.js"></script>
+
+<script type="text/javascript">
+
+    layui.config({
+        base: '../admin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'admin', 'table'], function () {
+        let $ = layui.$
+            , form = layui.form
+            , admin = layui.admin
+            , table = layui.table;
+
+        let addFlag = [[${@permission.hasPerm('system:user:add')}]];
+        let editFlag = [[${@permission.hasPerm('system:user:edit')}]];
+        let removeFlag = [[${@permission.hasPerm('system:user:remove')}]];
+
+        let ctx = '[[@{/}]]';
+        let prefix = ctx + "system/notice";
+
+        if (!editFlag) {
+            $('input[type="checkbox"][name="state"]').attr({"readonly": "readonly"})
+        }
+
+        table.render({
+            elem: '#table-notice-manager'
+            , toolbar: '#table-notice-manager-toolbarDemo'
+            , method: 'post'
+            , url: prefix + '/list'//数据接口
+            , page: true //开启分页
+            , cols: [
+                [
+                    {type: 'checkbox'}
+                    , {field: 'noticeId', title: '通知ID', align: 'center', width: 85}
+                    , {field: 'name', align: 'center', title: '名称', width: 120}
+                    , {field: 'title', align: 'center', title: '标题', width: 120}
+                    , {field: 'content', align: 'center', title: '内容'}
+                    //     , {
+                    //     field: 'type', align: 'center', title: '类型', width: 220, templet: function (obj) {
+                    //         return '<div id="XM-' + obj.noticeId + '" style="width: 150px;"></div>'
+                    //     }
+                    // }
+                    // , {field: 'status', align: 'center', title: '状态', templet: '#switchTpl', width: 100}
+                    , {field: 'remark', align: 'center', title: '备注', width: 100}
+                    , {field: 'createTime', align: 'center', title: '创建时间', minWidth: 120}
+                    , {title: '操作', width: 150, toolbar: '#table-notice-manager-barDemo'}
+                ]
+            ]
+            , done: function (res) {
+                //修改一些css样式, 这里虽然能够使用, 但是还是不太友好, 努力中...
+                let cells = document.querySelectorAll('div[lay-id="table-notice-manager"] .layui-table-cell');
+                for (let i = 0; i < cells.length; i++) {
+                    cells[i].style.height = 'auto';
+                }
+                //渲染多选
+                res.data.forEach(item => {
+
+                    let ori = [{name: '不通知', value: '0'}, {name: '启动后通知', value: '1'}, {name: '实时通知', value: '2'}];
+                    ori.forEach(notice => {
+                        if (notice.value === item.type) {
+                            notice.selected = true;
+                        }
+                    })
+                    let xm = xmSelect.render({
+                        el: '#XM-' + item.noticeId,
+                        autoRow: true,
+                        // max: 1,
+                        // maxMethod(seles, item) {
+                        //     layer.alert('不能超过1个', {icon: 3, title: '警告'});
+                        // },
+                        model: {type: 'fixed'},
+                        data: ori,
+                        on: function (data) {
+                            if (data.arr.length != 0) {
+                                $.ajax(prefix + '/type', {
+                                    type: 'post',
+                                    data: {
+                                        'noticeId': item.noticeId,
+                                        'type': data.arr[0].value
+                                    },
+                                    dataType: "json",
+                                    success: function (obj) {
+                                        console.log(obj);
+                                    }
+                                })
+                            } else {
+                                $.ajax(prefix + '/type', {
+                                    type: 'post',
+                                    data: {
+                                        'noticeId': item.noticeId,
+                                        'type': 0
+                                    },
+                                    dataType: "json",
+                                    success: function (obj) {
+                                        console.log(obj);
+                                    }
+                                })
+                            }
+
+                            // if(editFlag){
+                            //     let ls = [];
+                            //     data.arr.forEach(da=>{
+                            //         ls.push(da.roleId);
+                            //     })
+                            //
+                            //     $.ajax({
+                            //         url: prefix + "/changeRole",
+                            //         type: "post",
+                            //         data: {
+                            //             userid: item.userId,
+                            //             roleIds: ls
+                            //         },
+                            //         dataType: "json",
+                            //         success: function (r) {
+                            //             if(r.code === 0){
+                            //                 table.reload('table-user-manager');
+                            //             }else {
+                            //                 table.reload('table-user-manager');
+                            //                 layer.alert(r.msg, {
+                            //                     icon: 5,
+                            //                     title: '失败'
+                            //                 });
+                            //             }
+                            //         }
+                            //     });
+                            // }
+                        }
+                    })
+                    item.__xm = xm;
+                })
+            }
+        });
+
+        //头工具栏事件
+        table.on('toolbar(table-notice-manager)', function (obj) {
+            let checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'Add':
+                    if (addFlag) {
+                        let url = prefix + '/add';
+                        let title = "添加通知";
+                        let l = parent === self ? layui : top.layui;
+                        l.index.openTabsPage(url, title);
+                    } else {
+                        layer.msg('你没有新增通知权限！', {icon: 5});
+                    }
+                    break;
+                case 'Notice':
+                    let data = checkStatus.data;
+                    if (data.length === 0) {
+                        layer.alert('请选中一条或多条通知', {icon: 3, title: '提示'})
+                    } else {
+                        let arr = [];
+                        data.forEach(item => {
+                            arr.push(item.noticeId);
+                        })
+                        $('#selectNotice').attr({value: arr.toString()});
+                        console.log(arr.toString())
+                        layer.open({
+                            title: '选择人员'
+                            , type: 1
+                            , shadeClose: true
+                            , area: ['700px', '500px']
+                            , content: $('#selectUser')
+                        });
+                    }
+
+                    break;
+            }
+
+        });
+
+        //监听行工具事件
+        table.on('tool(table-notice-manager)', function (obj) {
+            let data = obj.data;
+            if (obj.event === 'del') {
+                if (removeFlag) {
+                    $.ajax({
+                        url: prefix + "/remove",
+                        type: "post",
+                        data: {noticeId: data.noticeId},
+                        dataType: "json",
+                        success: function (r) {
+                            if (r.code === 0) {
+                                layer.msg('删除成功');
+                                obj.del();
+                            } else {
+                                layer.alert(r.msg, {
+                                    icon: 5,
+                                    title: '失败'
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    layer.msg('你没有删除用户权限！', {icon: 5});
+                }
+
+            } else if (obj.event === 'edit') {
+                if (editFlag) {
+                    let url = prefix + '/edit?id=' + data.noticeId;
+                    let title = "编辑用户";
+                    let l = parent === self ? layui : top.layui;
+                    l.index.openTabsPage(url, title);
+                } else {
+                    layer.msg('你没有编辑用户权限！', {icon: 5});
+                }
+
+            }
+        });
+
+        table.render({
+            elem: '#table-user-manager'
+            , method: 'post'
+            , url: ctx + 'system/user/list'//数据接口
+            , toolbar: '#table-user-manager-toolbarDemo'
+            , page: true //开启分页
+            , cols: [
+                [
+                    {type: 'checkbox'}
+                    , {field: 'userId', title: '用户ID', align: 'center', width: 137}
+                    , {field: 'loginName', align: 'center', title: '登录账号', width: 225}
+                    , {field: 'userName', align: 'center', title: '用户名称', width: 225}
+                ]
+            ]
+        });
+
+        table.on('toolbar(table-user-manager)', function (obj) {
+            let checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'Notice':
+                    let data = checkStatus.data;
+                    let arr = [];
+                    data.forEach(item => {
+                        arr.push(item.userId);
+                    })
+
+                    axios({
+                        method: 'post',
+                        url: prefix + '/queue',
+                        params: {
+                            userIds: arr.toString(),
+                            noticeIds: $('#selectNotice').val()
+                        }
+                    }).then(response => {
+                        let res = response.data;
+
+
+                    });
+
+
+                    break;
+            }
+        });
+
+        //监听操作
+        form.on('switch(State)', function (obj) {
+            // console.log(this.value + ' ' + this.name + '：' + obj.elem.checked);
+            $.ajax({
+                url: prefix + "/state",
+                type: "post",
+                data: {
+                    noticeId: this.value,
+                    state: obj.elem.checked ? 1 : 0
+                },
+                dataType: "json",
+                success: function (r) {
+                    if (r.code != 0) {
+                        layer.alert(r.msg, {
+                            icon: 5,
+                            title: '失败'
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+        form.on('submit(notice-search)', function (obj) {
+            table.reload('table-notice-manager', {
+                where: {
+                    title: obj.field.title,
+                    name: obj.field.name,
+                    status: obj.field.state
+                }
+            });
+        });
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/admin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/admin/style/admin.css" media="all"/>
+
+    <link href="/admin/hplus/css/animate.css" rel="stylesheet">
+    <link href="/admin/hplus/css/style.css?v=4.1.0" rel="stylesheet">
+
+    <!--    <link href="/admin/hplus/css/bootstrap.min.css?v=3.3.7" rel="stylesheet">-->
+    <link href="/admin/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15 layui-anim-scaleSpring">
+
+        <div class="layui-col-md6">
+
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <h5>CPU ([[${server.cpu.cpuNum}]])</h5>
+                </div>
+                <div class="layui-card-body layadmin-takerates">
+                    <div class="layui-progress" lay-showPercent="yes">
+                        <h3>CPU占用率</h3>
+                        <div class="layui-progress-bar layui-bg-blue" th:lay-percent="${nat_cpu_percent}+'%'"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-card">
+                <div class="layui-card-header">内存信息</div>
+                <div class="layui-card-body layadmin-takerates">
+                    <div class="layui-progress" lay-showPercent="yes">
+                        <h3>内存占用率([[${server.mem.used}]] G/ [[${server.mem.total}]] G)</h3>
+                        <div class="layui-progress-bar layui-bg-red" th:lay-percent="${nat_mem_percent}+'%'"></div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <h5>CPU ([[${server.cpu.cpuNum}]])</h5>
+                </div>
+                <div class="layui-card-body layadmin-takerates">
+                    <div class="layui-progress" lay-showPercent="yes">
+                        <h3>jvm占用率</h3>
+                        <div class="layui-progress-bar layui-bg-blue" th:lay-percent="${nat_cpu_percent}+'%'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">硬盘(@AppContent.SystemInfo.DiskCapacity G)</div>
+                <div class="layui-card-body layadmin-takerates">
+                    <table class="layui-table" lay-skin="line">
+                        <colgroup>
+                            <col>
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>根盘符</th>
+                            <th>文件系统</th>
+                            <th>名称</th>
+                            <th>磁盘大小</th>
+                            <th>空闲</th>
+                            <th>使用</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="disk : ${server.sysFiles}">
+                            <td>[[${disk.dirName}]]</td>
+                            <td>[[${disk.sysTypeName}]]</td>
+                            <td>[[${disk.typeName}]]</td>
+                            <td>[[${disk.total}]]</td>
+                            <td>[[${disk.free}]]</td>
+                            <td>[[${disk.used}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script src="/admin/layui/layui.js"></script>
+<script type="text/javascript" src="/admin/layui/xm-select.js"></script>
+<script type="text/javascript" src="/admin/axios/axios.min.js"></script>
+<!-- 全局js -->
+<script src="/admin/hplus/js/jquery.min.js?v=2.1.4"></script>
+<!-- <script src="js/bootstrap.min.js?v=3.3.7"></script> -->
+<!-- Flot -->
+<script src="/admin/hplus/js/plugins/flot/jquery.flot.js"></script>
+<script src="/admin/hplus/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script src="/admin/hplus/js/plugins/flot/jquery.flot.resize.js"></script>
+<script src="/admin/hplus/js/plugins/flot/jquery.flot.pie.js"></script>
+
+<!-- Sparkline -->
+<script src="/admin/hplus/js/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+<!-- Peity -->
+<script src="/admin/hplus/js/plugins/peity/jquery.peity.min.js"></script>
+
+<script type="text/javascript">
+
+    layui.config({
+        base: '../admin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'admin', 'table'], function () {
+        let $ = layui.$
+            , form = layui.form
+            , admin = layui.admin
+            , table = layui.table;
+
+        // $("#sparkline6").sparkline([5, 3], {
+        //     type: 'pie',
+        //     height: '140',
+        //     sliceColors: ['#1ab394', '#F5F5F5']
+        // });
+
+    });
+</script>
+</body>
+
+</html>

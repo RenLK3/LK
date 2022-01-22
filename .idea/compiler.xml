@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="lk-admin" />
+        <module name="visitor-framework" />
+        <module name="lk-system" />
+        <module name="lk-common" />
+        <module name="lk-framework" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>
