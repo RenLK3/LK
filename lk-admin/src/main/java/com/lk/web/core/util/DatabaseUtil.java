@@ -3,7 +3,7 @@ package com.lk.web.core.util;
 import com.lk.web.core.domain.Database;
 import org.springframework.lang.NonNull;
 
-import javax.validation.constraints.NotNull;
+//import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.*;

@@ -2,7 +2,14 @@
 lk:
   version: 1.0
   name: LK
-  author: like_ren
+  # 上传路径
+  profile: /upload
+
+share:
+  # 文件上传的路径
+  upload: /upload
+  # 上传文件最大500MB
+  maxSize: 500
 
 # 日志配置
 logging:
@@ -20,6 +27,16 @@ server:
     max-threads: 700
     # Tomcat 初始化线程数
     min-spare-threads: 30
+
+# xxl
+xxl:
+  job:
+    i18n: zh_CN
+    logretentiondays: 30
+    triggerpool:
+      fast.max: 200
+      slow.max: 200
+
 
 mybatis:
   # 搜索指定包别名
@@ -102,7 +119,6 @@ spring:
       max-request-size: 20MB
   devtools:
     restart:
-      # 热启动
       enabled: true
   datasource:
     initialization-mode: never
@@ -146,7 +162,6 @@ spring:
       filter:
         stat:
           enabled: true
-          # 慢SQL记录
           log-slow-sql: true
           slow-sql-millis: 1000
           merge-sql: false

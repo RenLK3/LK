@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+//import javax.validation.constraints.NotBlank;
+//import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -157,8 +157,8 @@ public class SysUser extends BaseEntity
 //        this.roleId = roleId;
 //    }
 
-    @NotBlank(message = "登录账号不能为空")
-    @Size(min = 0, max = 30, message = "登录账号长度不能超过30个字符")
+//    @NotBlank(message = "登录账号不能为空")
+//    @Size(min = 0, max = 30, message = "登录账号长度不能超过30个字符")
     public String getLoginName()
     {
         return loginName;
@@ -169,7 +169,7 @@ public class SysUser extends BaseEntity
         this.loginName = loginName;
     }
 
-    @Size(min = 0, max = 30, message = "用户昵称长度不能超过30个字符")
+//    @Size(min = 0, max = 30, message = "用户昵称长度不能超过30个字符")
     public String getUserName()
     {
         return userName;

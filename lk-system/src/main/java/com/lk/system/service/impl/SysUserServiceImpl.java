@@ -97,7 +97,8 @@ public class SysUserServiceImpl implements ISysUserService
     @Override
     public SysUser selectUserByLoginName(String userName)
     {
-        return userMapper.selectUserByLoginName(userName);
+        SysUser user = userMapper.selectUserByLoginName(userName);
+        return user;
     }
 
 

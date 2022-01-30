@@ -1,4 +1,4 @@
-package com.lk.web.controller.monitor;
+package com.lk.web.controller.tool;
 
 import com.lk.common.core.controller.BaseController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -7,14 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/monitor/timer")
-public class SysTimerController extends BaseController {
-
-    private String prefix = "monitor/timer";
-
-    @RequiresPermissions("monitor:timer:view")
+@RequestMapping("/tool/swagger")
+public class SwaggerController extends BaseController
+{
+    @RequiresPermissions("tool:swagger:view")
     @GetMapping()
-    public String timer(){
-        return prefix + "/timer";
+    public String index()
+    {
+        return redirect("/swagger-ui/index.html");
     }
 }

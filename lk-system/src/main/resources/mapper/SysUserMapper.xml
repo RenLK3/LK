@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<sql id="selectUserVo">
         select  u.user_id, u.dept_id, u.login_name, u.user_name,r."LEVEL",  u.sex, u.password, u.status, u.delete_flag, u.create_time, u.remark,
-       		    d.dept_id, d.parent_id, d.dept_name as dept_status,
+       		    d.dept_id, d.parent_id, d.dept_name,
        		    r.role_id, r.role_name, r.role_key, r.status as role_status
 		from sys_user u
 			 left join sys_dept d on u.dept_id = d.dept_id

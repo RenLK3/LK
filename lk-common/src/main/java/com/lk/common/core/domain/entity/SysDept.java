@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 /**
  * 部门表 sys_dept
@@ -51,8 +49,8 @@ public class SysDept extends BaseEntity
         this.parentId = parentId;
     }
 
-    @NotBlank(message = "部门名称不能为空")
-    @Size(min = 0, max = 30, message = "部门名称长度不能超过30个字符")
+//    @NotBlank(message = "部门名称不能为空")
+//    @Size(min = 0, max = 30, message = "部门名称长度不能超过30个字符")
     public String getDeptName()
     {
         return deptName;

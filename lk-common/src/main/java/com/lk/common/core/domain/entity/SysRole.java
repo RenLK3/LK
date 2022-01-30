@@ -4,8 +4,8 @@ package com.lk.common.core.domain.entity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+//import javax.validation.constraints.NotBlank;
+//import javax.validation.constraints.Size;
 
 /**
  * 角色表 sys_role
@@ -96,8 +96,8 @@ public class SysRole extends BaseEntity
 //    }
 
 
-    @NotBlank(message = "角色名称不能为空")
-    @Size(min = 0, max = 30, message = "角色名称长度不能超过30个字符")
+//    @NotBlank(message = "角色名称不能为空")
+//    @Size(min = 0, max = 30, message = "角色名称长度不能超过30个字符")
     public String getRoleName()
     {
         return roleName;
@@ -108,8 +108,8 @@ public class SysRole extends BaseEntity
         this.roleName = roleName;
     }
 
-    @NotBlank(message = "权限字符不能为空")
-    @Size(min = 0, max = 100, message = "权限字符长度不能超过100个字符")
+//    @NotBlank(message = "权限字符不能为空")
+//    @Size(min = 0, max = 100, message = "权限字符长度不能超过100个字符")
     public String getRoleKey()
     {
         return roleKey;

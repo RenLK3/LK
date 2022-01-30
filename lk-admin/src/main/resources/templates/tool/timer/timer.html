@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/admin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/admin/style/admin.css" media="all"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">
+            搜索角色
+        </div>
+        <div class="layui-card-body layui-form" lay-filter="role-search">
+            <div class="layui-form-item">
+                <label class="layui-form-label">角色名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="roleName" placeholder="角色名称" class="layui-input">
+                </div>
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <select name="state" class="layui-select">
+                        <option value="">所有</option>
+                        <option value="0">正常</option>
+                        <option value="1">停用</option>
+                    </select>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-useradmin layui-bg-blue" lay-submit lay-filter="role-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-header">
+            角色管理
+        </div>
+        <div class="layui-card-body">
+            <table class="layui-hide" id="table-timer-manager" lay-filter="table-timer-manager"></table>
+            <script type="text/html" id="switchTpl">
+                <input type="checkbox" name="state" value="{{d.id}}" lay-skin="switch" lay-text="开启|关闭"
+                       lay-filter="State" {{ d.triggerStatus=== '0' ? 'checked' : '' }}>
+            </script>
+
+            <script type="text/html" id="table-timer-manager-toolbarDemo">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm  layui-bg-cyan" lay-event="Add"><i class="layui-icon layui-icon-add-1"></i>添加
+                    </button>
+                </div>
+            </script>
+            <script type="text/html" id="table-timer-manager-barDemo">
+                <a class="layui-btn layui-btn-xs layui-bg-orange" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>修改</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+            </script>
+        </div>
+    </div>
+</div>
+
+<script src="/admin/layui/layui.js"></script>
+
+<script>
+    layui.config({
+        base: '../admin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'admin', 'table'], function () {
+        let $ = layui.$
+            , form = layui.form
+            , admin = layui.admin
+            , table = layui.table;
+
+        let addFlag = [[${@permission.hasPerm('tool:timer:add')}]];
+        let editFlag = [[${@permission.hasPerm('tool:timer:edit')}]];
+        let removeFlag = [[${@permission.hasPerm('tool:timer:del')}]];
+
+        let ctx = '[[@{/}]]';
+        let prefix = ctx + "tool/timer";
+
+        if (!editFlag) {
+            $('input[type="checkbox"][name="state"]').attr({"readonly": "readonly"})
+        }
+
+        table.render({
+            elem: '#table-timer-manager'
+            , toolbar: '#table-timer-manager-toolbarDemo'
+            , method: 'post'
+            , url: prefix + '/list'//数据接口
+            , page: true //开启分页
+            , cols: [
+                [
+                    {field: 'id', align: 'center', title: 'ID', width: 85}
+                    , {field: 'author', align: 'center', title: '负责人'}
+                    , {field: 'scheduleType', align: 'center', title: '调度类型'}
+                    , {field: 'executorHandler', align: 'center', title: '任务Handler名称', width: 70}
+                    , {field: 'triggerStatus', align: 'center', title: '调度状态', align: 'center', templet: '#switchTpl', width: 100}
+                    , {field: 'glueType', align: 'center', title: 'GLUE类型'}
+                    , {field: 'executorParam', align: 'center', title: '任务参数', width: 200}
+                    , {title: '操作', align: 'center', width: 150, toolbar: '#table-timer-manager-barDemo'}
+                ]
+            ]
+            , done: function (d) {
+                //console.log(d)
+            }
+        });
+
+        // 更改状态
+        form.on('switch(State)', function (obj) {
+            $.ajax({
+                url: prefix + "/state",
+                type: "post",
+                data: {
+                    id: this.value,
+                    state: obj.elem.checked ? 1 : 0
+                },
+                dataType: "json",
+                success: function (r) {
+                    table.reload('table-timer-manager');
+                    if (r.code != 0) {
+                        layer.alert(r.msg, {
+                            icon: 5,
+                            title: '失败'
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+        // 搜索用户
+        form.on('submit(role-search)', function (obj) {
+            //console.log(obj);
+            table.reload('table-timer-manager', {
+                where: {
+                    roleName: obj.field.roleName,
+                    status: obj.field.state
+                }
+            });
+        })
+
+        //头工具栏事件
+        table.on('toolbar(table-timer-manager)', function (obj) {
+            switch (obj.event) {
+                case 'Add':
+                    if (addFlag) {
+                        let url = prefix + '/add';
+                        let title = "新增角色";
+                        let l = parent === self ? layui : top.layui;
+                        l.index.openTabsPage(url, title);
+                    } else {
+                        layer.msg('你没有添加角色权限！', {icon: 5});
+                    }
+                    break;
+            }
+        });
+
+        //监听行工具事件
+        table.on('tool(table-timer-manager)', function (obj) {
+            let data = obj.data;
+            if (obj.event === 'del') {
+                if (removeFlag && data.roleId != 1) {
+                    $.ajax({
+                        url: prefix + "/remove",
+                        type: "post",
+                        data: {roleId: data.roleId},
+                        dataType: "json",
+                        success: function (r) {
+                            if (r.code === 0) {
+                                layer.msg('删除成功');
+                                // table.reload('table-timer-manager');
+                                obj.del();
+                            } else {
+                                layer.alert(r.msg, {
+                                    icon: 5,
+                                    title: '失败'
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    layer.msg('你没有删除角色权限！', {icon: 5});
+                }
+            } else if (obj.event === 'edit') {
+                if (editFlag && data.roleId != 1) {
+
+                    let url = prefix + '/edit?id=' + data.roleId;
+                    let title = "编辑角色";
+                    let l = parent === self ? layui : top.layui;
+                    l.index.openTabsPage(url, title);
+                } else {
+                    layer.msg('你没有编辑角色权限！', {icon: 5});
+                }
+
+            }
+        });
+
+    });
+</script>
+</body>
+
+</html>
