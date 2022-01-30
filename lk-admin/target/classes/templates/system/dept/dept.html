@@ -136,9 +136,9 @@
             admin = layui.admin,
             table = layui.table;
 
-        let addFlag = [[${@permission.hasPerm('system:menu:add')}]];
-        let editFlag = [[${@permission.hasPerm('system:menu:edit')}]];
-        let removeFlag = [[${@permission.hasPerm('system:menu:remove')}]];
+        let addFlag = [[${@permission.hasPerm('system:dept:add')}]];
+        let editFlag = [[${@permission.hasPerm('system:dept:edit')}]];
+        let removeFlag = [[${@permission.hasPerm('system:dept:del')}]];
 
         let ctx = '[[@{/}]]';
         let prefix = ctx + "system/dept";

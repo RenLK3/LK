@@ -20,9 +20,39 @@
 <body>
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15 layui-anim-scaleSpring">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">基本信息</div>
+                <div class="layui-card-body layadmin-takerates">
+                    <table class="layui-table" lay-skin="line">
+                        <colgroup>
+                            <col>
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>服务器名称</th>
+                            <th>服务器Ip</th>
+                            <th>项目路径</th>
+                            <th>操作系统</th>
+                            <th>系统架构</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr >
+                            <td>[[${server.sys.computerName}]]</td>
+                            <td>[[${server.sys.computerIp}]]</td>
+                            <td>[[${server.sys.userDir}]]</td>
+                            <td>[[${server.sys.osName}]]</td>
+                            <td>[[${server.sys.osArch}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
         <div class="layui-col-md6">
-
             <div class="layui-card">
                 <div class="layui-card-header">
                     <h5>CPU ([[${server.cpu.cpuNum}]])</h5>
@@ -47,21 +77,20 @@
             </div>
             <div class="layui-card">
                 <div class="layui-card-header">
-                    <h5>CPU ([[${server.cpu.cpuNum}]])</h5>
+                    <h5>JVM ([[${server.jvm.home}]])</h5>
                 </div>
                 <div class="layui-card-body layadmin-takerates">
                     <div class="layui-progress" lay-showPercent="yes">
-                        <h3>jvm占用率</h3>
-                        <div class="layui-progress-bar layui-bg-blue" th:lay-percent="${nat_cpu_percent}+'%'"></div>
+                        <h3>jvm占用率([[${server.jvm.version}]])</h3>
+                        <div class="layui-progress-bar layui-bg-blue" th:lay-percent="${nat_jvm_mem_percent}+'%'"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-
         <div class="layui-col-md6">
             <div class="layui-card">
-                <div class="layui-card-header">硬盘(@AppContent.SystemInfo.DiskCapacity G)</div>
+                <div class="layui-card-header">硬盘([[${disk_used}]] G / [[${disk_cap}]] G)</div>
                 <div class="layui-card-body layadmin-takerates">
                     <table class="layui-table" lay-skin="line">
                         <colgroup>
@@ -92,8 +121,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
 
