@@ -2,6 +2,8 @@ package com.lk.web.controller.tool;
 
 import com.lk.common.core.controller.BaseController;
 import com.lk.common.core.domain.LayResult;
+import com.lk.xxl.core.thread.JobTriggerPoolHelper;
+import com.lk.xxl.core.trigger.TriggerTypeEnum;
 import com.lk.xxl.domain.XxlJobInfo;
 import com.lk.xxl.service.XxlJobService;
 import com.xxl.job.core.biz.model.ReturnT;
@@ -43,7 +45,6 @@ public class TimerController extends BaseController {
     @ResponseBody
     @PostMapping("/state")
     public LayResult state(int id, boolean state){
-        //ReturnT<String> returnT = jobService.start(id);
         ReturnT<String> returnT;
         if(state){
             returnT = jobService.start(id);
@@ -54,5 +55,25 @@ public class TimerController extends BaseController {
         }
 
         return ok();
+    }
+
+    @ResponseBody
+    @GetMapping("/stop")
+    public LayResult stop(int id){
+        jobService.stop(id);
+        return ok();
+    }
+
+    @GetMapping("/trigger")
+    @ResponseBody
+    //@PermissionLimit(limit = false)
+    public ReturnT<String> triggerJob(int id, String executorParam, String addressList) {
+        // force cover job param
+        if (executorParam == null) {
+            executorParam = "";
+        }
+
+        JobTriggerPoolHelper.trigger(id, TriggerTypeEnum.MANUAL, -1, null, executorParam, addressList);
+        return ReturnT.SUCCESS;
     }
 }

@@ -11,7 +11,7 @@
  Target Server Version : 110200
  File Encoding         : 65001
 
- Date: 21/01/2022 22:40:32
+ Date: 01/02/2022 19:46:50
 */
 
 
@@ -132,13 +132,13 @@ INSERT INTO "LK"."SYS_MENU" VALUES ('2', '系统监控', '0', NULL, 'M', '0', NU
 INSERT INTO "LK"."SYS_MENU" VALUES ('200', '在线用户', '2', '/monitor/online', 'C', '0', 'monitor:online:view', 'layui-icon-rss', '1', '1', NULL, NULL, NULL, NULL, 'sys');
 INSERT INTO "LK"."SYS_MENU" VALUES ('2000', '在线用户查询', '200', '/monitor/online/list', 'F', '0', 'monitor:online:list', NULL, '1', '1', NULL, NULL, NULL, NULL, 'sys');
 INSERT INTO "LK"."SYS_MENU" VALUES ('2003', '在线用户删除', '200', '/monitor/online/remove', 'F', '0', 'monitor:online:del', NULL, '1', '1', NULL, NULL, NULL, NULL, 'sys');
-INSERT INTO "LK"."SYS_MENU" VALUES ('201', '定时任务', '2', '/monitor/timer', 'C', '0', 'monitor:timer:view', 'layui-icon-time', '1', '2', NULL, NULL, NULL, NULL, 'sys');
-INSERT INTO "LK"."SYS_MENU" VALUES ('2010', '定时任务查询', '201', '/monitor/timer/list', 'F', '0', 'monitor:timer:list', NULL, '1', '1', NULL, NULL, 'like_ren', TO_DATE('2022-01-13 16:00:22', 'SYYYY-MM-DD HH24:MI:SS'), 'sys');
-INSERT INTO "LK"."SYS_MENU" VALUES ('2011', '定时任务添加', '201', '/monitor/timer/add', 'F', '0', 'monitor:timer:add', NULL, '1', '1', NULL, NULL, NULL, NULL, 'sys');
-INSERT INTO "LK"."SYS_MENU" VALUES ('2012', '定时任务修改', '201', '/monitor/timer/edit', 'F', '0', 'monitor:timer:edit', NULL, '1', '1', NULL, NULL, NULL, NULL, 'sys');
-INSERT INTO "LK"."SYS_MENU" VALUES ('2013', '定时任务删除', '201', '/monitor/timer/del', 'F', '0', 'monitor:timer:del', NULL, '1', '1', NULL, NULL, NULL, NULL, 'sys');
+INSERT INTO "LK"."SYS_MENU" VALUES ('201', '定时任务', '3', '/tool/timer', 'C', '0', 'tool:timer:view', 'layui-icon-time', '1', '2', NULL, NULL, NULL, NULL, 'sys');
+INSERT INTO "LK"."SYS_MENU" VALUES ('2010', '定时任务查询', '201', '/tool/timer/list', 'F', '0', 'tool:timer:list', NULL, '1', '1', NULL, NULL, 'like_ren', TO_DATE('2022-01-13 16:00:22', 'SYYYY-MM-DD HH24:MI:SS'), 'sys');
+INSERT INTO "LK"."SYS_MENU" VALUES ('2011', '定时任务添加', '201', '/tool/timer/add', 'F', '0', 'tool:timer:add', NULL, '1', '1', NULL, NULL, NULL, NULL, 'sys');
+INSERT INTO "LK"."SYS_MENU" VALUES ('2012', '定时任务修改', '201', '/tool/timer/edit', 'F', '0', 'tool:timer:edit', NULL, '1', '1', NULL, NULL, NULL, NULL, 'sys');
+INSERT INTO "LK"."SYS_MENU" VALUES ('2013', '定时任务删除', '201', '/tool/timer/del', 'F', '0', 'tool:timer:del', NULL, '1', '1', NULL, NULL, NULL, NULL, 'sys');
 INSERT INTO "LK"."SYS_MENU" VALUES ('202', '数据监控', '2', '/druid/', 'C', '0', 'monitor:data:view', 'layui-icon-senior', '1', '3', NULL, NULL, NULL, NULL, 'sys');
-INSERT INTO "LK"."SYS_MENU" VALUES ('203', '服务监控', '2', '/monitor/service', 'C', '0', 'monitor:service:view', 'layui-icon-template-1', '1', '4', NULL, NULL, NULL, NULL, 'sys');
+INSERT INTO "LK"."SYS_MENU" VALUES ('203', '服务监控', '2', '/monitor/server', 'C', '0', 'monitor:service:view', 'layui-icon-template-1', '1', '4', NULL, NULL, NULL, NULL, 'sys');
 INSERT INTO "LK"."SYS_MENU" VALUES ('103', '部门管理', '1', '/system/dept', 'C', '0', 'system:dept:view', 'layui-icon-templeate-1', '1', '4', NULL, NULL, NULL, NULL, 'sys');
 INSERT INTO "LK"."SYS_MENU" VALUES ('1030', '部门查询', '103', '/system/dept/list', 'F', '0', 'system:dept:list', NULL, '1', '1', NULL, NULL, NULL, NULL, 'sys');
 INSERT INTO "LK"."SYS_MENU" VALUES ('1031', '部门新增', '103', '/system/dept/add', 'F', '0', 'system:dept:add', NULL, '1', '1', NULL, NULL, NULL, NULL, 'sys');
@@ -154,7 +154,9 @@ INSERT INTO "LK"."SYS_MENU" VALUES ('1050', '日志查询', '105', '/system/log/
 INSERT INTO "LK"."SYS_MENU" VALUES ('1053', '日志删除', '105', '/system/log/del', 'F', '0', 'system:log:del', NULL, '1', '1', NULL, NULL, NULL, NULL, 'sys');
 INSERT INTO "LK"."SYS_MENU" VALUES ('2004', '批量强退', '200', '/monitor/online/batchForceLogout', 'F', '0', 'monitor:online:batchForceLogout', NULL, '1', '1', NULL, NULL, NULL, NULL, 'sys');
 INSERT INTO "LK"."SYS_MENU" VALUES ('2005', '单条强退', '200', '/monitor/online/batchForceLogout', 'F', '0', 'monitor:online:forceLogout', NULL, '1', '1', NULL, NULL, NULL, NULL, 'sys');
-INSERT INTO "LK"."SYS_MENU" VALUES ('204', '系统接口', '2', '/monitor/swagger', 'C', '0', 'monitor:swagger:view', 'layui-icon-app', '99', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "LK"."SYS_MENU" VALUES ('204', '系统接口', '3', '/tool/swagger', 'C', '0', 'tool:swagger:view', 'layui-icon-app', '99', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "LK"."SYS_MENU" VALUES ('3', '系统工具', '0', NULL, 'M', '0', NULL, 'layui-icon-component', '99', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "LK"."SYS_MENU" VALUES ('300', '文件共享', '3', '/tool/share', 'C', '0', 'tool:share:view', 'layui-icon-file', '99', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for SYS_MESSAGE_READ
@@ -367,6 +369,127 @@ INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('6', '登陆', '10', 'com.lk.web.control
 INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('7', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-21 22:31:56', 'SYYYY-MM-DD HH24:MI:SS'));
 INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('8', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-21 22:34:30', 'SYYYY-MM-DD HH24:MI:SS'));
 INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('9', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-21 22:39:17', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('43', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-22 22:44:30', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('44', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-22 22:47:54', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('61', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-22 23:32:15', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('62', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-22 23:35:56', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('63', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-22 23:37:28', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('64', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-22 23:40:46', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('65', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-22 23:58:31', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('66', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', NULL, NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xu_cheng"],"password":["123456"],"remember":["false"]}', '{"code":-1,"count":0,"data":[],"msg":"用户不存在/密码错误"}', '0', NULL, TO_DATE('2022-01-23 00:03:39', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('67', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', NULL, NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xu_cheng"],"password":["123456"],"remember":["false"]}', '{"code":-1,"count":0,"data":[],"msg":"用户不存在/密码错误"}', '0', NULL, TO_DATE('2022-01-23 00:07:15', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('68', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', NULL, NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xu_cheng"],"password":["123456"],"remember":["false"]}', '{"code":-1,"count":0,"data":[],"msg":"用户不存在/密码错误"}', '0', NULL, TO_DATE('2022-01-23 00:07:21', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('69', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-23 00:07:27', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('70', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-23 00:07:49', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('71', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-23 00:11:39', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('72', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-23 00:14:44', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('73', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-23 00:19:47', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('74', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', NULL, '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-23 00:30:05', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('75', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-23 00:45:20', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('76', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-23 01:59:07', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('81', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-24 17:17:42', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('82', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-24 22:11:25', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('83', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-24 22:14:08', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('101', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 21:48:05', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('102', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 22:08:25', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('103', '用户管理', '3', 'com.lk.web.controller.system.SysUserController.remove()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/system/user/remove', '127.0.0.1', '内网IP', '{"userid":["2"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 22:08:39', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('104', '用户管理', '3', 'com.lk.web.controller.system.SysUserController.remove()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/system/user/remove', '127.0.0.1', '内网IP', '{"userid":["3"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 22:08:42', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('105', '用户管理', '1', 'com.lk.web.controller.system.SysUserController.add()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/system/user/add', '127.0.0.1', '内网IP', '{"loginName":["daima_yuan"],"userName":["袁戴马"],"sex":["1"],"remark":[""]}', NULL, '1', '
+### Error updating database.  Cause: java.sql.SQLException: ORA-00001: 违反唯一约束条件 (LK.SYS_C0011457)
+
+### The error may exist in file [F:\IdeaProjects\LK\lk-system\target\classes\mapper\SysUserMapper.xml]
+### The error may involve com.lk.system.mapper.SysUserMapper.insertUser-Inline
+### The error occurred while setting parameters
+### SQL: insert into sys_user(      user_id,       dept_id,       login_name,       user_name,       sex,       password,             create_by,            create_time    )values(      ?,       ?,       ?,       ?,       ?,       ?,             ?,            sysdate    )
+### Cause: java.sql.SQLException: ORA-00001: 违反唯一约束条件 (LK.SYS_C0011457)
+
+; ORA-00001: 违反唯一约束条件 (LK.SYS_C0011457)
+; nested exception is java.sql.SQLException: ORA-00001: 违反唯一约束条件 (LK.SYS_C0011457)
+', TO_DATE('2022-01-28 22:10:35', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('106', '用户管理', '1', 'com.lk.web.controller.system.SysUserController.add()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/system/user/add', '127.0.0.1', '内网IP', '{"loginName":["daima_yuan"],"userName":["袁戴马"],"sex":["1"],"remark":[""]}', NULL, '1', '
+### Error updating database.  Cause: java.sql.SQLException: ORA-00001: 违反唯一约束条件 (LK.SYS_C0011457)
+
+### The error may exist in file [F:\IdeaProjects\LK\lk-system\target\classes\mapper\SysUserMapper.xml]
+### The error may involve com.lk.system.mapper.SysUserMapper.insertUser-Inline
+### The error occurred while setting parameters
+### SQL: insert into sys_user(      user_id,       dept_id,       login_name,       user_name,       sex,       password,             create_by,            create_time    )values(      ?,       ?,       ?,       ?,       ?,       ?,             ?,            sysdate    )
+### Cause: java.sql.SQLException: ORA-00001: 违反唯一约束条件 (LK.SYS_C0011457)
+
+; ORA-00001: 违反唯一约束条件 (LK.SYS_C0011457)
+; nested exception is java.sql.SQLException: ORA-00001: 违反唯一约束条件 (LK.SYS_C0011457)
+', TO_DATE('2022-01-28 22:10:47', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('107', '用户管理', '1', 'com.lk.web.controller.system.SysUserController.add()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/system/user/add', '127.0.0.1', '内网IP', '{"loginName":["daima_yuan"],"userName":["袁戴马"],"sex":["1"],"remark":[""]}', NULL, '1', '
+### Error updating database.  Cause: java.sql.SQLException: ORA-00001: 违反唯一约束条件 (LK.SYS_C0011457)
+
+### The error may exist in file [F:\IdeaProjects\LK\lk-system\target\classes\mapper\SysUserMapper.xml]
+### The error may involve com.lk.system.mapper.SysUserMapper.insertUser-Inline
+### The error occurred while setting parameters
+### SQL: insert into sys_user(      user_id,       dept_id,       login_name,       user_name,       sex,       password,             create_by,            create_time    )values(      ?,       ?,       ?,       ?,       ?,       ?,             ?,            sysdate    )
+### Cause: java.sql.SQLException: ORA-00001: 违反唯一约束条件 (LK.SYS_C0011457)
+
+; ORA-00001: 违反唯一约束条件 (LK.SYS_C0011457)
+; nested exception is java.sql.SQLException: ORA-00001: 违反唯一约束条件 (LK.SYS_C0011457)
+', TO_DATE('2022-01-28 22:10:57', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('108', '用户管理', '1', 'com.lk.web.controller.system.SysUserController.add()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/system/user/add', '127.0.0.1', '内网IP', '{"loginName":["daima_yuan"],"userName":["袁戴马"],"sex":["1"],"remark":[""]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 22:10:59', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('109', '用户管理', '2', 'com.lk.web.controller.system.SysUserController.changeRole()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/system/user/changeRole', '127.0.0.1', '内网IP', '{"userid":["4"],"roleIds[]":["2"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 22:11:10', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('110', '菜单管理', '1', 'com.lk.web.controller.system.SysMenuController.add()', 'GET', '1', 'xuyuan_cheng', 'R2厂区', '/system/menu/add', '127.0.0.1', '内网IP', '{"menus":[{"children":[],"createBy":"admin","createTime":1637911701000,"icon":"layui-icon-set","level":1,"menuId":1,"menuName":"系统管理","menuType":"M","orderNum":1,"params":{},"parentId":0,"perms":"","visible":"0"},{"children":[],"level":1,"menuId":1001,"menuName":"用户新增","menuType":"F","orderNum":1,"params":{},"parentId":100,"perms":"system:user:add","url":"/system/user/add","visible":"0"},{"children":[],"level":1,"menuId":2005,"menuName":"单条强退","menuType":"F","orderNum":1,"params":{},"parentId":200,"perms":"monitor:online:forceLogout","url":"/monitor/online/batchForceLogout","visible":"0"},{"children":[],"level":1,"menuId":2004,"menuName":"批量强退","menuType":"F","orderNum":1,"params":{},"parentId":200,"perms":"monitor:online:batchForceLogout","url":"/monitor/online/batchForceLogout","visible":"0"},{"children":[],"level":1,"menuId":1053,"menuName":"日志删除","menuType":"F","orderNum":1,"params":{},"parentId":105,"perms":"system:log:del","url":"/system/log/del","visible":"0"},{"children":[],"level":1,"menuId":1050,"menuName":"日志查询","menuType":"F","orderNum":1,"params":{},"parentId":105,"perms":"system:log:list","url":"/system/log/list","visible":"0"},{"children":[],"level":1,"menuId":1043,"menuName":"通知删除","menuType":"F","orderNum":1,"params":{},"parentId":104,"perms":"system:notice:del","url":"/system/notice/del","visible":"0"},{"children":[],"level":1,"menuId":1042,"menuName":"通知修改","menuType":"F","orderNum":1,"params":{},"parentId":104,"perms":"system:notice:edit","url":"/system/notice/edit","visible":"0"},{"children":[],"level":1,"menuId":1041,"menuName":"通知添加","menuType":"F","orderNum":1,"params":{},"parentId":104,"perms":"system:notice:add","url":"/system/notice/add","visible":"0"},{"children":[],"level":1,"menuId":1040,"menuName":"通知查询","menuType":"F","orderNum":1,"params":{},"parentId":104,"perms":"system:notice:list","url":"/system/notice/list","visible":"0"},{"children":[],"level":1,"menuId":1033,"menuName":"部门删除","menuType":"F","orderNum":1,"params":{},"parentId":', '"system/menu/add"', '0', NULL, TO_DATE('2022-01-28 22:13:48', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('111', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 22:16:22', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('112', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 22:17:48', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('113', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 22:21:52', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('114', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 22:33:17', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('115', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 22:36:07', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('116', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 22:37:00', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('117', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 22:42:32', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('118', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 23:33:56', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('119', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 23:37:22', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('120', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 23:37:23', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('121', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 23:40:54', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('122', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 23:42:29', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('123', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 23:46:17', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('124', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 23:47:21', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('125', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 23:49:00', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('126', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 23:49:55', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('127', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-28 23:51:35', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('141', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 10:42:24', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('161', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 13:47:15', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('162', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 13:58:48', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('163', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 14:52:15', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('164', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 14:53:47', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('165', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 14:55:47', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('166', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 14:57:08', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('167', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 15:00:05', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('168', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 15:01:54', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('169', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 15:08:59', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('170', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 15:12:17', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('171', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 15:16:06', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('172', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 15:36:27', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('173', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 15:39:25', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('174', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 16:03:25', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('175', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 16:39:56', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('176', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 16:43:51', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('177', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 16:46:24', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('178', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 16:47:29', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('179', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 16:49:17', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('181', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-01-30 22:10:50', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('201', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 15:05:20', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('202', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 15:14:31', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('203', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 15:18:58', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('204', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 15:29:09', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('205', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 15:47:36', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('206', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 15:59:01', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('207', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 16:04:46', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('208', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 16:08:38', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('209', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 16:15:34', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('210', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 16:23:18', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('211', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 16:29:30', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('212', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 16:40:22', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('213', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 16:42:16', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('214', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 16:59:52', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('221', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 19:28:39', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('222', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 19:31:11', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('223', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 19:36:55', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('224', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 19:37:34', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('225', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-01 19:39:53', 'SYYYY-MM-DD HH24:MI:SS'));
 
 -- ----------------------------
 -- Table structure for SYS_ROLE
@@ -464,6 +587,53 @@ INSERT INTO "LK"."SYS_ROLE_MENU" VALUES ('2', '202');
 INSERT INTO "LK"."SYS_ROLE_MENU" VALUES ('2', '203');
 
 -- ----------------------------
+-- Table structure for SYS_SHARE
+-- ----------------------------
+DROP TABLE "LK"."SYS_SHARE";
+CREATE TABLE "LK"."SYS_SHARE" (
+  "SHARE_ID" NUMBER(10,0) NOT NULL,
+  "PARENT_ID" NUMBER(10,0) NOT NULL,
+  "NAME" VARCHAR2(255 BYTE) NOT NULL,
+  "TYPE" CHAR(1 BYTE) DEFAULT 0,
+  "PATH" VARCHAR2(512 BYTE) NOT NULL,
+  "LEVEL" NUMBER(10,0) DEFAULT 999,
+  "SIZE" NUMBER(20,0) DEFAULT 0,
+  "CREATE_BY" VARCHAR2(255 BYTE),
+  "CREATE_TIME" DATE,
+  "UPDATE_BY" VARCHAR2(255 BYTE),
+  "UPDATE_TIME" DATE,
+  "REMARK" VARCHAR2(255 BYTE)
+)
+LOGGING
+NOCOMPRESS
+PCTFREE 10
+INITRANS 1
+STORAGE (
+  INITIAL 65536 
+  NEXT 1048576 
+  MINEXTENTS 1
+  MAXEXTENTS 2147483645
+  FREELISTS 1
+  FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT
+)
+PARALLEL 1
+NOCACHE
+DISABLE ROW MOVEMENT
+;
+COMMENT ON COLUMN "LK"."SYS_SHARE"."PARENT_ID" IS '父Id';
+COMMENT ON COLUMN "LK"."SYS_SHARE"."NAME" IS '名称';
+COMMENT ON COLUMN "LK"."SYS_SHARE"."TYPE" IS '0目录1文件';
+COMMENT ON COLUMN "LK"."SYS_SHARE"."PATH" IS '路径';
+COMMENT ON COLUMN "LK"."SYS_SHARE"."LEVEL" IS '级别99任何人都可以使用';
+COMMENT ON COLUMN "LK"."SYS_SHARE"."SIZE" IS '大小';
+
+-- ----------------------------
+-- Records of SYS_SHARE
+-- ----------------------------
+INSERT INTO "LK"."SYS_SHARE" VALUES ('1', '0', 'root', '0', '/root', '0', '0', NULL, NULL, NULL, NULL, NULL);
+
+-- ----------------------------
 -- Table structure for SYS_USER
 -- ----------------------------
 DROP TABLE "LK"."SYS_USER";
@@ -504,9 +674,10 @@ COMMENT ON COLUMN "LK"."SYS_USER"."USER_ID" IS '用户ID';
 -- ----------------------------
 -- Records of SYS_USER
 -- ----------------------------
-INSERT INTO "LK"."SYS_USER" VALUES ('3', '21', 'ren', 'Ren', 'c80d171b81624145618791d99107554a', '1', '0', '0', 'admin', TO_DATE('2021-12-08 16:38:50', 'SYYYY-MM-DD HH24:MI:SS'), NULL, TO_DATE('2021-12-17 15:51:50', 'SYYYY-MM-DD HH24:MI:SS'), '测试');
-INSERT INTO "LK"."SYS_USER" VALUES ('2', '10', 'xu_cheng', '程序', '7b5eb3604ef385d6eef0076f1a024aeb', '1', '0', '0', 'like_ren', TO_DATE('2021-12-08 16:39:00', 'SYYYY-MM-DD HH24:MI:SS'), NULL, NULL, NULL);
+INSERT INTO "LK"."SYS_USER" VALUES ('3', '21', 'ren', 'Ren', 'c80d171b81624145618791d99107554a', '1', '0', '1', 'admin', TO_DATE('2021-12-08 16:38:50', 'SYYYY-MM-DD HH24:MI:SS'), NULL, TO_DATE('2021-12-17 15:51:50', 'SYYYY-MM-DD HH24:MI:SS'), '测试');
+INSERT INTO "LK"."SYS_USER" VALUES ('2', '10', 'xu_cheng', '程序', '7b5eb3604ef385d6eef0076f1a024aeb', '1', '0', '1', 'like_ren', TO_DATE('2021-12-08 16:39:00', 'SYYYY-MM-DD HH24:MI:SS'), NULL, NULL, NULL);
 INSERT INTO "LK"."SYS_USER" VALUES ('1', '11', 'xuyuan_cheng', '程旭源', '33152b9e6798b0763da6fc2b10b25b52', '1', '0', '0', 'like_ren', TO_DATE('2022-01-14 10:17:39', 'SYYYY-MM-DD HH24:MI:SS'), NULL, NULL, NULL);
+INSERT INTO "LK"."SYS_USER" VALUES ('4', '0', 'daima_yuan', '袁戴马', 'b12270cb65f329f2b3369b7a48e46289', '1', '0', '0', 'xuyuan_cheng', TO_DATE('2022-01-28 22:10:59', 'SYYYY-MM-DD HH24:MI:SS'), NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for SYS_USER_NOTICE
@@ -589,6 +760,7 @@ COMMENT ON TABLE "LK"."SYS_USER_ONLINE" IS '在线用户记录';
 -- ----------------------------
 -- Records of SYS_USER_ONLINE
 -- ----------------------------
+INSERT INTO "LK"."SYS_USER_ONLINE" VALUES ('c3ada5f1-4b39-486b-8693-57f7ef7343c3', 'xuyuan_cheng', 'R2厂区', '127.0.0.1', '内网IP', 'Chrome 9', 'Windows 10', 'on_line', TO_DATE('2022-02-01 19:28:08', 'SYYYY-MM-DD HH24:MI:SS'), TO_DATE('2022-02-01 19:40:30', 'SYYYY-MM-DD HH24:MI:SS'), '1800000');
 
 -- ----------------------------
 -- Table structure for SYS_USER_ROLE
@@ -621,8 +793,318 @@ DISABLE ROW MOVEMENT
 -- ----------------------------
 INSERT INTO "LK"."SYS_USER_ROLE" VALUES ('66', '2');
 INSERT INTO "LK"."SYS_USER_ROLE" VALUES ('1', '1');
-INSERT INTO "LK"."SYS_USER_ROLE" VALUES ('2', '2');
 INSERT INTO "LK"."SYS_USER_ROLE" VALUES ('6', '2');
+INSERT INTO "LK"."SYS_USER_ROLE" VALUES ('4', '2');
+
+-- ----------------------------
+-- Table structure for XXL_JOB_GROUP
+-- ----------------------------
+DROP TABLE "LK"."XXL_JOB_GROUP";
+CREATE TABLE "LK"."XXL_JOB_GROUP" (
+  "ID" NUMBER(11,0) NOT NULL,
+  "APP_NAME" NVARCHAR2(64) NOT NULL,
+  "TITLE" NVARCHAR2(12) NOT NULL,
+  "ADDRESS_TYPE" NUMBER(4,0) NOT NULL,
+  "ADDRESS_LIST" NCLOB,
+  "UPDATE_TIME" DATE
+)
+LOGGING
+NOCOMPRESS
+PCTFREE 10
+INITRANS 1
+STORAGE (
+  INITIAL 65536 
+  NEXT 1048576 
+  MINEXTENTS 1
+  MAXEXTENTS 2147483645
+  FREELISTS 1
+  FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT
+)
+PARALLEL 1
+NOCACHE
+DISABLE ROW MOVEMENT
+;
+COMMENT ON COLUMN "LK"."XXL_JOB_GROUP"."APP_NAME" IS '执行器AppName';
+COMMENT ON COLUMN "LK"."XXL_JOB_GROUP"."TITLE" IS '执行器名称';
+COMMENT ON COLUMN "LK"."XXL_JOB_GROUP"."ADDRESS_TYPE" IS '执行器地址类型：0=自动注册、1=手动录入';
+COMMENT ON COLUMN "LK"."XXL_JOB_GROUP"."ADDRESS_LIST" IS '执行器地址列表，多地址逗号分隔';
+
+-- ----------------------------
+-- Records of XXL_JOB_GROUP
+-- ----------------------------
+INSERT INTO "LK"."XXL_JOB_GROUP" VALUES ('1', 'xxl-job-executor-sample', '示例执行器', '1', 'http://192.168.221.1:9999/', TO_DATE('2022-02-01 16:11:38', 'SYYYY-MM-DD HH24:MI:SS'));
+
+-- ----------------------------
+-- Table structure for XXL_JOB_INFO
+-- ----------------------------
+DROP TABLE "LK"."XXL_JOB_INFO";
+CREATE TABLE "LK"."XXL_JOB_INFO" (
+  "ID" NUMBER(11,0) NOT NULL,
+  "JOB_GROUP" NUMBER(11,0) NOT NULL,
+  "JOB_DESC" NVARCHAR2(255) NOT NULL,
+  "ADD_TIME" DATE,
+  "UPDATE_TIME" DATE,
+  "AUTHOR" NVARCHAR2(64),
+  "ALARM_EMAIL" NVARCHAR2(255),
+  "SCHEDULE_TYPE" NVARCHAR2(50) NOT NULL,
+  "SCHEDULE_CONF" NVARCHAR2(128),
+  "MISFIRE_STRATEGY" NVARCHAR2(50) NOT NULL,
+  "EXECUTOR_ROUTE_STRATEGY" NVARCHAR2(50),
+  "EXECUTOR_HANDLER" NVARCHAR2(255),
+  "EXECUTOR_PARAM" NVARCHAR2(512),
+  "EXECUTOR_BLOCK_STRATEGY" NVARCHAR2(50),
+  "EXECUTOR_TIMEOUT" NUMBER(11,0) NOT NULL,
+  "EXECUTOR_FAIL_RETRY_COUNT" NUMBER(11,0) NOT NULL,
+  "GLUE_TYPE" NVARCHAR2(50) NOT NULL,
+  "GLUE_SOURCE" NCLOB,
+  "GLUE_REMARK" NVARCHAR2(128),
+  "GLUE_UPDATETIME" DATE,
+  "CHILD_JOBID" NVARCHAR2(255),
+  "TRIGGER_STATUS" NUMBER(4,0) NOT NULL,
+  "TRIGGER_LAST_TIME" NUMBER(20,0) NOT NULL,
+  "TRIGGER_NEXT_TIME" NUMBER(20,0) NOT NULL
+)
+LOGGING
+NOCOMPRESS
+PCTFREE 10
+INITRANS 1
+STORAGE (
+  INITIAL 65536 
+  NEXT 1048576 
+  MINEXTENTS 1
+  MAXEXTENTS 2147483645
+  FREELISTS 1
+  FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT
+)
+PARALLEL 1
+NOCACHE
+DISABLE ROW MOVEMENT
+;
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."JOB_GROUP" IS '执行器主键ID';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."AUTHOR" IS '作者';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."ALARM_EMAIL" IS '报警邮件';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."SCHEDULE_TYPE" IS '调度类型';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."SCHEDULE_CONF" IS '调度配置，值含义取决于调度类型';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."MISFIRE_STRATEGY" IS '调度过期策略';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."EXECUTOR_ROUTE_STRATEGY" IS '执行器路由策略';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."EXECUTOR_HANDLER" IS '执行器任务handler';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."EXECUTOR_PARAM" IS '执行器任务参数';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."EXECUTOR_BLOCK_STRATEGY" IS '阻塞处理策略';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."EXECUTOR_TIMEOUT" IS '任务执行超时时间，单位秒';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."EXECUTOR_FAIL_RETRY_COUNT" IS '失败重试次数';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."GLUE_TYPE" IS 'GLUE类型';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."GLUE_SOURCE" IS 'GLUE源代码';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."GLUE_REMARK" IS 'GLUE备注';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."GLUE_UPDATETIME" IS 'GLUE更新时间';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."CHILD_JOBID" IS '子任务ID，多个逗号分隔';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."TRIGGER_STATUS" IS '调度状态：0-停止，1-运行';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."TRIGGER_LAST_TIME" IS '上次调度时间';
+COMMENT ON COLUMN "LK"."XXL_JOB_INFO"."TRIGGER_NEXT_TIME" IS '下次调度时间';
+
+-- ----------------------------
+-- Records of XXL_JOB_INFO
+-- ----------------------------
+INSERT INTO "LK"."XXL_JOB_INFO" VALUES ('1', '1', '测试任务1', TO_DATE('2018-11-03 22:21:31', 'SYYYY-MM-DD HH24:MI:SS'), TO_DATE('2022-02-01 15:06:02', 'SYYYY-MM-DD HH24:MI:SS'), 'XXL', NULL, 'CRON', '0/5 0 0 * * ?', 'DO_NOTHING', 'FIRST', 'demoJobHandler', NULL, 'SERIAL_EXECUTION', '0', '0', 'BEAN', NULL, 'GLUE代码初始化', TO_DATE('2018-11-03 22:21:31', 'SYYYY-MM-DD HH24:MI:SS'), NULL, '0', '0', '0');
+
+-- ----------------------------
+-- Table structure for XXL_JOB_LOCK
+-- ----------------------------
+DROP TABLE "LK"."XXL_JOB_LOCK";
+CREATE TABLE "LK"."XXL_JOB_LOCK" (
+  "LOCK_NAME" NVARCHAR2(50) NOT NULL
+)
+LOGGING
+NOCOMPRESS
+PCTFREE 10
+INITRANS 1
+STORAGE (
+  INITIAL 65536 
+  NEXT 1048576 
+  MINEXTENTS 1
+  MAXEXTENTS 2147483645
+  FREELISTS 1
+  FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT
+)
+PARALLEL 1
+NOCACHE
+DISABLE ROW MOVEMENT
+;
+COMMENT ON COLUMN "LK"."XXL_JOB_LOCK"."LOCK_NAME" IS '锁名称';
+
+-- ----------------------------
+-- Records of XXL_JOB_LOCK
+-- ----------------------------
+INSERT INTO "LK"."XXL_JOB_LOCK" VALUES ('schedule_lock');
+
+-- ----------------------------
+-- Table structure for XXL_JOB_LOG
+-- ----------------------------
+DROP TABLE "LK"."XXL_JOB_LOG";
+CREATE TABLE "LK"."XXL_JOB_LOG" (
+  "ID" NUMBER(20,0) NOT NULL,
+  "JOB_GROUP" NUMBER(11,0) NOT NULL,
+  "JOB_ID" NUMBER(11,0) NOT NULL,
+  "EXECUTOR_ADDRESS" NVARCHAR2(255),
+  "EXECUTOR_HANDLER" NVARCHAR2(255),
+  "EXECUTOR_PARAM" NVARCHAR2(512),
+  "EXECUTOR_SHARDING_PARAM" NVARCHAR2(20),
+  "EXECUTOR_FAIL_RETRY_COUNT" NUMBER(11,0),
+  "TRIGGER_TIME" DATE,
+  "TRIGGER_CODE" NUMBER(11,0) NOT NULL,
+  "TRIGGER_MSG" NCLOB,
+  "HANDLE_TIME" DATE,
+  "HANDLE_CODE" NUMBER(11,0) NOT NULL,
+  "HANDLE_MSG" NCLOB,
+  "ALARM_STATUS" NUMBER(4,0)
+)
+LOGGING
+NOCOMPRESS
+PCTFREE 10
+INITRANS 1
+STORAGE (
+  INITIAL 65536 
+  NEXT 1048576 
+  MINEXTENTS 1
+  MAXEXTENTS 2147483645
+  FREELISTS 1
+  FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT
+)
+PARALLEL 1
+NOCACHE
+DISABLE ROW MOVEMENT
+;
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."JOB_GROUP" IS '执行器主键ID';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."JOB_ID" IS '任务，主键ID';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."EXECUTOR_ADDRESS" IS '执行器地址，本次执行的地址';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."EXECUTOR_HANDLER" IS '执行器任务handler';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."EXECUTOR_PARAM" IS '执行器任务参数';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."EXECUTOR_SHARDING_PARAM" IS '执行器任务分片参数，格式如 1/2';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."EXECUTOR_FAIL_RETRY_COUNT" IS '失败重试次数';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."TRIGGER_TIME" IS '调度-时间';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."TRIGGER_CODE" IS '调度-结果';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."TRIGGER_MSG" IS '调度-日志';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."HANDLE_TIME" IS '执行-时间';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."HANDLE_CODE" IS '执行-状态';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."HANDLE_MSG" IS '执行-日志';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."ALARM_STATUS" IS '告警状态：0-默认、1-无需告警、2-告警成功、3-告警失败';
+
+-- ----------------------------
+-- Records of XXL_JOB_LOG
+-- ----------------------------
+INSERT INTO "LK"."XXL_JOB_LOG" VALUES ('227', '1', '1', 'http://192.168.221.1:9999/', 'demoJobHandler', NULL, NULL, '0', TO_DATE('2022-02-01 19:40:30', 'SYYYY-MM-DD HH24:MI:SS'), '200', '任务触发类型：手动触发<br>调度机器：192.168.221.1<br>执行器-注册方式：手动录入<br>执行器-地址列表：[http://192.168.221.1:9999/]<br>路由策略：第一个<br>阻塞处理策略：单机串行<br>任务超时时间：0<br>失败重试次数：0<br><br><span style="color:#00c0ef;" > >>>>>>>>>>>触发调度<<<<<<<<<<< </span><br>触发调度：<br>address：http://192.168.221.1:9999/<br>code：200<br>msg：null', NULL, '0', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for XXL_JOB_LOGGLUE
+-- ----------------------------
+DROP TABLE "LK"."XXL_JOB_LOGGLUE";
+CREATE TABLE "LK"."XXL_JOB_LOGGLUE" (
+  "ID" NUMBER(11,0) NOT NULL,
+  "JOB_ID" NUMBER(11,0) NOT NULL,
+  "GLUE_TYPE" NVARCHAR2(50),
+  "GLUE_SOURCE" NCLOB,
+  "GLUE_REMARK" NVARCHAR2(128) NOT NULL,
+  "ADD_TIME" DATE,
+  "UPDATE_TIME" DATE
+)
+LOGGING
+NOCOMPRESS
+PCTFREE 10
+INITRANS 1
+STORAGE (
+  BUFFER_POOL DEFAULT
+)
+PARALLEL 1
+NOCACHE
+DISABLE ROW MOVEMENT
+;
+COMMENT ON COLUMN "LK"."XXL_JOB_LOGGLUE"."JOB_ID" IS '任务，主键ID';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOGGLUE"."GLUE_TYPE" IS 'GLUE类型';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOGGLUE"."GLUE_SOURCE" IS 'GLUE源代码';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOGGLUE"."GLUE_REMARK" IS 'GLUE备注';
+
+-- ----------------------------
+-- Records of XXL_JOB_LOGGLUE
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for XXL_JOB_LOG_REPORT
+-- ----------------------------
+DROP TABLE "LK"."XXL_JOB_LOG_REPORT";
+CREATE TABLE "LK"."XXL_JOB_LOG_REPORT" (
+  "ID" NUMBER(11,0) NOT NULL,
+  "TRIGGER_DAY" DATE,
+  "RUNNING_COUNT" NUMBER(11,0) NOT NULL,
+  "SUC_COUNT" NUMBER(11,0) NOT NULL,
+  "FAIL_COUNT" NUMBER(11,0) NOT NULL,
+  "UPDATE_TIME" DATE
+)
+LOGGING
+NOCOMPRESS
+PCTFREE 10
+INITRANS 1
+STORAGE (
+  INITIAL 65536 
+  NEXT 1048576 
+  MINEXTENTS 1
+  MAXEXTENTS 2147483645
+  FREELISTS 1
+  FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT
+)
+PARALLEL 1
+NOCACHE
+DISABLE ROW MOVEMENT
+;
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG_REPORT"."TRIGGER_DAY" IS '调度-时间';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG_REPORT"."RUNNING_COUNT" IS '运行中-日志数量';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG_REPORT"."SUC_COUNT" IS '执行成功-日志数量';
+COMMENT ON COLUMN "LK"."XXL_JOB_LOG_REPORT"."FAIL_COUNT" IS '执行失败-日志数量';
+
+-- ----------------------------
+-- Records of XXL_JOB_LOG_REPORT
+-- ----------------------------
+INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('1', TO_DATE('2022-01-24 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
+INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('2', TO_DATE('2022-01-23 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
+INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('3', TO_DATE('2022-01-22 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
+INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('5', TO_DATE('2022-01-25 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
+INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('6', TO_DATE('2022-01-26 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
+INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('21', TO_DATE('2022-01-28 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
+INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('22', TO_DATE('2022-01-27 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
+INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('23', TO_DATE('2022-01-29 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
+INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('41', TO_DATE('2022-01-30 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
+INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('61', TO_DATE('2022-01-31 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
+INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('81', TO_DATE('2022-02-01 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
+
+-- ----------------------------
+-- Table structure for XXL_JOB_REGISTRY
+-- ----------------------------
+DROP TABLE "LK"."XXL_JOB_REGISTRY";
+CREATE TABLE "LK"."XXL_JOB_REGISTRY" (
+  "ID" NUMBER(11,0) NOT NULL,
+  "REGISTRY_GROUP" NVARCHAR2(50) NOT NULL,
+  "REGISTRY_KEY" NVARCHAR2(255) NOT NULL,
+  "REGISTRY_VALUE" NVARCHAR2(255) NOT NULL,
+  "UPDATE_TIME" DATE
+)
+LOGGING
+NOCOMPRESS
+PCTFREE 10
+INITRANS 1
+STORAGE (
+  BUFFER_POOL DEFAULT
+)
+PARALLEL 1
+NOCACHE
+DISABLE ROW MOVEMENT
+;
+
+-- ----------------------------
+-- Records of XXL_JOB_REGISTRY
+-- ----------------------------
 
 -- ----------------------------
 -- Sequence structure for SEQ_SYS_DEPT
@@ -659,6 +1141,24 @@ CREATE SEQUENCE "LK"."SEQ_SYS_ROLE" MINVALUE 1 MAXVALUE 999999999999999999999999
 -- ----------------------------
 DROP SEQUENCE "LK"."SEQ_SYS_USER";
 CREATE SEQUENCE "LK"."SEQ_SYS_USER" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 CACHE 20;
+
+-- ----------------------------
+-- Sequence structure for SEQ_XXL_JOB_INFO
+-- ----------------------------
+DROP SEQUENCE "LK"."SEQ_XXL_JOB_INFO";
+CREATE SEQUENCE "LK"."SEQ_XXL_JOB_INFO" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 CACHE 20;
+
+-- ----------------------------
+-- Sequence structure for SEQ_XXL_JOB_LOG
+-- ----------------------------
+DROP SEQUENCE "LK"."SEQ_XXL_JOB_LOG";
+CREATE SEQUENCE "LK"."SEQ_XXL_JOB_LOG" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 CACHE 20;
+
+-- ----------------------------
+-- Sequence structure for SEQ_XXL_LOG_REPORT
+-- ----------------------------
+DROP SEQUENCE "LK"."SEQ_XXL_LOG_REPORT";
+CREATE SEQUENCE "LK"."SEQ_XXL_LOG_REPORT" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 CACHE 20;
 
 -- ----------------------------
 -- Primary Key structure for table SYS_DEPT
@@ -857,6 +1357,22 @@ ALTER TABLE "LK"."SYS_ROLE_MENU" ADD CONSTRAINT "SYS_C0011427" CHECK ("ROLE_ID" 
 ALTER TABLE "LK"."SYS_ROLE_MENU" ADD CONSTRAINT "SYS_C0011428" CHECK ("MENU_ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
 
 -- ----------------------------
+-- Primary Key structure for table SYS_SHARE
+-- ----------------------------
+ALTER TABLE "LK"."SYS_SHARE" ADD CONSTRAINT "SYS_C0011600" PRIMARY KEY ("SHARE_ID");
+
+-- ----------------------------
+-- Checks structure for table SYS_SHARE
+-- ----------------------------
+ALTER TABLE "LK"."SYS_SHARE" ADD CONSTRAINT "SYS_C0011597" CHECK ("PARENT_ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."SYS_SHARE" ADD CONSTRAINT "SYS_C0011598" CHECK ("NAME" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."SYS_SHARE" ADD CONSTRAINT "SYS_C0011599" CHECK ("PATH" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."SYS_SHARE" ADD CONSTRAINT "SYS_C0011601" CHECK ("SHARE_ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."SYS_SHARE" ADD CONSTRAINT "SYS_C0011602" CHECK ("PARENT_ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."SYS_SHARE" ADD CONSTRAINT "SYS_C0011603" CHECK ("NAME" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."SYS_SHARE" ADD CONSTRAINT "SYS_C0011604" CHECK ("PATH" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+
+-- ----------------------------
 -- Primary Key structure for table SYS_USER
 -- ----------------------------
 ALTER TABLE "LK"."SYS_USER" ADD CONSTRAINT "SYS_C0011457" PRIMARY KEY ("USER_ID");
@@ -928,3 +1444,164 @@ ALTER TABLE "LK"."SYS_USER_ROLE" ADD CONSTRAINT "SYS_C0011474" CHECK ("USER_ID" 
 ALTER TABLE "LK"."SYS_USER_ROLE" ADD CONSTRAINT "SYS_C0011475" CHECK ("ROLE_ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
 ALTER TABLE "LK"."SYS_USER_ROLE" ADD CONSTRAINT "SYS_C0011476" CHECK ("USER_ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
 ALTER TABLE "LK"."SYS_USER_ROLE" ADD CONSTRAINT "SYS_C0011477" CHECK ("ROLE_ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+
+-- ----------------------------
+-- Primary Key structure for table XXL_JOB_GROUP
+-- ----------------------------
+ALTER TABLE "LK"."XXL_JOB_GROUP" ADD CONSTRAINT "SYS_C0011531" PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Checks structure for table XXL_JOB_GROUP
+-- ----------------------------
+ALTER TABLE "LK"."XXL_JOB_GROUP" ADD CONSTRAINT "SYS_C0011503" CHECK ("ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_GROUP" ADD CONSTRAINT "SYS_C0011504" CHECK ("APP_NAME" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_GROUP" ADD CONSTRAINT "SYS_C0011505" CHECK ("TITLE" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_GROUP" ADD CONSTRAINT "SYS_C0011506" CHECK ("ADDRESS_TYPE" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+
+-- ----------------------------
+-- Primary Key structure for table XXL_JOB_INFO
+-- ----------------------------
+ALTER TABLE "LK"."XXL_JOB_INFO" ADD CONSTRAINT "SYS_C0011532" PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Checks structure for table XXL_JOB_INFO
+-- ----------------------------
+ALTER TABLE "LK"."XXL_JOB_INFO" ADD CONSTRAINT "SYS_C0011492" CHECK ("ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_INFO" ADD CONSTRAINT "SYS_C0011493" CHECK ("JOB_GROUP" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_INFO" ADD CONSTRAINT "SYS_C0011494" CHECK ("JOB_DESC" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_INFO" ADD CONSTRAINT "SYS_C0011495" CHECK ("SCHEDULE_TYPE" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_INFO" ADD CONSTRAINT "SYS_C0011496" CHECK ("MISFIRE_STRATEGY" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_INFO" ADD CONSTRAINT "SYS_C0011497" CHECK ("EXECUTOR_TIMEOUT" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_INFO" ADD CONSTRAINT "SYS_C0011498" CHECK ("EXECUTOR_FAIL_RETRY_COUNT" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_INFO" ADD CONSTRAINT "SYS_C0011499" CHECK ("GLUE_TYPE" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_INFO" ADD CONSTRAINT "SYS_C0011500" CHECK ("TRIGGER_STATUS" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_INFO" ADD CONSTRAINT "SYS_C0011501" CHECK ("TRIGGER_LAST_TIME" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_INFO" ADD CONSTRAINT "SYS_C0011502" CHECK ("TRIGGER_NEXT_TIME" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+
+-- ----------------------------
+-- Primary Key structure for table XXL_JOB_LOCK
+-- ----------------------------
+ALTER TABLE "LK"."XXL_JOB_LOCK" ADD CONSTRAINT "SYS_C0011530" PRIMARY KEY ("LOCK_NAME");
+
+-- ----------------------------
+-- Checks structure for table XXL_JOB_LOCK
+-- ----------------------------
+ALTER TABLE "LK"."XXL_JOB_LOCK" ADD CONSTRAINT "SYS_C0011514" CHECK ("LOCK_NAME" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+
+-- ----------------------------
+-- Primary Key structure for table XXL_JOB_LOG
+-- ----------------------------
+ALTER TABLE "LK"."XXL_JOB_LOG" ADD CONSTRAINT "SYS_C0011533" PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Checks structure for table XXL_JOB_LOG
+-- ----------------------------
+ALTER TABLE "LK"."XXL_JOB_LOG" ADD CONSTRAINT "SYS_C0011507" CHECK ("ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_LOG" ADD CONSTRAINT "SYS_C0011508" CHECK ("JOB_GROUP" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_LOG" ADD CONSTRAINT "SYS_C0011509" CHECK ("JOB_ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_LOG" ADD CONSTRAINT "SYS_C0011511" CHECK ("TRIGGER_CODE" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_LOG" ADD CONSTRAINT "SYS_C0011512" CHECK ("HANDLE_CODE" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+
+-- ----------------------------
+-- Indexes structure for table XXL_JOB_LOG
+-- ----------------------------
+CREATE INDEX "LK"."I_handle_code"
+  ON "LK"."XXL_JOB_LOG" ("HANDLE_CODE" ASC)
+  LOGGING
+  VISIBLE
+PCTFREE 10
+INITRANS 2
+STORAGE (
+  INITIAL 65536 
+  NEXT 1048576 
+  MINEXTENTS 1
+  MAXEXTENTS 2147483645
+  FREELISTS 1
+  FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT
+);
+CREATE INDEX "LK"."I_trigger_time"
+  ON "LK"."XXL_JOB_LOG" ("TRIGGER_TIME" ASC)
+  LOGGING
+  VISIBLE
+PCTFREE 10
+INITRANS 2
+STORAGE (
+  INITIAL 65536 
+  NEXT 1048576 
+  MINEXTENTS 1
+  MAXEXTENTS 2147483645
+  FREELISTS 1
+  FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT
+);
+
+-- ----------------------------
+-- Primary Key structure for table XXL_JOB_LOGGLUE
+-- ----------------------------
+ALTER TABLE "LK"."XXL_JOB_LOGGLUE" ADD CONSTRAINT "SYS_C0011535" PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Checks structure for table XXL_JOB_LOGGLUE
+-- ----------------------------
+ALTER TABLE "LK"."XXL_JOB_LOGGLUE" ADD CONSTRAINT "SYS_C0011519" CHECK ("ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_LOGGLUE" ADD CONSTRAINT "SYS_C0011520" CHECK ("JOB_ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_LOGGLUE" ADD CONSTRAINT "SYS_C0011521" CHECK ("GLUE_REMARK" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+
+-- ----------------------------
+-- Primary Key structure for table XXL_JOB_LOG_REPORT
+-- ----------------------------
+ALTER TABLE "LK"."XXL_JOB_LOG_REPORT" ADD CONSTRAINT "SYS_C0011534" PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Checks structure for table XXL_JOB_LOG_REPORT
+-- ----------------------------
+ALTER TABLE "LK"."XXL_JOB_LOG_REPORT" ADD CONSTRAINT "SYS_C0011515" CHECK ("ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_LOG_REPORT" ADD CONSTRAINT "SYS_C0011516" CHECK ("RUNNING_COUNT" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_LOG_REPORT" ADD CONSTRAINT "SYS_C0011517" CHECK ("SUC_COUNT" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_LOG_REPORT" ADD CONSTRAINT "SYS_C0011518" CHECK ("FAIL_COUNT" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+
+-- ----------------------------
+-- Indexes structure for table XXL_JOB_LOG_REPORT
+-- ----------------------------
+CREATE UNIQUE INDEX "LK"."i_trigger_day"
+  ON "LK"."XXL_JOB_LOG_REPORT" ("TRIGGER_DAY" ASC)
+  LOGGING
+  VISIBLE
+PCTFREE 10
+INITRANS 2
+STORAGE (
+  INITIAL 65536 
+  NEXT 1048576 
+  MINEXTENTS 1
+  MAXEXTENTS 2147483645
+  FREELISTS 1
+  FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT
+);
+
+-- ----------------------------
+-- Primary Key structure for table XXL_JOB_REGISTRY
+-- ----------------------------
+ALTER TABLE "LK"."XXL_JOB_REGISTRY" ADD CONSTRAINT "SYS_C0011536" PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Checks structure for table XXL_JOB_REGISTRY
+-- ----------------------------
+ALTER TABLE "LK"."XXL_JOB_REGISTRY" ADD CONSTRAINT "SYS_C0011522" CHECK ("ID" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_REGISTRY" ADD CONSTRAINT "SYS_C0011523" CHECK ("REGISTRY_GROUP" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_REGISTRY" ADD CONSTRAINT "SYS_C0011524" CHECK ("REGISTRY_KEY" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+ALTER TABLE "LK"."XXL_JOB_REGISTRY" ADD CONSTRAINT "SYS_C0011525" CHECK ("REGISTRY_VALUE" IS NOT NULL) NOT DEFERRABLE INITIALLY IMMEDIATE NORELY VALIDATE;
+
+-- ----------------------------
+-- Indexes structure for table XXL_JOB_REGISTRY
+-- ----------------------------
+CREATE INDEX "LK"."i_g_k_v"
+  ON "LK"."XXL_JOB_REGISTRY" ("REGISTRY_GROUP" ASC, "REGISTRY_KEY" ASC, "REGISTRY_VALUE" ASC)
+  LOGGING
+  VISIBLE
+PCTFREE 10
+INITRANS 2
+STORAGE (
+  BUFFER_POOL DEFAULT
+);

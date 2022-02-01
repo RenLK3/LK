@@ -95,6 +95,8 @@ shiro:
 
 # 数据源配置
 spring:
+  application:
+    name: lk
   # 模板引擎
   thymeleaf:
     mode: HTML5

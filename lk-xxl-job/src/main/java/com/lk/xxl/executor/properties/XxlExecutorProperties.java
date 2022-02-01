@@ -14,7 +14,7 @@ public class XxlExecutorProperties {
 	/**
 	 * 执行器AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
 	 */
-	private String appname;
+	private String appname="xxl-job-executor-sample";
 
 	/**
 	 * 服务注册地址,优先使用该配置作为注册地址 为空时使用内嵌服务 ”IP:PORT“ 作为注册地址 从而更灵活的支持容器类型执行器动态IP和动态映射端口问题
@@ -30,7 +30,7 @@ public class XxlExecutorProperties {
 	/**
 	 * 执行器端口号 [选填]：小于等于0则自动获取；默认端口为9999，单机部署多个执行器时，注意要配置不同执行器端口；
 	 */
-	private Integer port = 0;
+	private Integer port = 9999;
 
 	/**
 	 * 执行器通讯TOKEN [选填]：非空时启用；
