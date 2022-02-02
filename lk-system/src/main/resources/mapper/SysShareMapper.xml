@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lk.system.mapper.SysShareMapper">
+
+    <resultMap type="SysShare" id="SysShareResult">
+        <id property="shareId" column="share_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="path" column="path"/>
+        <result property="level" column="level"/>
+        <result property="size" column="size"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectShareVo">
+        select s.share_id,
+               s.parent_id,
+               s.name,
+               s."TYPE",
+               s.path,
+               s."LEVEL",
+               s."SIZE",
+               s.create_by,
+               s.create_time,
+               s.update_by,
+               s.update_time,
+               s.remark
+        from sys_share s
+    </sql>
+
+    <select id="selectDirectionList" resultMap="SysShareResult">
+        <include refid="selectShareVo"/>
+        where s."TYPE"='0'
+    </select>
+
+    <select id="selectFileList" resultMap="SysShareResult">
+        <include refid="selectShareVo"/>
+        where s."TYPE"='1'
+    </select>
+
+    <select id="selectShareList" parameterType="SysShare" resultMap="SysShareResult">
+        <include refid="selectShareVo"/>
+        where 1=1
+        <if test="shareId != null and shareId != 0">
+            AND share_id = #{shareId}
+        </if>
+        <if test="parentId != null and parentId != 0">
+            AND parent_id = #{parentId}
+        </if>
+        <if test="name != null and name != ''">
+            AND "NAME" like concat(concat('%',#{deptName}),'%')
+        </if>
+        <if test="level != null and level != 0">
+            AND "LEVEL" = #{level}
+        </if>
+        <!-- 数据范围过滤 -->
+        ${params.dataScope}
+        order by s.parent_id,s.share_id
+    </select>
+
+    <insert id="insertShare" parameterType="SysShare">
+        <selectKey keyProperty="shareId" order="BEFORE" resultType="Long">
+            select SEQ_SYS_SHARE.nextval as shareId from DUAL
+        </selectKey>
+        insert into sys_share(
+        <if test="shareId != null and shareId != 0">share_id,</if>
+        <if test="parentId != null">parent_id,</if>
+        <if test="name != null and name != ''">"NAME",</if>
+        <if test="type != null and type != 0">"TYPE",</if>
+        <if test="path != null and path != ''">"PATH",</if>
+        <if test="level != null and level != 0">"LEVEL",</if>
+        <if test="size != null and size != 0">"SIZE",</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="remark != null and remark != ''">remark,</if>
+        create_time
+        )values(
+        <if test="shareId != null and shareId != 0">#{shareId},</if>
+        <if test="parentId != null">#{parentId},</if>
+        <if test="name != null and name != ''">#{name},</if>
+        <if test="type != null and type != 0">#{type},</if>
+        <if test="path != null and path != ''">#{path},</if>
+        <if test="level != null and level != 0">#{level},</if>
+        <if test="size != null and size != 0">#{size},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        sysdate
+        )
+    </insert>
+
+    <update id="updateShare" parameterType="SysShare">
+        update sys_share
+        <set>
+            <if test="parentId != null and parentId != 0">parent_id = #{parentId},</if>
+            <if test="name != null and name != ''">"NAME"=#{name},</if>
+            <if test="type != null and type != 0">"TYPE"=#{type},</if>
+            <if test="path != null and path != ''">"PATH"=#{path},</if>
+            <if test="level != null and level != 0">"LEVEL"=#{level},</if>
+            <if test="size != null and size != 0">"SIZE"=#{size},</if>
+            <if test="remark != null and remark != ''">remark=#{remark},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate
+        </set>
+        where share_id = #{shareId}
+    </update>
+
+    <delete id="deleteShareById" parameterType="Long">
+        delete
+        sys_share where
+        share_id =
+        #{shareId}
+    </delete>
+
+</mapper> 

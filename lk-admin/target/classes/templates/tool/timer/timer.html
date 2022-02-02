@@ -14,24 +14,25 @@
 <div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-card-header">
-            搜索角色
+            搜索任务
         </div>
         <div class="layui-card-body layui-form" lay-filter="role-search">
             <div class="layui-form-item">
-                <label class="layui-form-label">角色名称</label>
+                <label class="layui-form-label">任务名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="roleName" placeholder="角色名称" class="layui-input">
+                    <input type="text" name="jobName" placeholder="任务名称" class="layui-input">
                 </div>
                 <label class="layui-form-label">状态</label>
                 <div class="layui-input-inline">
                     <select name="state" class="layui-select">
                         <option value="">所有</option>
-                        <option value="0">正常</option>
-                        <option value="1">停用</option>
+                        <option value="0">停止</option>
+                        <option value="1">运行</option>
                     </select>
                 </div>
                 <div class="layui-inline">
-                    <button class="layui-btn layuiadmin-btn-useradmin layui-bg-blue" lay-submit lay-filter="role-search">
+                    <button class="layui-btn layuiadmin-btn-useradmin layui-bg-blue" lay-submit
+                            lay-filter="role-search">
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>搜索
                     </button>
                 </div>
@@ -40,24 +41,35 @@
     </div>
     <div class="layui-card">
         <div class="layui-card-header">
-            角色管理
+            任务管理
         </div>
         <div class="layui-card-body">
             <table class="layui-hide" id="table-timer-manager" lay-filter="table-timer-manager"></table>
             <script type="text/html" id="switchTpl">
                 <input type="checkbox" name="state" value="{{d.id}}" lay-skin="switch" lay-text="开启|关闭"
-                       lay-filter="State" {{ d.triggerStatus=== '0' ? 'checked' : '' }}>
+                       lay-filter="State" {{ d.triggerStatus=== 1 ? 'checked' : '' }}>
             </script>
 
             <script type="text/html" id="table-timer-manager-toolbarDemo">
                 <div class="layui-btn-container">
-                    <button class="layui-btn layui-btn-sm  layui-bg-cyan" lay-event="Add"><i class="layui-icon layui-icon-add-1"></i>添加
+                    <button class="layui-btn layui-btn-sm  layui-bg-cyan" lay-event="Add"><i
+                            class="layui-icon layui-icon-add-1"></i>添加任务
+                    </button>
+                    <button class="layui-btn layui-btn-sm  layui-bg-cyan" lay-event="Add"><i
+                            class="layui-icon layui-icon-add-1"></i>添加执行器
+                    </button>
+                    <button class="layui-btn layui-btn-sm  layui-bg-green" lay-event="Add"><i
+                            class="layui-icon layui-icon-fonts-code"></i>调度日志
                     </button>
                 </div>
             </script>
             <script type="text/html" id="table-timer-manager-barDemo">
-                <a class="layui-btn layui-btn-xs layui-bg-orange" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>修改</a>
-                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+                <a class="layui-btn layui-btn-xs layui-bg-orange" lay-event="trigger"><i
+                        class="layui-icon layui-icon-edit"></i>执行一次</a>
+                <a class="layui-btn layui-btn-xs layui-bg-orange" lay-event="edit"><i
+                        class="layui-icon layui-icon-edit"></i>修改</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
+                        class="layui-icon layui-icon-delete"></i>删除</a>
             </script>
         </div>
     </div>
@@ -95,14 +107,17 @@
             , page: true //开启分页
             , cols: [
                 [
-                    {field: 'id', align: 'center', title: 'ID', width: 85}
-                    , {field: 'author', align: 'center', title: '负责人'}
-                    , {field: 'scheduleType', align: 'center', title: '调度类型'}
-                    , {field: 'executorHandler', align: 'center', title: '任务Handler名称', width: 70}
-                    , {field: 'triggerStatus', align: 'center', title: '调度状态', align: 'center', templet: '#switchTpl', width: 100}
-                    , {field: 'glueType', align: 'center', title: 'GLUE类型'}
-                    , {field: 'executorParam', align: 'center', title: '任务参数', width: 200}
-                    , {title: '操作', align: 'center', width: 150, toolbar: '#table-timer-manager-barDemo'}
+                    {field: 'id', align: 'center', title: 'ID', width: 45}
+                    , {field: 'jobGroup', align: 'center', title: '执行器ID', width: 90} // 单选
+                    , {field: 'jobDesc', align: 'center', title: '介绍', width: 110}
+                    , {field: 'author', align: 'center', title: '作者', width: 70}
+                    // , {field: 'scheduleType', align: 'center', title: '调度类型', width: 90}
+                    , {field: 'executorHandler', align: 'center', title: '任务名称',minWidth:100}
+                    , {field: 'scheduleConf', align: 'center', title: '调度配置',width: 110}
+                    , {field: 'triggerStatus', align: 'center', title: '状态', templet: '#switchTpl', width: 100}
+                    // , {field: 'glueType', align: 'center', title: 'GLUE类型',width: 100}
+                    , {field: 'executorParam', align: 'center', title: '任务参数', width: 90}
+                    , {title: '操作', align: 'center',fixed: 'right', width: 240, toolbar: '#table-timer-manager-barDemo'}
                 ]
             ]
             , done: function (d) {
@@ -125,7 +140,7 @@
                     if (r.code != 0) {
                         layer.alert(r.msg, {
                             icon: 5,
-                            title: '失败'
+                            title: '错误'
                         });
                     }
                 }

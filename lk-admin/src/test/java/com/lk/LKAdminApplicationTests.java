@@ -55,8 +55,8 @@ class LKAdminApplicationTests {
     void contextLoads() {
         int page = 1;
         int limit = 10;
-        Map<String,Object> map = jobService.pageList(((page-1)*limit),((page*limit)),1,0,null,null,null);
-        List<XxlJobInfo> xxlJobInfoList = (List<XxlJobInfo>) map.get("data");
+//        Map<String,Object> map = jobService.pageList(((page-1)*limit),((page*limit)),1,0,null,null,null);
+//        List<XxlJobInfo> xxlJobInfoList = (List<XxlJobInfo>) map.get("data");
 
 //        String ll = LKAdminApplicationTests.size;
         System.out.println(LKConfig.getProfile());

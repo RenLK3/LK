@@ -28,40 +28,33 @@ public class TimerController extends BaseController {
 
     @RequiresPermissions("tool:timer:view")
     @GetMapping()
-    public String timer(){
+    public String timer() {
         return prefix + "/timer";
     }
 
     @RequiresPermissions("tool:timer:list")
     @ResponseBody
     @PostMapping("/list")
-    public LayResult list(int page,int limit){
-        Map<String,Object> map = jobService.pageList(((page-1)*limit),((page*limit)),1,1,null,null,null);
+    public LayResult list(int page, int limit) {
+        Map<String, Object> map = jobService.pageList(((page - 1) * limit), ((page * limit)));
         List<XxlJobInfo> xxlJobInfoList = (List<XxlJobInfo>) map.get("data");
-        return new LayResult(xxlJobInfoList.size(),xxlJobInfoList);
+        return new LayResult(xxlJobInfoList.size(), xxlJobInfoList);
     }
 
     @RequiresPermissions("tool:timer:edit")
     @ResponseBody
     @PostMapping("/state")
-    public LayResult state(int id, boolean state){
+    public LayResult state(int id, boolean state) {
         ReturnT<String> returnT;
-        if(state){
+        if (state) {
             returnT = jobService.start(id);
-            System.out.println("start");
-        }else{
-            returnT= jobService.stop(id);
-            System.out.println("stop");
+        } else {
+            returnT = jobService.stop(id);
         }
-
-        return ok();
-    }
-
-    @ResponseBody
-    @GetMapping("/stop")
-    public LayResult stop(int id){
-        jobService.stop(id);
-        return ok();
+        if (returnT.getCode() == 200)
+            return ok();
+        else
+            return error(returnT.getMsg());
     }
 
     @GetMapping("/trigger")

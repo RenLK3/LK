@@ -95,8 +95,13 @@ shiro:
 
 # 数据源配置
 spring:
+  # 程序名称
   application:
     name: lk
+  # 解决springboot大于2.6+会出现swagger无法使用
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   # 模板引擎
   thymeleaf:
     mode: HTML5
@@ -130,7 +135,6 @@ spring:
         url: jdbc:oracle:thin:@192.168.221.128:1521/orcl.localdomain
         username: lk
         password: 123456
-      # 从库数据源
 
       # 初始连接数
       initialSize: 5

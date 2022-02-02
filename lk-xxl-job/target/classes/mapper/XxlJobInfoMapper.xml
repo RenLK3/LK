@@ -75,7 +75,7 @@
         SELECT row_number() over(ORDER BY id DESC) r,
         <include refid="Base_Column_List"/>
         FROM xxl_job_info t
-        <trim prefix="WHERE" prefixOverrides="AND | OR">
+        <!--<trim prefix="WHERE" prefixOverrides="AND | OR">
             <if test="jobGroup gt 0">
                 AND t.job_group = #{jobGroup}
             </if>
@@ -90,7 +90,7 @@
             <if test="author != null and author != ''">
                 AND t.author like CONCAT(CONCAT('%', #{author,jdbcType=VARCHAR}), '%')
             </if>
-        </trim>
+        </trim>-->
         )
         where r between #{offset}+1 and #{offset}+#{pagesize}
     </select>
@@ -98,7 +98,7 @@
     <select id="pageListCount" parameterType="java.util.HashMap" resultType="int">
         SELECT count(1)
         FROM xxl_job_info t
-        <trim prefix="WHERE" prefixOverrides="AND | OR">
+        <!--<trim prefix="WHERE" prefixOverrides="AND | OR">
             <if test="jobGroup gt 0">
                 AND t.job_group = #{jobGroup}
             </if>
@@ -114,7 +114,7 @@
             <if test="author != null and author != ''">
                 AND t.author like CONCAT(CONCAT('%', #{author}), '%')
             </if>
-        </trim>
+        </trim>-->
     </select>
 
 

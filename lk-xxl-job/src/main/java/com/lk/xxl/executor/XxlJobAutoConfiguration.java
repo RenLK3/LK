@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 /**
  * xxl-job自动装配
  *
- * @author lishangbu
- * @date 2020/9/14
  */
 @Configuration(proxyBeanMethods = false)
 @EnableAutoConfiguration
@@ -29,21 +27,21 @@ public class XxlJobAutoConfiguration {
 	 */
 	private static final String XXL_JOB_ADMIN = "xxl-job-admin";
 
-	/*@Bean
-	public XxlJobSpringExecutor xxlJobExecutor() {
-		//logger.info(">>>>>>>>>>> xxl-job config init.");
-		XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
-		xxlJobSpringExecutor.setAdminAddresses("http://127.0.0.1:8080/xxl");// xxl-job-admin
-		xxlJobSpringExecutor.setAppname("xxl-job-executor-sample");
-		xxlJobSpringExecutor.setAddress(null);
-		xxlJobSpringExecutor.setIp(null);
-		xxlJobSpringExecutor.setPort(9999);
-		xxlJobSpringExecutor.setAccessToken(null);
-		xxlJobSpringExecutor.setLogPath("/data/applogs/xxl-job/jobhandler");
-		xxlJobSpringExecutor.setLogRetentionDays(30);
-
-		return xxlJobSpringExecutor;
-	}*/
+//	@Bean
+//	public XxlJobSpringExecutor xxlJobExecutor() {
+//		//logger.info(">>>>>>>>>>> xxl-job config init.");
+//		XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
+//		xxlJobSpringExecutor.setAdminAddresses("http://127.0.0.1:8080/xxl");// xxl-job-admin
+//		xxlJobSpringExecutor.setAppname("xxl-job-executor-sample");
+//		xxlJobSpringExecutor.setAddress(null);
+//		xxlJobSpringExecutor.setIp(null);
+//		xxlJobSpringExecutor.setPort(9999);
+//		xxlJobSpringExecutor.setAccessToken(null);
+//		xxlJobSpringExecutor.setLogPath("/data/applogs/xxl-job/jobhandler");
+//		xxlJobSpringExecutor.setLogRetentionDays(30);
+//
+//		return xxlJobSpringExecutor;
+//	}
 
 	/**
 	 * 配置xxl-job 执行器，提供自动发现 xxl-job-admin 能力

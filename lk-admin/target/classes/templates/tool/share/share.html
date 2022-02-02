@@ -7,160 +7,210 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="/admin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/admin/style/admin.css" media="all"/>
+    <link href="/admin/layui/css/layui.css" rel="stylesheet"/>
+    <link href="/admin/style/admin.css" rel="stylesheet"/>
+    <link href="/admin/hplus/css/plugins/jsTree/style.min.css" rel="stylesheet">
+    <!--    <link href="/layui/hplus/css/animate.css" rel="stylesheet">-->
+    <link href="/admin/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 </head>
+
 <body>
+
 <div class="layui-fluid">
-    <div class="layui-card">
-        <div class="layui-card-header">
-            搜索角色
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-xs6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    目录列表
+                </div>
+                <div class="layui-card-body">
+                    <div class="layui-btn-container">
+                        <button class="layui-btn layui-btn-xs layui-bg-cyan" lay-node-event="add"><i
+                                class="layui-icon layui-icon-ok-circle"></i>添加
+                        </button>
+                        <button class="layui-btn layui-btn-xs layui-bg-orange" lay-node-event="edit"><i
+                                class="layui-icon layui-icon-refresh"></i>修改
+                        </button>
+                        <button class="layui-btn layui-btn-xs layui-btn-danger" lay-node-event="del"><i
+                                class="layui-icon layui-icon-refresh"></i>删除
+                        </button>
+                    </div>
+                    <div id="shareTree"></div>
+                </div>
+
+            </div>
         </div>
-        <div class="layui-card-body layui-form" lay-filter="role-search">
-            <div class="layui-form-item">
-                <label class="layui-form-label">角色名称</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="roleName" placeholder="角色名称" class="layui-input">
+        <div class="layui-col-xs6 layui-col-md9">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    搜索
                 </div>
-                <label class="layui-form-label">状态</label>
-                <div class="layui-input-inline">
-                    <select name="state" class="layui-select">
-                        <option value="">所有</option>
-                        <option value="0">正常</option>
-                        <option value="1">停用</option>
-                    </select>
+                <div class="layui-card-body layui-form" lay-filter="share-search">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" placeholder="名称" class="layui-input">
+                        </div>
+                        <label class="layui-form-label">类型</label>
+                        <div class="layui-input-inline">
+                            <select name="type" class="layui-select">
+                                <option value="">所有</option>
+                                <option value="0">目录</option>
+                                <option value="1">文件</option>
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-useradmin layui-bg-blue" lay-submit lay-filter="share-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>搜索
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="layui-inline">
-                    <button class="layui-btn layuiadmin-btn-useradmin layui-bg-blue" lay-submit lay-filter="role-search">
-                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>搜索
-                    </button>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    文件列表
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="table-share-manager" lay-filter="table-share-manager"></table>
+                    <script type="text/html" id="table-share-manager-toolbarDemo">
+                        <div class="layui-btn-container">
+                            <button class="layui-btn layui-btn-sm layui-bg-cyan" lay-event="Add"><i
+                                    class="layui-icon layui-icon-add-1"></i>添加
+                            </button>
+                        </div>
+                    </script>
+                    <script type="text/html" id="table-share-manager-barDemo">
+                        <!--                        <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>修改</a>-->
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
+                                class="layui-icon layui-icon-delete"></i>删除</a>
+                    </script>
                 </div>
             </div>
         </div>
     </div>
-    <div class="layui-card">
-        <div class="layui-card-header">
-            角色管理
-        </div>
-        <div class="layui-card-body">
-            <table class="layui-hide" id="table-role-manager" lay-filter="table-role-manager"></table>
-            <script type="text/html" id="switchTpl">
-                <input type="checkbox" name="state" value="{{d.roleId}}" lay-skin="switch" lay-text="开启|关闭"
-                       lay-filter="State" {{ d.status=== '0' ? 'checked' : '' }}>
-            </script>
-
-            <script type="text/html" id="table-role-manager-toolbarDemo">
-                <div class="layui-btn-container">
-                    <button class="layui-btn layui-btn-sm  layui-bg-cyan" lay-event="Add"><i class="layui-icon layui-icon-add-1"></i>添加
-                    </button>
-                </div>
-            </script>
-            <script type="text/html" id="table-role-manager-barDemo">
-                <a class="layui-btn layui-btn-xs layui-bg-orange" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>修改</a>
-                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
-                        class="layui-icon layui-icon-delete"></i>删除</a>
-            </script>
+</div>
+<!-- 添加部门人员 -->
+<div id="selectUser" style="display: none">
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <!--<table class="layui-hide" id="table-user-manager" lay-filter="table-user-manager"></table>
+                <script type="text/html" id="table-user-manager-toolbarDemo">
+                    <div class="layui-btn-container">
+                        <button class="layui-btn layui-btn-sm layui-bg-blue" lay-event="Add"><i
+                                class="layui-icon layui-icon-add-1"></i>添加
+                        </button>
+                    </div>
+                </script>-->
+            </div>
         </div>
     </div>
 </div>
-
 <script src="/admin/layui/layui.js"></script>
-
+<script type="text/javascript" src="/admin/axios/axios.min.js"></script>
+<script src="/admin/hplus/js/jquery.min.js?v=2.1.4"></script>
+<script src="/admin/hplus/js/bootstrap.min.js?v=3.3.7"></script>
+<!-- jsTree plugin javascript -->
+<script src="/admin/hplus/js/plugins/jsTree/jstree.min.js"></script>
+<script type="application/javascript">
+    function getTreeSelected() {
+        let ref = $('#shareTree').jstree(true);
+        let sel = ref.get_selected();
+        if (!sel.length) {
+            return 0;
+        }
+        sel = sel[0];
+        return parseInt(sel);
+    }
+</script>
 <script>
     layui.config({
         base: '../admin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'admin', 'table'], function () {
-        let $ = layui.$
-            , form = layui.form
-            , admin = layui.admin
-            , table = layui.table;
+    }).use(['index', 'table', 'form', 'util', 'admin'], function () {
+        let $ = layui.$,
+            form = layui.form,
+            util = layui.util,
+            admin = layui.admin,
+            table = layui.table;
 
-        let addFlag = [[${@permission.hasPerm('system:role:add')}]];
-        let editFlag = [[${@permission.hasPerm('system:role:edit')}]];
-        let removeFlag = [[${@permission.hasPerm('system:role:remove')}]];
+        let addFlag = [[${@permission.hasPerm('tool:share:add')}]];
+        let editFlag = [[${@permission.hasPerm('tool:share:edit')}]];
+        let removeFlag = [[${@permission.hasPerm('tool:share:del')}]];
 
         let ctx = '[[@{/}]]';
-        let prefix = ctx + "tool/timer";
+        let prefix = ctx + "tool/share";
 
-        if (!editFlag) {
-            $('input[type="checkbox"][name="state"]').attr({"readonly": "readonly"})
-        }
-
-        table.render({
-            elem: '#table-role-manager'
-            , toolbar: '#table-role-manager-toolbarDemo'
-            , method: 'post'
-            , url: prefix + '/list'//数据接口
-            , page: true //开启分页
-            , cols: [
-                [
-                    {field: 'roleId', align: 'center', title: '角色ID', width: 85}
-                    , {field: 'roleName', align: 'center', title: '角色名称'}
-                    , {field: 'roleKey', align: 'center', title: '角色键'}
-                    , {field: 'level', align: 'center', title: '级别', width: 70}
-                    , {
-                    field: 'status',
-                    align: 'center',
-                    title: '状态',
-                    align: 'center',
-                    templet: '#switchTpl',
-                    width: 100
+        let shareTree = $('#shareTree').jstree({
+            'core': {
+                'data': {
+                    'url': prefix + '/tree',
+                    'data': function (node) {
+                        if (node.id === '#') {
+                            return {'id': 1};
+                        }
+                        return {'id': node.id};
+                    }
                 }
-                    , {field: 'remark', align: 'center', title: '备注'}
-                    , {field: 'createTime', align: 'center', title: '创建时间', width: 200}
-                    , {title: '操作', align: 'center', width: 150, toolbar: '#table-role-manager-barDemo'}
-                ]
-            ]
-            , done: function (d) {
-                //console.log(d)
             }
         });
 
-        // 更改状态
-        form.on('switch(State)', function (obj) {
-            // console.log(this.value + ' ' + this.name + '：' + obj.elem.checked);
-            //debugger
-            $.ajax({
-                url: prefix + "/state",
-                type: "post",
-                data: {
-                    roleId: this.value,
-                    state: obj.elem.checked ? 1 : 0
-                },
-                dataType: "json",
-                success: function (r) {
-                    if (r.code != 0) {
-                        layer.alert(r.msg, {
-                            icon: 5,
-                            title: '失败'
-                        });
+        $('#shareTree').on("changed.jstree", function (e, data) {
+            let sel = data.selected[0];
+            console.log()
+            if(sel === undefined){
+                sel = 0;
+            }
+            table.reload('table-share-manager', {
+                where: {shareId: data.selected[0]}
+            });
+        });
+
+        table.render({
+            elem: '#table-share-manager'
+            , toolbar: '#table-share-manager-toolbarDemo'
+            , method: 'post'
+            , url: prefix + '/list'
+            , where: {shareId: 1}
+            , page: true
+            , cols: [
+                [
+                    {field: 'shareId', title: 'ID', align: 'center',width: 50}
+                    , {field: 'name', align: 'center', title: '文件名',width: 100}
+                    , {field: 'type', align: 'center', title: '类型',width: 60,templet:function (obj) {
+                        return obj.type === 0 ? '目录' : '文件';
+                    }}
+                    , {field: 'path', align: 'center', title: '路径',width: 100}
+                    , {field: 'size', align: 'center', title: '大小',width: 60}
+                    , {
+                    field: 'level', title: '级别', align: 'center',width: 60, templet: function (obj) {
+                        return obj.level;
                     }
                 }
-            });
-            return false;
+                    , {field: 'createBy', align: 'center', title: '创建者',width: 100}
+                    , {field: 'createTime', align: 'center', title: '创建时间',width: 200}
+                    , {field: 'updateBy', align: 'center', title: '更新者',width: 100}
+                    , {field: 'updateTime', align: 'center', title: '更新时间',width: 200}
+                    , {field: 'remark', align: 'center', title: '备注',width: 100}
+                    , {title: '操作', width: 90,fixed:'right', toolbar: '#table-share-manager-barDemo'}
+                ]
+            ]
         });
-        // 搜索用户
-        form.on('submit(role-search)', function (obj) {
-            //console.log(obj);
-            table.reload('table-role-manager', {
-                where: {
-                    roleName: obj.field.roleName,
-                    status: obj.field.state
-                }
-            });
-        })
 
-        //头工具栏事件
-        table.on('toolbar(table-role-manager)', function (obj) {
+        table.on('toolbar(table-share-manager)', function (obj) {
             switch (obj.event) {
                 case 'Add':
                     if (addFlag) {
-                        let url = prefix + '/add';
-                        let title = "新增角色";
-                        let l = parent === self ? layui : top.layui;
-                        l.index.openTabsPage(url, title);
+                        layer.open({
+                            title: '选择用户'
+                            , type: 1
+                            //,skin: 'layui-layer-rim'
+                            , shadeClose: true
+                            , area:  ['700px', '500px']
+                            , content: $('#selectUser')
+                        });
                     } else {
                         layer.msg('你没有添加角色权限！', {icon: 5});
                     }
@@ -169,42 +219,94 @@
         });
 
         //监听行工具事件
-        table.on('tool(table-role-manager)', function (obj) {
+        table.on('tool(table-share-manager)', function (obj) {
             let data = obj.data;
             if (obj.event === 'del') {
-                if (removeFlag && data.roleId != 1) {
-                    $.ajax({
-                        url: prefix + "/remove",
-                        type: "post",
-                        data: {roleId: data.roleId},
-                        dataType: "json",
-                        success: function (r) {
-                            if (r.code === 0) {
-                                layer.msg('删除成功');
-                                // table.reload('table-role-manager');
-                                obj.del();
-                            } else {
-                                layer.alert(r.msg, {
-                                    icon: 5,
-                                    title: '失败'
-                                });
+                //console.log(data)
+                axios({
+                    method: 'post',
+                    url: prefix + '/del',
+                    params: {
+                        id: data.shareId
+                    }
+                }).then(response => {
+                    let res = response.data;
+
+                    table.reload('table-share-manager')
+                });
+            }
+        });
+
+        form.on('submit(share-search)', function (obj) {
+            table.reload('table-share-manager', {
+                where: {
+                    shareId: getTreeSelected(),
+                    name: obj.field.name,
+                    type: obj.field.type
+                }
+            });
+        })
+
+        util.event('lay-node-event', {
+            add: function () {
+                let pId = 0;
+                if ((pId = getTreeSelected()) == 0) {
+                    layer.alert('请选中部门');
+                } else {
+                    layer.prompt({title: '请输入名称，并确认', formType: 0}, function (text, index) {
+                        layer.close(index);
+                        axios({
+                            method: 'post',
+                            url: prefix + '/add',
+                            params: {
+                                pId: pId,
+                                name: text
                             }
-                        }
+                        }).then(response => {
+                            let res = response.data;
+                            $('#shareTree').jstree(true).refresh();
+                        });
+                    });
+                }
+            },
+            edit: function () {
+                let id = getTreeSelected();
+                if (id != 0) {
+                    layer.prompt({title: '请输入名称，并确认', formType: 0}, function (text, index) {
+                        layer.close(index);
+                        axios({
+                            method: 'post',
+                            url: prefix + '/edit',
+                            params: {
+                                id: id,
+                                name: text
+                            }
+                        }).then(response => {
+                            let res = response.data;
+                            $('#shareTree').jstree(true).refresh();
+                        });
                     });
                 } else {
-                    layer.msg('你没有删除角色权限！', {icon: 5});
+                    layer.alert('请选中部门');
                 }
-            } else if (obj.event === 'edit') {
-                if (editFlag && data.roleId != 1) {
-
-                    let url = prefix + '/edit?id=' + data.roleId;
-                    let title = "编辑角色";
-                    let l = parent === self ? layui : top.layui;
-                    l.index.openTabsPage(url, title);
+                //ref.edit(sel);
+            },
+            del: function () {
+                let id = getTreeSelected();
+                if (id != 0) {
+                    axios({
+                        method: 'post',
+                        url: prefix + '/del',
+                        params: {
+                            id: id
+                        }
+                    }).then(response => {
+                        let res = response.data;
+                        $('#shareTree').jstree(true).refresh();
+                    });
                 } else {
-                    layer.msg('你没有编辑角色权限！', {icon: 5});
+                    layer.alert('请选中部门');
                 }
-
             }
         });
 
