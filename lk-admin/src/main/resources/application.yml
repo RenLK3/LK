@@ -7,7 +7,7 @@ lk:
 
 share:
   # 文件上传的路径
-  upload: /upload
+  upload: F:\lk\
   # 上传文件最大500MB
   maxSize: 500
 

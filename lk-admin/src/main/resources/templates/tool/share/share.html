@@ -60,7 +60,8 @@
                             </select>
                         </div>
                         <div class="layui-inline">
-                            <button class="layui-btn layuiadmin-btn-useradmin layui-bg-blue" lay-submit lay-filter="share-search">
+                            <button class="layui-btn layuiadmin-btn-useradmin layui-bg-blue" lay-submit
+                                    lay-filter="share-search">
                                 <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>搜索
                             </button>
                         </div>
@@ -76,7 +77,7 @@
                     <script type="text/html" id="table-share-manager-toolbarDemo">
                         <div class="layui-btn-container">
                             <button class="layui-btn layui-btn-sm layui-bg-cyan" lay-event="Add"><i
-                                    class="layui-icon layui-icon-add-1"></i>添加
+                                    class="layui-icon layui-icon-add-1"></i>上传文件
                             </button>
                         </div>
                     </script>
@@ -90,24 +91,73 @@
         </div>
     </div>
 </div>
-<!-- 添加部门人员 -->
-<div id="selectUser" style="display: none">
+
+<div id="uploadShare" style="display: none">
     <div class="layui-fluid">
         <div class="layui-card">
-            <div class="layui-card-body">
-                <!--<table class="layui-hide" id="table-user-manager" lay-filter="table-user-manager"></table>
-                <script type="text/html" id="table-user-manager-toolbarDemo">
-                    <div class="layui-btn-container">
-                        <button class="layui-btn layui-btn-sm layui-bg-blue" lay-event="Add"><i
-                                class="layui-icon layui-icon-add-1"></i>添加
-                        </button>
+            <div class="layui-card-body layui-form" lay-filter="component-form-element">
+                <div class="layui-col-md12">
+                    <div class="layui-form-item">
+                        <div class="layui-upload-drag" id="test-upload-drag" style="width: 90%">
+                            <i class="layui-icon"></i>
+                            <p>点击上传，或将文件拖拽到此处</p>
+                        </div>
                     </div>
-                </script>-->
+                </div>
+                <div class="layui-col-md12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">名称</label>
+                        <div class="layui-inline">
+                            <input class="layui-input" name="name" id="name">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12">
+                    <!--                    <div class="layui-form-item">-->
+                    <label class="layui-form-label">级别</label>
+                    <div class="layui-inline">
+                        <div id="level" class="xm-select-demo"></div>
+                    </div>
+                    <!--                    </div>-->
+                </div>
+                <button type="button" class="layui-btn" lay-submit lay-filter="component-form-element"
+                        id="test-upload-change-action">开始上传
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+
+<div id="addFolder" style="display: none">
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-card-body layui-form" lay-filter="folder-form-element">
+                <div class="layui-col-md12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">名称</label>
+                        <div class="layui-inline">
+                            <input class="layui-input" name="name" >
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12">
+                    <!--                    <div class="layui-form-item">-->
+                    <label class="layui-form-label">级别</label>
+                    <div class="layui-inline">
+                        <div id="folderLevel" class="xm-select-demo"></div>
+                    </div>
+                    <!--                    </div>-->
+                </div>
+                <button type="button" class="layui-btn" lay-submit lay-filter="folder-form-element">添加目录
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="/admin/layui/layui.js"></script>
+<script type="text/javascript" src="/admin/layui/xm-select.js"></script>
 <script type="text/javascript" src="/admin/axios/axios.min.js"></script>
 <script src="/admin/hplus/js/jquery.min.js?v=2.1.4"></script>
 <script src="/admin/hplus/js/bootstrap.min.js?v=3.3.7"></script>
@@ -129,12 +179,13 @@
         base: '../admin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'table', 'form', 'util', 'admin'], function () {
+    }).use(['index', 'table', 'form', 'util', 'admin', 'upload'], function () {
         let $ = layui.$,
             form = layui.form,
             util = layui.util,
             admin = layui.admin,
-            table = layui.table;
+            table = layui.table,
+            upload = layui.upload;
 
         let addFlag = [[${@permission.hasPerm('tool:share:add')}]];
         let editFlag = [[${@permission.hasPerm('tool:share:edit')}]];
@@ -143,13 +194,44 @@
         let ctx = '[[@{/}]]';
         let prefix = ctx + "tool/share";
 
+        let thisLevel = [[${@html.getLoginRoleLevel()}]]
+
+        let data = [];
+        for (let i = thisLevel; i < 99; i++) {
+            if (i == thisLevel) {
+                data.push({name: '' + i, value: i, selected: true})
+            } else {
+                data.push({name: '' + i, value: i})
+            }
+        }
+
+        let folderLevel = xmSelect.render({
+            el: '#folderLevel',
+            name: 'level',
+            layVerify: 'required',
+            radio: true,
+            autoRow: true,
+            clickClose: true,
+            data: data
+        })
+
+        let level = xmSelect.render({
+            el: '#level',
+            name: 'level',
+            layVerify: 'required',
+            radio: true,
+            autoRow: true,
+            clickClose: true,
+            data: data
+        })
+
         let shareTree = $('#shareTree').jstree({
             'core': {
                 'data': {
                     'url': prefix + '/tree',
                     'data': function (node) {
                         if (node.id === '#') {
-                            return {'id': 1};
+                            return {'id': -1};
                         }
                         return {'id': node.id};
                     }
@@ -160,12 +242,44 @@
         $('#shareTree').on("changed.jstree", function (e, data) {
             let sel = data.selected[0];
             console.log()
-            if(sel === undefined){
+            if (sel === undefined) {
                 sel = 0;
             }
-            table.reload('table-share-manager', {
-                where: {shareId: data.selected[0]}
-            });
+            let choose = data.selected[0];
+            if (choose != undefined && choose != null)
+                table.reload('table-share-manager', {
+                    where: {shareId: data.selected[0]}
+                });
+        });
+
+        //拖拽上传
+        upload.render({
+            elem: '#test-upload-drag'
+            , url: prefix + '/upload'
+            , accept: 'file' //普通文件
+            , auto: false
+            , bindAction: '#test-upload-change-action'
+            , data: {
+                pId: function () {
+                    return getTreeSelected()
+                }, name: function () {
+                    return $('#name').val()
+                }, level: level.getValue('value')
+            }
+            , done: function (res) {
+                layer.closeAll();
+                if (res.code === 0) {
+                    layer.msg('上传成功');
+                } else {
+                    layer.alert(res.msg, {title: '上传失败', icon: 5});
+                }
+                $('#shareTree').jstree(true).refresh();
+            }, choose: function (obj) {
+                obj.preview(function (index, file, result) {
+                    let fileName = file.name;
+                    $('#name').val(fileName);
+                });
+            }
         });
 
         table.render({
@@ -173,28 +287,30 @@
             , toolbar: '#table-share-manager-toolbarDemo'
             , method: 'post'
             , url: prefix + '/list'
-            , where: {shareId: 1}
+            , where: {shareId: -1}
             , page: true
             , cols: [
                 [
-                    {field: 'shareId', title: 'ID', align: 'center',width: 50}
-                    , {field: 'name', align: 'center', title: '文件名',width: 100}
-                    , {field: 'type', align: 'center', title: '类型',width: 60,templet:function (obj) {
-                        return obj.type === 0 ? '目录' : '文件';
-                    }}
-                    , {field: 'path', align: 'center', title: '路径',width: 100}
-                    , {field: 'size', align: 'center', title: '大小',width: 60}
+                    {field: 'shareId', title: 'ID', align: 'center', width: 50}
+                    , {field: 'name', align: 'center', title: '文件名', width: 100}
                     , {
-                    field: 'level', title: '级别', align: 'center',width: 60, templet: function (obj) {
+                    field: 'type', align: 'center', title: '类型', width: 60, templet: function (obj) {
+                        return obj.type === 0 ? '目录' : '文件';
+                    }
+                }
+                    , {field: 'path', align: 'center', title: '路径', width: 100}
+                    , {field: 'size', align: 'center', title: '大小', width: 60}
+                    , {
+                    field: 'level', title: '级别', align: 'center', width: 60, templet: function (obj) {
                         return obj.level;
                     }
                 }
-                    , {field: 'createBy', align: 'center', title: '创建者',width: 100}
-                    , {field: 'createTime', align: 'center', title: '创建时间',width: 200}
-                    , {field: 'updateBy', align: 'center', title: '更新者',width: 100}
-                    , {field: 'updateTime', align: 'center', title: '更新时间',width: 200}
-                    , {field: 'remark', align: 'center', title: '备注',width: 100}
-                    , {title: '操作', width: 90,fixed:'right', toolbar: '#table-share-manager-barDemo'}
+                    , {field: 'createBy', align: 'center', title: '创建者', width: 100}
+                    , {field: 'createTime', align: 'center', title: '创建时间', width: 200}
+                    , {field: 'updateBy', align: 'center', title: '更新者', width: 100}
+                    , {field: 'updateTime', align: 'center', title: '更新时间', width: 200}
+                    , {field: 'remark', align: 'center', title: '备注', width: 100}
+                    , {title: '操作', width: 90, fixed: 'right', toolbar: '#table-share-manager-barDemo'}
                 ]
             ]
         });
@@ -208,8 +324,8 @@
                             , type: 1
                             //,skin: 'layui-layer-rim'
                             , shadeClose: true
-                            , area:  ['700px', '500px']
-                            , content: $('#selectUser')
+                            , area: ['700px', '500px']
+                            , content: $('#uploadShare')
                         });
                     } else {
                         layer.msg('你没有添加角色权限！', {icon: 5});
@@ -231,8 +347,11 @@
                     }
                 }).then(response => {
                     let res = response.data;
-
-                    table.reload('table-share-manager')
+                    $('#shareTree').jstree(true).refresh();
+                    table.reload('table-share-manager');
+                    if(res.code != 0){
+                        layer.alert(res.msg, {title: '失败', icon: 5});
+                    }
                 });
             }
         });
@@ -247,25 +366,41 @@
             });
         })
 
+        form.on('submit(folder-form-element)', function (obj) {
+            let data = obj.field;
+
+            axios({
+                method: 'post',
+                url: prefix + '/add',
+                params: {
+                    pId: getTreeSelected(),
+                    level:data.level ,
+                    name: data.name
+                }
+            }).then(response => {
+                let res = response.data;
+                $('#shareTree').jstree(true).refresh();
+                if(res.code != 0){
+                    layer.alert(res.msg, {title: '失败', icon: 5});
+                }
+            });
+
+            return false;
+        });
+
         util.event('lay-node-event', {
             add: function () {
                 let pId = 0;
                 if ((pId = getTreeSelected()) == 0) {
                     layer.alert('请选中部门');
                 } else {
-                    layer.prompt({title: '请输入名称，并确认', formType: 0}, function (text, index) {
-                        layer.close(index);
-                        axios({
-                            method: 'post',
-                            url: prefix + '/add',
-                            params: {
-                                pId: pId,
-                                name: text
-                            }
-                        }).then(response => {
-                            let res = response.data;
-                            $('#shareTree').jstree(true).refresh();
-                        });
+                    layer.open({
+                        title: '添加目录'
+                        , type: 1
+                        //,skin: 'layui-layer-rim'
+                        , shadeClose: true
+                        , area: ['700px', '500px']
+                        , content: $('#addFolder')
                     });
                 }
             },
@@ -284,6 +419,9 @@
                         }).then(response => {
                             let res = response.data;
                             $('#shareTree').jstree(true).refresh();
+                            if(res.code != 0){
+                                layer.alert(res.msg, {title: '失败', icon: 5});
+                            }
                         });
                     });
                 } else {
@@ -302,7 +440,11 @@
                         }
                     }).then(response => {
                         let res = response.data;
+                        if(res.code != 0){
+                            layer.alert(res.msg, {title: '失败', icon: 5});
+                        }
                         $('#shareTree').jstree(true).refresh();
+                        table.reload('table-share-manager', {where: {shareId: -1}});
                     });
                 } else {
                     layer.alert('请选中部门');

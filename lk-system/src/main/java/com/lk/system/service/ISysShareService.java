@@ -1,19 +1,15 @@
-package com.lk.system.mapper;
+package com.lk.system.service;
 
-import com.lk.common.core.domain.entity.SysDept;
 import com.lk.system.domain.SysShare;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * 共享管理 数据层
- *
- * @author lk
- */
-public interface SysShareMapper {
+public interface ISysShareService {
 
     public SysShare selectShareById(Long shareId);
+
+    public String parsePath(Long shareId);
+
     /**
      * 获取目录类型
      *
@@ -42,8 +38,10 @@ public interface SysShareMapper {
      * @param share 信息
      * @return 结果
      */
-    public int insertShare(SysShare share);
+    public int insertDirectionShare(SysShare share);
 
+
+    public int insertFileShare(SysShare share);
 
     /**
      * 修改信息

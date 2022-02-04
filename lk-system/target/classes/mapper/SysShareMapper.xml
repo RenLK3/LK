@@ -35,6 +35,13 @@
         from sys_share s
     </sql>
 
+    <select id="selectShareById" resultMap="SysShareResult">
+        <include refid="selectShareVo"></include>
+        <where>
+            s.share_id = #{shareId}
+        </where>
+    </select>
+
     <select id="selectDirectionList" resultMap="SysShareResult">
         <include refid="selectShareVo"/>
         where s."TYPE"='0'
@@ -70,7 +77,7 @@
             select SEQ_SYS_SHARE.nextval as shareId from DUAL
         </selectKey>
         insert into sys_share(
-        <if test="shareId != null and shareId != 0">share_id,</if>
+        share_id,
         <if test="parentId != null">parent_id,</if>
         <if test="name != null and name != ''">"NAME",</if>
         <if test="type != null and type != 0">"TYPE",</if>
@@ -81,7 +88,7 @@
         <if test="remark != null and remark != ''">remark,</if>
         create_time
         )values(
-        <if test="shareId != null and shareId != 0">#{shareId},</if>
+        #{shareId},
         <if test="parentId != null">#{parentId},</if>
         <if test="name != null and name != ''">#{name},</if>
         <if test="type != null and type != 0">#{type},</if>

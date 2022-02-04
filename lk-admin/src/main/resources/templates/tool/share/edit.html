@@ -164,33 +164,7 @@
             initJsTree(data);
         })
 
-        /*util.event('lay-event',{
-            selectAll: function () {
-                let tree = function (ls) {
-                    if(ls.length == 0) return;
-                    for (let i = 0; i < ls.length; i++) {
-                        ls[i].state.checked = true;
-                        tree(ls[i].children);
-                    }
-                }
-                initTreeData(function (data) {
-                    debugger
-                    tree(data)
-                    initJsTree(data);
-                })
-            },
-            disSelectAll: function () {
-                // data.instance.open_all();
-                //console.log(t)
-            },
-            open: function () {
-                // data.instance.open_all();
 
-                //var node = $('#menuTree').jstree.data.instance.get_node(data.selected[0]);
-                //console.log(node)
-            },
-        })
-*/
         let level = xmSelect.render({
             el: '#level',
             name: 'level',

@@ -127,6 +127,17 @@ public class SysUser extends BaseEntity
         }
         return max;
     }
+
+    /**
+     * 如果为true第一个级别大否则反之
+     * @param level
+     * @param level1
+     * @return
+     */
+    public static boolean battleLevel(Long level,Long level1){
+        if(level <= level1)return true;else return false;
+    }
+
     public Long getDeptId()
     {
         return deptId;
