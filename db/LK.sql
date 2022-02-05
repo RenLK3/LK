@@ -11,7 +11,7 @@
  Target Server Version : 110200
  File Encoding         : 65001
 
- Date: 04/02/2022 22:13:12
+ Date: 05/02/2022 22:55:47
 */
 
 
@@ -344,6 +344,16 @@ COMMENT ON TABLE "LK"."SYS_OPER_LOG" IS '操作日志记录';
 -- ----------------------------
 -- Records of SYS_OPER_LOG
 -- ----------------------------
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('343', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-05 22:06:46', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('341', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-05 21:31:21', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('342', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-05 21:35:16', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('344', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-05 22:17:03', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('345', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-05 22:18:57', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('346', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-05 22:22:12', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('347', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-05 22:33:54', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('348', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-05 22:40:53', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('349', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-05 22:44:48', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."SYS_OPER_LOG" VALUES ('350', '登陆', '10', 'com.lk.web.controller.system.SysLoginController.ajaxLogin()', 'POST', '1', 'xuyuan_cheng', 'R2厂区', '/login', '127.0.0.1', '内网IP', '{"username":["xuyuan_cheng"],"password":["123456"],"remember":["false"]}', '{"code":0,"count":0,"data":[],"msg":""}', '0', NULL, TO_DATE('2022-02-05 22:46:59', 'SYYYY-MM-DD HH24:MI:SS'));
 
 -- ----------------------------
 -- Table structure for SYS_ROLE
@@ -491,6 +501,7 @@ INSERT INTO "LK"."SYS_SHARE" VALUES ('3', '2', 'sway.sys', '1', '/root/sway.sys'
 INSERT INTO "LK"."SYS_SHARE" VALUES ('4', '1', 'lk.txt', '1', '/root/lk.txt', '1', '0', 'sys', TO_DATE('2022-02-02 22:13:34', 'SYYYY-MM-DD HH24:MI:SS'), NULL, NULL, NULL);
 INSERT INTO "LK"."SYS_SHARE" VALUES ('8', '1', 'boot', '0', '/root/boot', '99', '0', NULL, TO_DATE('2022-02-04 15:07:51', 'SYYYY-MM-DD HH24:MI:SS'), NULL, NULL, NULL);
 INSERT INTO "LK"."SYS_SHARE" VALUES ('22', '8', 'LK.sql', '1', 'F:\lk\LK.sql', '1', '0', 'xuyuan_cheng', TO_DATE('2022-02-04 21:37:38', 'SYYYY-MM-DD HH24:MI:SS'), NULL, NULL, NULL);
+INSERT INTO "LK"."SYS_SHARE" VALUES ('41', '1', 'LK.sql', '1', 'F:\lk\LK.sql', '1', '0', 'xuyuan_cheng', TO_DATE('2022-02-05 22:49:25', 'SYYYY-MM-DD HH24:MI:SS'), NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for SYS_USER
@@ -617,7 +628,7 @@ COMMENT ON TABLE "LK"."SYS_USER_ONLINE" IS '在线用户记录';
 -- ----------------------------
 -- Records of SYS_USER_ONLINE
 -- ----------------------------
-INSERT INTO "LK"."SYS_USER_ONLINE" VALUES ('fa761460-d256-40c4-9ed4-741c709d3e13', 'xuyuan_cheng', 'R2厂区', '127.0.0.1', '内网IP', 'Chrome 9', 'Windows 10', 'on_line', TO_DATE('2022-02-04 22:11:16', 'SYYYY-MM-DD HH24:MI:SS'), TO_DATE('2022-02-04 22:11:19', 'SYYYY-MM-DD HH24:MI:SS'), '1800000');
+INSERT INTO "LK"."SYS_USER_ONLINE" VALUES ('62e7c8a4-1c09-44f7-ba43-97c8e6292dda', 'xuyuan_cheng', 'R2厂区', '127.0.0.1', '内网IP', 'Chrome 9', 'Windows 10', 'on_line', TO_DATE('2022-02-05 21:31:20', 'SYYYY-MM-DD HH24:MI:SS'), TO_DATE('2022-02-05 22:54:39', 'SYYYY-MM-DD HH24:MI:SS'), '1800000');
 
 -- ----------------------------
 -- Table structure for SYS_USER_ROLE
@@ -852,8 +863,6 @@ COMMENT ON COLUMN "LK"."XXL_JOB_LOG"."ALARM_STATUS" IS '告警状态：0-默认�
 -- ----------------------------
 -- Records of XXL_JOB_LOG
 -- ----------------------------
-INSERT INTO "LK"."XXL_JOB_LOG" VALUES ('230', '1', '1', 'http://192.168.221.1:9999/', 'demoJobHandler', NULL, NULL, '0', TO_DATE('2022-02-01 21:08:00', 'SYYYY-MM-DD HH24:MI:SS'), '200', '任务触发类型：Cron触发<br>调度机器：192.168.221.1<br>执行器-注册方式：手动录入<br>执行器-地址列表：[http://192.168.221.1:9999/]<br>路由策略：第一个<br>阻塞处理策略：单机串行<br>任务超时时间：0<br>失败重试次数：0<br><br><span style="color:#00c0ef;" > >>>>>>>>>>>触发调度<<<<<<<<<<< </span><br>触发调度：<br>address：http://192.168.221.1:9999/<br>code：200<br>msg：null', TO_DATE('2022-02-01 21:18:50', 'SYYYY-MM-DD HH24:MI:SS'), '500', '任务结果丢失，标记失败', NULL);
-INSERT INTO "LK"."XXL_JOB_LOG" VALUES ('229', '1', '1', 'http://192.168.221.1:9999/', 'demoJobHandler', NULL, NULL, '0', TO_DATE('2022-02-01 21:07:00', 'SYYYY-MM-DD HH24:MI:SS'), '500', '任务触发类型：Cron触发<br>调度机器：192.168.221.1<br>执行器-注册方式：手动录入<br>执行器-地址列表：[http://192.168.221.1:9999/]<br>路由策略：第一个<br>阻塞处理策略：单机串行<br>任务超时时间：0<br>失败重试次数：0<br><br><span style="color:#00c0ef;" > >>>>>>>>>>>触发调度<<<<<<<<<<< </span><br>触发调度：<br>address：http://192.168.221.1:9999/<br>code：500<br>msg：xxl-rpc remoting error(Read timed out), for url : http://192.168.221.1:9999/run', TO_DATE('2022-02-02 20:17:09', 'SYYYY-MM-DD HH24:MI:SS'), '200', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for XXL_JOB_LOGGLUE
@@ -939,6 +948,7 @@ INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('81', TO_DATE('2022-02-01 00:00:00
 INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('101', TO_DATE('2022-02-02 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
 INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('121', TO_DATE('2022-02-03 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
 INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('141', TO_DATE('2022-02-04 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
+INSERT INTO "LK"."XXL_JOB_LOG_REPORT" VALUES ('161', TO_DATE('2022-02-05 00:00:00', 'SYYYY-MM-DD HH24:MI:SS'), '0', '0', '0', NULL);
 
 -- ----------------------------
 -- Table structure for XXL_JOB_REGISTRY
@@ -972,7 +982,7 @@ DISABLE ROW MOVEMENT
 -- ----------------------------
 -- Records of XXL_JOB_REGISTRY
 -- ----------------------------
-INSERT INTO "LK"."XXL_JOB_REGISTRY" VALUES ('2', 'EXECUTOR', 'xxl-job-executor-sample', 'http://192.168.221.1:9999/', TO_DATE('2022-02-04 22:12:06', 'SYYYY-MM-DD HH24:MI:SS'));
+INSERT INTO "LK"."XXL_JOB_REGISTRY" VALUES ('2', 'EXECUTOR', 'xxl-job-executor-sample', 'http://192.168.221.1:9999/', TO_DATE('2022-02-05 22:54:55', 'SYYYY-MM-DD HH24:MI:SS'));
 
 -- ----------------------------
 -- Sequence structure for SEQ_SYS_DEPT

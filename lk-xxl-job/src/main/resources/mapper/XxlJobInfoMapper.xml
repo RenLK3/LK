@@ -68,6 +68,11 @@
 		t.trigger_next_time
     </sql>
 
+    <select id="selectJobInfoList" resultMap="XxlJobInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from xxl_job_info t
+    </select>
     <select id="pageList" parameterType="java.util.HashMap" resultMap="XxlJobInfo">
         SELECT
         *

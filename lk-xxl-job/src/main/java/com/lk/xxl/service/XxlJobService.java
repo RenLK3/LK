@@ -4,6 +4,7 @@ import com.lk.xxl.domain.XxlJobInfo;
 import com.xxl.job.core.biz.model.ReturnT;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,6 +13,8 @@ import java.util.Map;
  * @author xuxueli 2016-5-28 15:30:33
  */
 public interface XxlJobService {
+
+	public List<XxlJobInfo> selectJobInfoList();
 
 	/**
 	 * page list

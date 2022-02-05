@@ -49,8 +49,12 @@ public class XxlJobServiceImpl implements XxlJobService {
 	private XxlJobLogReportMapper xxlJobLogReportDao;
 
 	@Override
-	public Map<String, Object> pageList(int start, int length) {
+	public List<XxlJobInfo> selectJobInfoList() {
+		return xxlJobInfoDao.selectJobInfoList();
+	}
 
+	@Override
+	public Map<String, Object> pageList(int start, int length) {
 		// page list
 		List<XxlJobInfo> list = xxlJobInfoDao.pageList(start, length);
 		int list_count = xxlJobInfoDao.pageListCount(start, length);

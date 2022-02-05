@@ -148,8 +148,8 @@ public class ShareController extends BaseController {
     @RequiresPermissions("tool:share:add")
     @PostMapping("/add")
     @ResponseBody
-    public LayResult add(Long pId,int level, String name) {
-        if (!SysUser.battleLevel(SysUser.maxLevel(getSysUser()), (long)level)) {
+    public LayResult add(Long pId, int level, String name) {
+        if (!SysUser.battleLevel(SysUser.maxLevel(getSysUser()), (long) level)) {
             return error("不能添加高于用户级别文档");
         }
         SysShare share = new SysShare();
@@ -163,10 +163,16 @@ public class ShareController extends BaseController {
     @PostMapping("/upload")
     @ResponseBody
     public LayResult upload(Long pId, int level, String name, MultipartFile file) {
-        if (!SysUser.battleLevel(SysUser.maxLevel(getSysUser()), (long)level)) {
-            return error("不能删除高级别文档");
+        if (!SysUser.battleLevel(SysUser.maxLevel(getSysUser()), (long) level)) {
+            return error("不能上传高级别文档");
         }
+        if(StringUtils.isNotEmpty(name)){
+            return error("不能空名称");
+        }
+
+        name = System.currentTimeMillis() + "_" + name;
         File path = new File(upload, name);
+
         if (!path.getParentFile().exists()) {
             path.getParentFile().mkdirs();
         }

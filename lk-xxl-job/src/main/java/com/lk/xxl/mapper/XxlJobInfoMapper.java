@@ -14,6 +14,8 @@ import java.util.List;
 @Mapper
 public interface XxlJobInfoMapper {
 
+	public List<XxlJobInfo> selectJobInfoList();
+
 	public List<XxlJobInfo> pageList(@Param("offset") int offset, @Param("pagesize") int pagesize);
 
 	public int pageListCount(@Param("offset") int offset, @Param("pagesize") int pagesize);

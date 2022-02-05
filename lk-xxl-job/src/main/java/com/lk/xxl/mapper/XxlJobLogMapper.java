@@ -16,16 +16,9 @@ import java.util.Map;
 @Mapper
 public interface XxlJobLogMapper {
 
-	// exist jobId not use jobGroup, not exist use jobGroup
-	public List<XxlJobLog> pageList(@Param("offset") int offset, @Param("pagesize") int pagesize,
-                                    @Param("jobGroup") int jobGroup, @Param("jobId") int jobId,
-                                    @Param("triggerTimeStart") Date triggerTimeStart, @Param("triggerTimeEnd") Date triggerTimeEnd,
-                                    @Param("logStatus") int logStatus);
+	public int deleteJobLogByIds(String[] ids);
 
-	public int pageListCount(@Param("offset") int offset, @Param("pagesize") int pagesize,
-			@Param("jobGroup") int jobGroup, @Param("jobId") int jobId,
-			@Param("triggerTimeStart") Date triggerTimeStart, @Param("triggerTimeEnd") Date triggerTimeEnd,
-			@Param("logStatus") int logStatus);
+	public List<XxlJobLog> selectLogList();
 
 	public XxlJobLog load(@Param("id") long id);
 

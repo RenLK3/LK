@@ -52,13 +52,13 @@
 
             <script type="text/html" id="table-timer-manager-toolbarDemo">
                 <div class="layui-btn-container">
-                    <button class="layui-btn layui-btn-sm  layui-bg-cyan" lay-event="Add"><i
+                    <button class="layui-btn layui-btn-sm  layui-bg-cyan" lay-event="AddTask"><i
                             class="layui-icon layui-icon-add-1"></i>添加任务
                     </button>
-                    <button class="layui-btn layui-btn-sm  layui-bg-cyan" lay-event="Add"><i
+                    <button class="layui-btn layui-btn-sm  layui-bg-cyan" lay-event="AddExecutor"><i
                             class="layui-icon layui-icon-add-1"></i>添加执行器
                     </button>
-                    <button class="layui-btn layui-btn-sm  layui-bg-green" lay-event="Add"><i
+                    <button class="layui-btn layui-btn-sm  layui-bg-green" lay-event="ViewLog"><i
                             class="layui-icon layui-icon-fonts-code"></i>调度日志
                     </button>
                 </div>
@@ -75,8 +75,67 @@
     </div>
 </div>
 
+
+<div id="addExecutor" style="display: none">
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-card-body layui-form" lay-filter="folder-form-element">
+                <div class="layui-col-md12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">名称</label>
+                        <div class="layui-inline">
+                            <input class="layui-input" name="name">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12">
+                    <!--                    <div class="layui-form-item">-->
+                    <label class="layui-form-label">级别</label>
+                    <div class="layui-inline">
+                        <div id="folderLevel" class="xm-select-demo"></div>
+                    </div>
+                    <!--                    </div>-->
+                </div>
+                <button type="button" class="layui-btn" lay-submit lay-filter="folder-form-element">添加目录
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="triggerJob" style="display: none">
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-card-body layui-form" lay-filter="trigger-job-form-element">
+                <div class="layui-col-md12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">参数:</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="param">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">地址:</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="address">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="layui-btn layui-btn-fluid" lay-submit
+                        lay-filter="trigger-job-form-element">执行
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="/admin/layui/layui.js"></script>
 
+<script type="text/javascript" src="/admin/layui/xm-select.js"></script>
+<script type="text/javascript" src="/admin/axios/axios.min.js"></script>
 <script>
     layui.config({
         base: '../admin/' //静态资源所在路径
@@ -112,12 +171,18 @@
                     , {field: 'jobDesc', align: 'center', title: '介绍', width: 110}
                     , {field: 'author', align: 'center', title: '作者', width: 70}
                     // , {field: 'scheduleType', align: 'center', title: '调度类型', width: 90}
-                    , {field: 'executorHandler', align: 'center', title: '任务名称',minWidth:100}
-                    , {field: 'scheduleConf', align: 'center', title: '调度配置',width: 110}
+                    , {field: 'executorHandler', align: 'center', title: '任务名称', minWidth: 100}
+                    , {field: 'scheduleConf', align: 'center', title: '调度配置', width: 110}
                     , {field: 'triggerStatus', align: 'center', title: '状态', templet: '#switchTpl', width: 100}
                     // , {field: 'glueType', align: 'center', title: 'GLUE类型',width: 100}
                     , {field: 'executorParam', align: 'center', title: '任务参数', width: 90}
-                    , {title: '操作', align: 'center',fixed: 'right', width: 240, toolbar: '#table-timer-manager-barDemo'}
+                    , {
+                    title: '操作',
+                    align: 'center',
+                    fixed: 'right',
+                    width: 240,
+                    toolbar: '#table-timer-manager-barDemo'
+                }
                 ]
             ]
             , done: function (d) {
@@ -161,15 +226,31 @@
         //头工具栏事件
         table.on('toolbar(table-timer-manager)', function (obj) {
             switch (obj.event) {
-                case 'Add':
+                case 'AddTask':
                     if (addFlag) {
                         let url = prefix + '/add';
-                        let title = "新增角色";
+                        let title = "新增定时任务";
                         let l = parent === self ? layui : top.layui;
                         l.index.openTabsPage(url, title);
                     } else {
-                        layer.msg('你没有添加角色权限！', {icon: 5});
+                        layer.msg('你没有添加任务权限！', {icon: 5});
                     }
+                    break;
+                case 'AddExecutor':
+                    layer.open({
+                        title: '添加执行器'
+                        , type: 1
+                        //,skin: 'layui-layer-rim'
+                        , shadeClose: true
+                        , area: ['700px', '500px']
+                        , content: $('#addExecutor')
+                    });
+                    break;
+                case 'ViewLog':
+                    let url = prefix + '/log';
+                    let title = "调度日志";
+                    let l = parent === self ? layui : top.layui;
+                    l.index.openTabsPage(url, title);
                     break;
             }
         });
@@ -177,40 +258,64 @@
         //监听行工具事件
         table.on('tool(table-timer-manager)', function (obj) {
             let data = obj.data;
-            if (obj.event === 'del') {
-                if (removeFlag && data.roleId != 1) {
-                    $.ajax({
-                        url: prefix + "/remove",
-                        type: "post",
-                        data: {roleId: data.roleId},
-                        dataType: "json",
-                        success: function (r) {
-                            if (r.code === 0) {
-                                layer.msg('删除成功');
-                                // table.reload('table-timer-manager');
-                                obj.del();
-                            } else {
-                                layer.alert(r.msg, {
-                                    icon: 5,
-                                    title: '失败'
-                                });
-                            }
-                        }
+            switch (obj.event) {
+                case 'trigger':
+                    layer.open({
+                        title: '执行任务'
+                        , type: 1
+                        //,skin: 'layui-layer-rim'
+                        , shadeClose: true
+                        , area: ['700px', '500px']
+                        , content: $('#triggerJob')
                     });
-                } else {
-                    layer.msg('你没有删除角色权限！', {icon: 5});
-                }
-            } else if (obj.event === 'edit') {
-                if (editFlag && data.roleId != 1) {
+                    form.on('submit(trigger-job-form-element)', function (obj) {
+                        let tdj = obj.field;
+                        axios({
+                            method: 'post',
+                            url: prefix + '/add',
+                            params: {
+                                id: data.id,
+                                param: tdj.param,
+                                address: tdj.address
+                            }
+                        }).then(response => {
+                            let res = response.data;
+                            if (res.code != 0) {
+                                layer.alert(res.msg, {title: '失败', icon: 5});
+                            }
+                        });
+                        return false;
+                    });
 
-                    let url = prefix + '/edit?id=' + data.roleId;
-                    let title = "编辑角色";
-                    let l = parent === self ? layui : top.layui;
-                    l.index.openTabsPage(url, title);
-                } else {
-                    layer.msg('你没有编辑角色权限！', {icon: 5});
-                }
-
+                    break;
+                case 'edit':
+                    if (editFlag) {
+                        let url = prefix + '/edit?id' + data.id;
+                        let title = "修改定时任务";
+                        let l = parent === self ? layui : top.layui;
+                        l.index.openTabsPage(url, title);
+                    } else {
+                        layer.msg('您没有修改任务权限！', {icon: 5});
+                    }
+                    break;
+                case 'del':
+                    if (removeFlag) {
+                        axios({
+                            method: 'post',
+                            url: prefix + '/del',
+                            params: {
+                                id: data.id
+                            }
+                        }).then(response => {
+                            let res = response.data;
+                            if (res.code != 0) {
+                                layer.alert(res.msg, {title: '失败', icon: 5});
+                            }
+                        });
+                    } else {
+                        layer.msg('您没有删除任务权限！', {icon: 5});
+                    }
+                    break;
             }
         });
 
