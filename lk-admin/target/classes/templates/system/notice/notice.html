@@ -113,9 +113,7 @@
         let ctx = '[[@{/}]]';
         let prefix = ctx + "system/notice";
 
-        if (!editFlag) {
-            $('input[type="checkbox"][name="state"]').attr({"readonly": "readonly"})
-        }
+
 
         table.render({
             elem: '#table-notice-manager'
@@ -126,7 +124,7 @@
             , cols: [
                 [
                     {type: 'checkbox'}
-                    , {field: 'noticeId', title: '通知ID', align: 'center', width: 85}
+                    , {field: 'noticeId', title: '通知ID', align: 'center',hide:true, width: 85}
                     , {field: 'name', align: 'center', title: '名称', width: 120}
                     , {field: 'title', align: 'center', title: '标题', width: 120}
                     , {field: 'content', align: 'center', title: '内容'}
@@ -137,8 +135,11 @@
                     // }
                     // , {field: 'status', align: 'center', title: '状态', templet: '#switchTpl', width: 100}
                     , {field: 'remark', align: 'center', title: '备注', width: 100}
-                    , {field: 'createTime', align: 'center', title: '创建时间', minWidth: 120}
-                    , {title: '操作', width: 150, toolbar: '#table-notice-manager-barDemo'}
+                    , {field: 'createBy', title: '创建人', minWidth: 150}
+                    , {field: 'createTime',align: 'center', title: '创建时间', minWidth: 150}
+                    , {field: 'updateBy', title: '更新人', minWidth: 150}
+                    , {field: 'updateTime', title: '更新时间', minWidth: 150}
+                    , {title: '操作', width: 150,fixed:'right', toolbar: '#table-notice-manager-barDemo'}
                 ]
             ]
             , done: function (res) {

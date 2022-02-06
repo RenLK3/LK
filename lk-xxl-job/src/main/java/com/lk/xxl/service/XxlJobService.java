@@ -1,5 +1,6 @@
 package com.lk.xxl.service;
 
+import com.lk.xxl.domain.XxlJobGroup;
 import com.lk.xxl.domain.XxlJobInfo;
 import com.xxl.job.core.biz.model.ReturnT;
 
@@ -13,6 +14,8 @@ import java.util.Map;
  * @author xuxueli 2016-5-28 15:30:33
  */
 public interface XxlJobService {
+
+	public int changeGroup(XxlJobInfo jobInfo);
 
 	public List<XxlJobInfo> selectJobInfoList();
 

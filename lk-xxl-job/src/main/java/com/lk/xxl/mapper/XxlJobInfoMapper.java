@@ -1,5 +1,6 @@
 package com.lk.xxl.mapper;
 
+import com.lk.xxl.domain.XxlJobGroup;
 import com.lk.xxl.domain.XxlJobInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,6 +15,8 @@ import java.util.List;
 @Mapper
 public interface XxlJobInfoMapper {
 
+	public int changeGroup(XxlJobInfo jobInfo);
+
 	public List<XxlJobInfo> selectJobInfoList();
 
 	public List<XxlJobInfo> pageList(@Param("offset") int offset, @Param("pagesize") int pagesize);
@@ -23,6 +26,8 @@ public interface XxlJobInfoMapper {
 	public int save(XxlJobInfo info);
 
 	public XxlJobInfo loadById(@Param("id") int id);
+
+	public int updateBaseInfo(XxlJobInfo xxlJobInfo);
 
 	public int update(XxlJobInfo xxlJobInfo);
 

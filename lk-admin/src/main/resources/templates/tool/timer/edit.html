@@ -11,58 +11,71 @@
 <body>
 <div class="layui-fluid">
     <div class="layui-card">
-        <div class="layui-card-header">修改角色</div>
+        <div class="layui-card-header">修改任务</div>
         <div class="layui-card-body layui-form" lay-filter="component-form-element">
             <div class="layui-form-item">
                 <div class="layui-col-md6">
-                    <label class="layui-form-label">名称：</label>
+                    <label class="layui-form-label">描述：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="roleName" lay-verify="required"  placeholder=""
-                               autocomplete="off" class="layui-input" th:value="${role.roleName}">
+                        <input type="text" name="jobDesc" lay-verify="required" placeholder=""
+                               autocomplete="off" class="layui-input" th:value="${jobinfo.jobDesc}">
                     </div>
                 </div>
                 <div class="layui-col-md6">
-                    <label class="layui-form-label">角色键：</label>
+                    <label class="layui-form-label">负责人：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="roleKey" lay-verify="required" placeholder="" autocomplete="off"
-                               class="layui-input" th:value="${role.roleKey}">
+                        <input type="text" name="author" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input" th:value="${jobinfo.author}">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-col-md6">
-                    <label class="layui-form-label">级别：</label>
+                    <label class="layui-form-label">任务参数：</label>
                     <div class="layui-input-inline">
-                        <div id="level" class="xm-select-demo"></div>
+                        <input type="text" name="executorParam" placeholder="" class="layui-input"
+                               th:value="${jobinfo.executorParam}">
                     </div>
                 </div>
                 <div class="layui-col-md6">
-                    <div class="layui-form-item ">
-                        <label class="layui-form-label">备注：</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="remark" placeholder="" class="layui-input"
-                                   th:value="${role.remark}">
-                        </div>
+                    <label class="layui-form-label">调度配置：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="scheduleConf" id="scheduleConf" placeholder="" class="layui-input"
+                               th:value="${jobinfo.scheduleConf}">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-col-md6">
+                    <label class="layui-form-label">JobHandler：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="executorHandler" placeholder="" class="layui-input"
+                               th:value="${jobinfo.executorHandler}">
+                    </div>
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-col-md6">
+                    <label class="layui-form-label">任务超时：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="executorTimeout" placeholder="" class="layui-input"
+                               th:value="${jobinfo.executorTimeout}">
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <label class="layui-form-label">失败重试次数：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="executorFailRetryCount" placeholder="" class="layui-input"
+                               th:value="${jobinfo.executorFailRetryCount}">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item ">
-                <div class="layui-col-md6">
-                    <label class="layui-form-label">菜单：</label>
+                <div class="layui-col-md12">
                     <div class="layui-input-block">
-                        <fieldset class="layui-elem-field">
-                            <legend>选择菜单</legend>
-                            <div class="layui-field-box">
-                                <div id="menuTree"></div>
-                            </div>
-                        </fieldset>
-
-                    </div>
-
-                </div>
-                <div class="layui-col-md6">
-                    <div class="layui-input-block">
-                        <button class="layui-btn layui-bg-blue" lay-submit lay-filter="component-form-element">立即提交</button>
+                        <button class="layui-btn layui-bg-blue" lay-submit lay-filter="component-form-element">立即提交
+                        </button>
                         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                     </div>
                 </div>
@@ -91,134 +104,50 @@
             , form = layui.form;
 
         let ctx = '[[@{/}]]';
-        let prefix = ctx + "system/role";
-
+        let prefix = ctx + "tool/timer";
         let args = new URL(location.href).searchParams;
 
         let thisLevel = [[${@html.getLoginRoleLevel()}]]
 
-        let data = [];
-        for (let i = thisLevel; i < 99; i++) {
-            if (i == thisLevel) {
-                data.push({name: '' + i, value: i, selected: true})
-            } else {
-                data.push({name: '' + i, value: i})
-            }
-        }
-
-        function initJsTree(menuTree) {
-            $('#menuTree').jstree({
-                'core': {
-                    'multiple': true,
-                    //"animation": 0,
-                    "themes": {
-                        "theme": "default",
-                        "dots": true,  // 连接线
-                        "icons": true
-                    },
-                    'data': menuTree /*{
-                    'url': prefix + '/tree',
-                    'data': function (node) {
-                        if (node.id === '#') {
-                            return {targetRoleId:args.get('id'),'pId': 0};
-                        }
-                        return {targetRoleId:args.get('id'),'pId': node.id};
-                    }
-                }*/
-                }, ui: {
-                    theme_name: "checkbox"
-                },
-                plugins: ["wholerow", "sort", "types", "checkbox", "themes", "html_data"],
-                "checkbox": {
-                    "keep_selected_style": false, // 是否默认选中
-                    //"three_state": true,    //是否进行父子节点级联选择
-                    "tie_selection": false
+        $('#scheduleConf').click(function () {
+            layer.open({
+                title: '添加执行器'
+                , type: 2
+                //,skin: 'layui-layer-rim'
+                , shadeClose: true
+                , area: ['700px', '600px']
+                , content: prefix + '/cron'
+                , btn: ['确认', '取消']
+                , yes: function (index) {
+                    $('#scheduleConf').val(localStorage['cron']);
+                    layer.close(index);
                 }
             });
-        }
-
-        function initTreeData(call) {
-            $.ajax({
-                url: prefix + '/tree',
-                type: "post",
-                data: {
-                    targetRoleId: args.get('id')
-                },
-                dataType: "json",
-                success: function (r) {
-                    if (r.code === 0) {
-                        if (r.count != 0) {
-                            call(r.data);
-                        }
-                    } else {
-                        layer.alert(r.msg, {
-                            icon: 5,
-                            title: '失败'
-                        });
-                    }
-                }
-            });
-        }
-
-        initTreeData(function (data) {
-            initJsTree(data);
-        })
-
-        /*util.event('lay-event',{
-            selectAll: function () {
-                let tree = function (ls) {
-                    if(ls.length == 0) return;
-                    for (let i = 0; i < ls.length; i++) {
-                        ls[i].state.checked = true;
-                        tree(ls[i].children);
-                    }
-                }
-                initTreeData(function (data) {
-                    debugger
-                    tree(data)
-                    initJsTree(data);
-                })
-            },
-            disSelectAll: function () {
-                // data.instance.open_all();
-                //console.log(t)
-            },
-            open: function () {
-                // data.instance.open_all();
-
-                //var node = $('#menuTree').jstree.data.instance.get_node(data.selected[0]);
-                //console.log(node)
-            },
-        })
-*/
-        let level = xmSelect.render({
-            el: '#level',
-            name: 'level',
-            layVerify: 'required',
-            radio: true,
-            clickClose: true,
-            data: data
-        })
+        });
 
         form.on('submit(component-form-element)', function (obj) {
             let data = obj.field;
-            let treeData = $("#menuTree").jstree("get_checked");
 
             $.ajax({
                 url: prefix + "/edit",
                 type: "POST",
                 data: {
-                    roleId: args.get('id'),
-                    roleName: data.roleName,
-                    roleKey: data.roleKey,
-                    level: data.level,
-                    remark: data.remark,
-                    menuIds: treeData.toString()
+                    id: args.get('id'),
+                    executorFailRetryCount: data.executorFailRetryCount,
+                    executorTimeout: data.executorTimeout,
+                    executorHandler: data.executorHandler,
+                    scheduleConf: data.scheduleConf,
+                    executorParam: data.executorParam,
+                    author: data.author,
+                    jobDesc: data.jobDesc
                 },
                 dataType: "json",
                 success: function (r) {
                     if (r.code === 0) {
                         layer.msg('修改成功');
+                        setTimeout(function () {
+                            parent.layui.admin.events.closeThisTabs();
+                        }, 500)
                     } else {
                         layer.alert(r.msg, {
                             icon: 5,

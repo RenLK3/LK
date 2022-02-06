@@ -49,6 +49,11 @@ public class XxlJobServiceImpl implements XxlJobService {
 	private XxlJobLogReportMapper xxlJobLogReportDao;
 
 	@Override
+	public int changeGroup(XxlJobInfo jobInfo) {
+		return xxlJobInfoDao.changeGroup(jobInfo);
+	}
+
+	@Override
 	public List<XxlJobInfo> selectJobInfoList() {
 		return xxlJobInfoDao.selectJobInfoList();
 	}

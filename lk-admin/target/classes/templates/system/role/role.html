@@ -96,9 +96,9 @@
             , page: true //开启分页
             , cols: [
                 [
-                    {field: 'roleId', align: 'center', title: '角色ID', width: 85}
-                    , {field: 'roleName', align: 'center', title: '角色名称'}
-                    , {field: 'roleKey', align: 'center', title: '角色键'}
+                    {field: 'roleId', align: 'center', title: '角色ID',hide:true, width: 85}
+                    , {field: 'roleName', align: 'center', title: '角色名称', width: 100}
+                    , {field: 'roleKey', align: 'center', title: '角色键', width: 85}
                     , {field: 'level', align: 'center', title: '级别', width: 70}
                     , {
                     field: 'status',
@@ -109,8 +109,11 @@
                     width: 100
                 }
                     , {field: 'remark', align: 'center', title: '备注'}
-                    , {field: 'createTime', align: 'center', title: '创建时间', width: 200}
-                    , {title: '操作', align: 'center', width: 150, toolbar: '#table-role-manager-barDemo'}
+                    , {field: 'createBy', title: '创建人', minWidth: 150}
+                    , {field: 'createTime',align: 'center', title: '创建时间', minWidth: 150}
+                    , {field: 'updateBy', title: '更新人', minWidth: 150}
+                    , {field: 'updateTime', title: '更新时间', minWidth: 150}
+                    , {title: '操作', align: 'center',fixed: 'right', width: 150, toolbar: '#table-role-manager-barDemo'}
                 ]
             ]
             , done: function (d) {

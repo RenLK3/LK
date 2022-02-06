@@ -291,7 +291,7 @@
             , page: true
             , cols: [
                 [
-                    {field: 'shareId', title: 'ID', align: 'center', width: 50}
+                    {field: 'shareId', title: 'ID',hide:true, align: 'center', width: 50}
                     , {field: 'name', align: 'center', title: '文件名', width: 100}
                     , {
                     field: 'type', align: 'center', title: '类型', width: 60, templet: function (obj) {
@@ -319,14 +319,18 @@
             switch (obj.event) {
                 case 'Add':
                     if (addFlag) {
-                        layer.open({
-                            title: '选择用户'
-                            , type: 1
-                            //,skin: 'layui-layer-rim'
-                            , shadeClose: true
-                            , area: ['700px', '500px']
-                            , content: $('#uploadShare')
-                        });
+                        if ((pId = getTreeSelected()) == 0) {
+                            layer.alert('请选中部门');
+                        } else {
+                            layer.open({
+                                title: '上传'
+                                , type: 1
+                                //,skin: 'layui-layer-rim'
+                                , shadeClose: true
+                                , area: ['700px', '500px']
+                                , content: $('#uploadShare')
+                            });
+                        }
                     } else {
                         layer.msg('你没有添加角色权限！', {icon: 5});
                     }

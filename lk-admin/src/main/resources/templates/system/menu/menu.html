@@ -33,7 +33,8 @@
                         </div>
                     </script>
                     <script type="text/html" id="TreeTable-barDemo">
-                        <a class="layui-btn layui-btn-xs layui-bg-orange" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>修改</a>
+                        <a class="layui-btn layui-btn-xs layui-bg-orange" lay-event="edit"><i
+                                class="layui-icon layui-icon-edit"></i>修改</a>
                         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
                                 class="layui-icon layui-icon-delete"></i>删除</a>
                     </script>
@@ -88,6 +89,7 @@
                     field: 'menuId',
                     title: '菜单ID',
                     width: 50,
+                    hide: true,
                     align: 'center'
                 }, {
                     field: 'menuName',
@@ -95,29 +97,33 @@
                     width: 200
                 }, {
                     field: 'icon',
-                    title: '图标'
+                    title: '图标',
+                    width: 150
                 }, {
                     field: 'perms',
-                    title: '权限'
+                    title: '权限',
+                    width: 150
                 }, {
                     field: 'url',
-                    title: '地址'
+                    title: '地址',
+                    width: 150
                 }, {
                     field: 'visible',
                     title: '状态',
                     templet: '#switchTpl',
                     width: 100,
                     align: 'center'
-                }, {
-                    field: 'createTime',
-                    title: '时间',
-                    align: 'center'
-                }, {
-                    title: '操作',
-                    align: 'center',
-                    width: 150,
-                    toolbar: '#TreeTable-barDemo'
-                }
+                }, {field: 'createBy', title: '创建人', minWidth: 150}
+                    , {field: 'createTime', align: 'center', title: '创建时间', minWidth: 150}
+                    , {field: 'updateBy', title: '更新人', minWidth: 150}
+                    , {field: 'updateTime', title: '更新时间', minWidth: 150},
+                    {
+                        title: '操作',
+                        align: 'center',
+                        fixed: 'right',
+                        width: 150,
+                        toolbar: '#TreeTable-barDemo'
+                    }
                 ]
             ]
         });

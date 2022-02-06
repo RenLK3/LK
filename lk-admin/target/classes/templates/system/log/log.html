@@ -55,10 +55,14 @@
             <table class="layui-hide" id="table-log-manager" lay-filter="table-log-manager"></table>
             <script type="text/html" id="table-log-manager-toolbarDemo">
                 <div class="layui-btn-container">
-                    <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del"><i
+                    <button class="layui-btn layui-btn-sm layui-btn-warm" lay-event="del"><i
                             class="layui-icon layui-icon-delete"></i>删除
                     </button>
                 </div>
+            </script>
+            <script type="text/html" id="table-log-manager-barDemo">
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
+                        class="layui-icon layui-icon-delete"></i>删除</a>
             </script>
         </div>
     </div>
@@ -153,7 +157,7 @@
                     , {field: 'jsonResult', align: 'center', title: '返回参数', minWidth: 150}
                     , {field: 'errorMsg', title: '错误消息', minWidth: 150}
                     , {field: 'operTime', align: 'center', title: '操作时间', minWidth: 200}
-                    // , {title: '操作', width: 150, toolbar: '#table-log-manager-barDemo'}
+                    , {title: '操作', width: 90,fixed:'right', toolbar: '#table-log-manager-barDemo'}
                 ]
             ]
             , done: function (res) {
@@ -192,9 +196,9 @@
                             }
                         }).then(response => {
                             let res = response.data;
+                            table.reload('table-log-manager');
                             if (res.code === 0) {
                                 layer.msg('删除成功!');
-                                table.reload('table-log-manager');
                             } else {
                                 layer.msg('删除失败:' + res.msg);
                             }
@@ -206,6 +210,32 @@
             }
 
         });
+        // 行工具
+        table.on('tool(table-log-manager)', function (obj) {
+            let data = obj.data;
+            if (obj.event === 'del') {
+
+                if (removeFlag) {
+                    axios({
+                        method: 'post',
+                        url: prefix + '/remove',
+                        params: {
+                            operIds: data.operId
+                        }
+                    }).then(response => {
+                        let res = response.data;
+                        table.reload('table-log-manager');
+                        if (res.code != 0)  {
+                            layer.msg('删除失败:' + res.msg);
+                        }
+                    });
+                } else {
+                    layer.msg('你没有删除用户权限！', {icon: 5});
+                }
+
+            }
+        });
+
     });
 </script>
 </body>

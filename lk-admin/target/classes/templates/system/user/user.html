@@ -98,15 +98,15 @@
             , page: true //开启分页
             , cols: [
                 [
-                    {field: 'userId', title: '用户ID',align: 'center', width: 85}
+                    {field: 'userId',hide:true}
                     , {
-                    field: 'dept_id', title: '部门名称',align: 'center', width: 90, templet: function (obj) {
+                    field: 'dept_id', title: '部门名称',align: 'center', width: 150, templet: function (obj) {
                         return obj.dept.deptName;
+                        //return '<div id="XM-dept-' + obj.userId + '"></div>'
                     }
                 }
                     , {
                     field: 'roles', align: 'center', title: '角色名称', minWidth: 150, templet: function (obj) {
-                        //return obj.roles[0].roleName;
                         return '<div id="XM-' + obj.userId + '"></div>'
                     }
                 }
@@ -119,11 +119,11 @@
                 }
                     , {field: 'status', title: '状态',align: 'center', templet: '#switchTpl', width: 100}
                     , {field: 'remark', align: 'center', title: '备注', width: 100}
-                    // , {field: 'createBy', title: '创建人'}
-                    , {field: 'createTime',align: 'center', title: '创建时间', minWidth: 120}
-                    // , {field: 'updateBy', title: '更新人'}
-                    // , {field: 'updateTime', title: '更新时间'}
-                    , {title: '操作', align: 'center', width: 150, toolbar: '#table-user-manager-barDemo'}
+                     , {field: 'createBy', title: '创建人', minWidth: 150}
+                    , {field: 'createTime',align: 'center', title: '创建时间', minWidth: 150}
+                    , {field: 'updateBy', title: '更新人', minWidth: 150}
+                    , {field: 'updateTime', title: '更新时间', minWidth: 150}
+                    , {title: '操作', align: 'center',fixed: 'right', width: 150, toolbar: '#table-user-manager-barDemo'}
                 ]
             ]
             , done: function (res) {
@@ -166,6 +166,7 @@
                             name: 'roleName',
                             value: 'roleId',
                         },
+                        clickClose: true,
                         data: roles,
                         on: function (data){
                             if(editFlag){
@@ -183,9 +184,8 @@
                                     },
                                     dataType: "json",
                                     success: function (r) {
-                                        if(r.code === 0){
-                                            table.reload('table-user-manager');
-                                        }else {
+                                        table.reload('table-user-manager');
+                                        if(r.code != 0){
                                             table.reload('table-user-manager');
                                             layer.alert(r.msg, {
                                                 icon: 5,
@@ -195,6 +195,74 @@
                                     }
                                 });
                             }
+                        }
+                    })
+
+                    let xm_dept = xmSelect.render({
+                        el: '#XM-dept-' + item.userId,
+
+                        theme: {
+                            color: '#1cbbb4',
+                        },
+                        radio: true,
+                        //选中关闭
+                        clickClose: true,
+                        model: { label: { type: 'text' } },
+                        tree: {
+                            show: true,
+                            strict: false,
+                            expandedKeys: [ -1 ],
+                        },
+                        // prop: {
+                        //     name: 'roleName',
+                        //     value: 'roleId',
+                        // },
+                        height: 'auto',
+                        data(){
+                            return [
+                                {name: '销售员', value: -1, children: [
+                                        {name: '张三', value: 100, selected: true, children: []},
+                                        {name: '李四1', value: 2, selected: true},
+                                        {name: '王五1', value: 3, disabled: true},
+                                    ]},
+                                {name: '奖品', value: -2, children: [
+                                        {name: '奖品3', value: -3, children: [
+                                                {name: '苹果3', value: 14, selected: true},
+                                                {name: '香蕉3', value: 15},
+                                                {name: '葡萄3', value: 16},
+                                            ]},
+                                        {name: '苹果2', value: 4, selected: true, disabled: true},
+                                        {name: '香蕉2', value: 5},
+                                        {name: '葡萄2', value: 6},
+                                    ]},
+                            ]
+                        },
+                        on: function (data){
+                            // if(editFlag){
+                            //     let ls = [];
+                            //     data.arr.forEach(da=>{
+                            //         ls.push(da.roleId);
+                            //     })
+                            //
+                            //     $.ajax({
+                            //         url: prefix + "/changeRole",
+                            //         type: "post",
+                            //         data: {
+                            //             userid: item.userId,
+                            //             roleIds: ls
+                            //         },
+                            //         dataType: "json",
+                            //         success: function (r) {
+                            //             table.reload('table-user-manager');
+                            //             if(r.code != 0) {
+                            //                 layer.alert(r.msg, {
+                            //                     icon: 5,
+                            //                     title: '失败'
+                            //                 });
+                            //             }
+                            //         }
+                            //     });
+                            // }
                         }
                     })
                     item.__xm = xm;

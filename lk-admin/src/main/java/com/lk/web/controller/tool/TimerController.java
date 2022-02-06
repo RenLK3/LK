@@ -6,8 +6,11 @@ import com.lk.common.core.text.Convert;
 import com.lk.common.utils.StringUtils;
 import com.lk.xxl.core.thread.JobTriggerPoolHelper;
 import com.lk.xxl.core.trigger.TriggerTypeEnum;
+import com.lk.xxl.domain.XxlJobGroup;
 import com.lk.xxl.domain.XxlJobInfo;
 import com.lk.xxl.domain.XxlJobLog;
+import com.lk.xxl.mapper.XxlJobGroupMapper;
+import com.lk.xxl.mapper.XxlJobInfoMapper;
 import com.lk.xxl.mapper.XxlJobLogMapper;
 import com.lk.xxl.service.XxlJobService;
 import com.xxl.job.core.biz.model.ReturnT;
@@ -36,9 +39,16 @@ public class TimerController extends BaseController {
     @Autowired
     private XxlJobLogMapper jobLogMapper;
 
+    @Autowired
+    private XxlJobGroupMapper jobGroupMapper;
+
+    @Autowired
+    private XxlJobInfoMapper jobInfoMapper;
+
     @RequiresPermissions("tool:timer:view")
     @GetMapping()
-    public String timer() {
+    public String timer(ModelMap map) {
+        map.put("groups", jobGroupMapper.findAll());
         return prefix + "/timer";
     }
 
@@ -52,6 +62,7 @@ public class TimerController extends BaseController {
     @GetMapping("/edit")
     public String edit(int id, ModelMap map) {
         map.put("id", id);
+        map.put("jobinfo", jobInfoMapper.loadById(id));
         return prefix + "/edit";
     }
 
@@ -62,6 +73,12 @@ public class TimerController extends BaseController {
         jobService.selectJobInfoList().stream().forEach(jobInfo -> ids.add(jobInfo.getId()));
         map.put("jobids", ids);
         return prefix + "/log";
+    }
+
+    @RequiresPermissions("tool:timer:view")
+    @GetMapping("/cron")
+    public String cron() {
+        return prefix + "/cron";
     }
 
     @RequiresPermissions("tool:timer:list")
@@ -98,6 +115,7 @@ public class TimerController extends BaseController {
         return toAjax(jobLogMapper.deleteJobLogByIds(Convert.toStrArray(ids)));
     }
 
+
     @RequiresPermissions("tool:timer:edit")
     @ResponseBody
     @PostMapping("/state")
@@ -129,12 +147,34 @@ public class TimerController extends BaseController {
     }
 
     @RequiresPermissions("tool:timer:add")
+    @PostMapping("/group/add")
+    @ResponseBody
+    public LayResult addG(XxlJobGroup group) {
+        group.setAddressType(1);
+        return toAjax(jobGroupMapper.save(group));
+    }
+
+    @RequiresPermissions("tool:timer:edit")
+    @PostMapping("/group/change")
+    @ResponseBody
+    public LayResult changeGroup(XxlJobInfo jobInfo) {
+        return toAjax(jobService.changeGroup(jobInfo));
+    }
+
+    @RequiresPermissions("tool:timer:add")
     @PostMapping("/add")
     @ResponseBody
     public LayResult addP(XxlJobInfo jobInfo) {
-
-
-        return ok();
+        jobInfo.setJobGroup(1);
+        jobInfo.setScheduleType("CRON");
+        jobInfo.setMisfireStrategy("DO_NOTHING");
+        jobInfo.setExecutorRouteStrategy("FIRST");
+        jobInfo.setExecutorBlockStrategy("SERIAL_EXECUTION");
+        jobInfo.setGlueType("BEAN");
+        jobInfo.setGlueSource("");
+        jobInfo.setGlueRemark("GLUE代码初始化");
+        jobInfo.setChildJobId("");
+        return toAjax(jobInfoMapper.save(jobInfo));
     }
 
     @RequiresPermissions("tool:timer:edit")
@@ -142,16 +182,19 @@ public class TimerController extends BaseController {
     @ResponseBody
     public LayResult editP(XxlJobInfo jobInfo) {
 
-
-        return ok();
+        return toAjax(jobInfoMapper.updateBaseInfo(jobInfo));
     }
+
 
     @RequiresPermissions("tool:timer:del")
     @PostMapping("/del")
     @ResponseBody
     public LayResult delP(int id) {
-
-
-        return ok();
+        ReturnT<String> returnT = jobService.remove(id);
+        if (returnT.getCode() == 200) {
+            return ok(returnT.getMsg());
+        } else {
+            return error(returnT.getMsg());
+        }
     }
 }

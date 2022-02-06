@@ -79,24 +79,33 @@
 <div id="addExecutor" style="display: none">
     <div class="layui-fluid">
         <div class="layui-card">
-            <div class="layui-card-body layui-form" lay-filter="folder-form-element">
+            <div class="layui-card-body layui-form" lay-filter="executor-form-element">
                 <div class="layui-col-md12">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">名称</label>
-                        <div class="layui-inline">
-                            <input class="layui-input" name="name">
+                        <label class="layui-form-label">名称:</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="name" autocomplete="off">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-md12">
-                    <!--                    <div class="layui-form-item">-->
-                    <label class="layui-form-label">级别</label>
-                    <div class="layui-inline">
-                        <div id="folderLevel" class="xm-select-demo"></div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">标题:</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="title" autocomplete="off">
+                        </div>
                     </div>
-                    <!--                    </div>-->
                 </div>
-                <button type="button" class="layui-btn" lay-submit lay-filter="folder-form-element">添加目录
+                <div class="layui-col-md12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">地址:</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="address" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="layui-btn layui-btn-fluid" lay-submit lay-filter="executor-form-element">
+                    添加执行器
                 </button>
             </div>
         </div>
@@ -147,6 +156,8 @@
             , admin = layui.admin
             , table = layui.table;
 
+        // 使用时请包装成js文件
+
         let addFlag = [[${@permission.hasPerm('tool:timer:add')}]];
         let editFlag = [[${@permission.hasPerm('tool:timer:edit')}]];
         let removeFlag = [[${@permission.hasPerm('tool:timer:del')}]];
@@ -166,12 +177,16 @@
             , page: true //开启分页
             , cols: [
                 [
-                    {field: 'id', align: 'center', title: 'ID', width: 45}
-                    , {field: 'jobGroup', align: 'center', title: '执行器ID', width: 90} // 单选
-                    , {field: 'jobDesc', align: 'center', title: '介绍', width: 110}
+                    {field: 'id', align: 'center', hide: true, title: 'ID', width: 45}
+                    , {
+                    field: 'jobGroup', align: 'center', title: '执行器', width: 250, templet: function (obj) {
+                        return '<div id="XM-' + obj.id + '"></div>'
+                    }
+                } // 单选
+                    , {field: 'jobDesc', align: 'center', title: '描述', width: 110}
                     , {field: 'author', align: 'center', title: '作者', width: 70}
                     // , {field: 'scheduleType', align: 'center', title: '调度类型', width: 90}
-                    , {field: 'executorHandler', align: 'center', title: '任务名称', minWidth: 100}
+                    , {field: 'executorHandler', align: 'center', title: '任务名称', minWidth: 150}
                     , {field: 'scheduleConf', align: 'center', title: '调度配置', width: 110}
                     , {field: 'triggerStatus', align: 'center', title: '状态', templet: '#switchTpl', width: 100}
                     // , {field: 'glueType', align: 'center', title: 'GLUE类型',width: 100}
@@ -185,11 +200,82 @@
                 }
                 ]
             ]
-            , done: function (d) {
-                //console.log(d)
+            , done: function (res) {
+                //修改一些css样式, 这里虽然能够使用, 但是还是不太友好, 努力中...
+                let cells = document.querySelectorAll('div[lay-id="table-timer-manager"] .layui-table-cell');
+                for (let i = 0; i < cells.length; i++) {
+                    //cells[i].style.overflow = 'unset';
+                    cells[i].style.height = 'auto';
+                }
+                //渲染多选
+                res.data.forEach(item => {
+
+                    let groups = [(${@html.toHtmlText(groups)})];
+                    //let thisLevel = [[${level}]];
+                    groups.forEach(group => {
+                        if (group.id === item.jobGroup) {
+                            group.selected = true;
+                        }
+                    });
+
+
+                    let xm = xmSelect.render({
+                        el: '#XM-' + item.id,
+                        autoRow: true,
+                        theme: {
+                            color: '#1cbbb4',
+                        },
+                        model: {
+                            icon: 'hidden',
+                            type: 'fixed',
+                            label: {
+                                type: 'text'
+                            }
+                        },
+                        // model: {type: 'fixed'},
+                        prop: {
+                            name: 'addressList',
+                            value: 'id',
+                        },
+                        radio: true,
+                        clickClose: true,
+                        // filterable: true,
+                        data: groups,
+                        on: function (data) {
+                            if (editFlag) {
+                                let ls = data.arr[0].id;
+
+                                $.ajax({
+                                    url: prefix + "/group/change",
+                                    type: "post",
+                                    data: {
+                                        id: item.id,
+                                        jobGroup: data.arr[0].id
+                                    },
+                                    dataType: "json",
+                                    success: function (r) {
+                                        table.reload('table-timer-manager');
+                                        if (r.code != 0) {
+                                            layer.alert(r.msg, {
+                                                icon: 5,
+                                                title: '失败'
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    })
+                    item.__xm = xm;
+                })
             }
         });
-
+//表格滚动时 重新计算位置
+        document.querySelector('.layui-table-body').addEventListener('scroll', () => {
+            xmSelect.get().forEach(function(item){
+                item.calcPosition();
+            })
+        })
         // 更改状态
         form.on('switch(State)', function (obj) {
             $.ajax({
@@ -222,6 +308,28 @@
                 }
             });
         })
+
+        form.on('submit(executor-form-element)', function (obj) {
+            let data = obj.field;
+
+            axios({
+                method: 'post',
+                url: prefix + '/group/add',
+                params: {
+                    appname: data.name,
+                    title: data.title,
+                    addressList: data.address
+                }
+            }).then(response => {
+                let res = response.data;
+                layer.closeAll();
+                if (res.code != 0) {
+                    layer.alert(res.msg, {title: '失败', icon: 5});
+                }
+            });
+
+            return false;
+        });
 
         //头工具栏事件
         table.on('toolbar(table-timer-manager)', function (obj) {
@@ -290,7 +398,7 @@
                     break;
                 case 'edit':
                     if (editFlag) {
-                        let url = prefix + '/edit?id' + data.id;
+                        let url = prefix + '/edit?id=' + data.id;
                         let title = "修改定时任务";
                         let l = parent === self ? layui : top.layui;
                         l.index.openTabsPage(url, title);
@@ -308,6 +416,7 @@
                             }
                         }).then(response => {
                             let res = response.data;
+                            table.reload('table-timer-manager');
                             if (res.code != 0) {
                                 layer.alert(res.msg, {title: '失败', icon: 5});
                             }
