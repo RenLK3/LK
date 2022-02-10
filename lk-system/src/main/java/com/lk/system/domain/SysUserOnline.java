@@ -1,7 +1,6 @@
 package com.lk.system.domain;
 
 import com.lk.common.core.domain.entity.BaseEntity;
-
 import com.lk.common.enums.OnlineStatus;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -9,9 +8,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import java.util.Date;
 
 /**
- * 当前在线会话 sys_user_online
- * 
- * @author ruoyi
+ * 当前在线会话
+ *
  */
 public class SysUserOnline extends BaseEntity
 {

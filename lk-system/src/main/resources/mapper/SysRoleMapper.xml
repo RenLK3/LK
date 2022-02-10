@@ -52,15 +52,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!--		<if test="dataScope != null and dataScope != ''">-->
 <!--			AND r.data_scope = #{dataScope}-->
 <!--		</if>-->
-		<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-		    and r.create_time &gt;= to_date(#{params.beginTime},'yyyy-MM-dd HH24:mi:ss')
-		</if>
-		<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-		    and r.create_time &lt;= to_date(#{params.endTime},'yyyy-MM-dd HH24:mi:ss')
-		</if>
+<!--		<if test="params.beginTime != null and params.beginTime != ''">&lt;!&ndash; 开始时间检索 &ndash;&gt;-->
+<!--		    and r.create_time &gt;= to_date(#{params.beginTime},'yyyy-MM-dd HH24:mi:ss')-->
+<!--		</if>-->
+<!--		<if test="params.endTime != null and params.endTime != ''">&lt;!&ndash; 结束时间检索 &ndash;&gt;-->
+<!--		    and r.create_time &lt;= to_date(#{params.endTime},'yyyy-MM-dd HH24:mi:ss')-->
+<!--		</if>-->
 		order by r.role_id asc
 		<!-- 数据范围过滤 -->
-		${params.dataScope}
+		<!--${params.dataScope}-->
 	</select>
 
 	<select id="selectRolesByUserId" parameterType="Long" resultMap="SysRoleResult">

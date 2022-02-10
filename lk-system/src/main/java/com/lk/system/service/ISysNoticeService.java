@@ -1,7 +1,6 @@
 package com.lk.system.service;
 
 import com.lk.common.core.domain.entity.SysNotice;
-import com.lk.common.core.domain.entity.SysUser;
 
 import java.util.List;
 

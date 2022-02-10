@@ -4,15 +4,16 @@ import com.lk.common.constant.UserConstants;
 import com.lk.common.core.controller.BaseController;
 import com.lk.common.core.domain.JSTree;
 import com.lk.common.core.domain.LayResult;
-import com.lk.common.core.domain.entity.SysDept;
 import com.lk.common.core.domain.entity.SysMenu;
 import com.lk.common.core.domain.entity.SysRole;
 import com.lk.common.core.domain.entity.SysUser;
-import com.lk.system.mapper.SysRoleMenuMapper;
+import com.lk.common.core.domain.vo.RoleExcelVO;
+import com.lk.common.core.domain.vo.UserExcelVO;
 import com.lk.system.service.ISysMenuService;
 import com.lk.system.service.ISysRoleService;
-import com.lk.system.service.ISysUserService;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -98,6 +99,24 @@ public class SysRoleController extends BaseController {
         }
         role.setUpdateBy(getLoginName());
         return toAjax(roleService.updateRole(role));
+    }
+    /**
+     * 导出excel 表格
+     *
+     * @return
+     */
+    @RequiresPermissions("system:role:export")
+    @ResponseExcel
+    @GetMapping("/export")
+    public List<RoleExcelVO> export(SysRole role) {
+        List<SysRole> roles = roleService.selectRoleAll();
+        List<RoleExcelVO> roleExcelVOS = new ArrayList<>();
+        roles.forEach(u -> {
+            RoleExcelVO excelVO = new RoleExcelVO();
+            BeanUtils.copyProperties(u, excelVO);
+            roleExcelVOS.add(excelVO);
+        });
+        return roleExcelVOS;
     }
 
     @RequiresPermissions("system:role:list")

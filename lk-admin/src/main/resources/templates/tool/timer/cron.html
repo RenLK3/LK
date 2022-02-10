@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cron表达式在线生成</title>
-    <link href="/admin/hplus/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/admin/hplus/css/zen-checkbox.css" rel="stylesheet">
+
+    <link th:href="@{/admin/hplus/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/admin/hplus/css/zen-checkbox.css}" rel="stylesheet">
 </head>
 <body class="load-indicator">
 <div class="container t-small-margin">
@@ -1131,6 +1132,7 @@
 <script th:src="@{/admin/js/layer.min.js}"></script>
 <script th:src="@{/admin/js/ry-ui.js?v=4.7.0}"></script>
 <script th:src="@{/admin/js/cron.js}"></script>
+
 <script th:inline="javascript">
     //var prefix = [[@{/}]] + "monitor/job";
 

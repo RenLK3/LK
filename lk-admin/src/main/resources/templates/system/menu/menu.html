@@ -5,10 +5,11 @@
     <title></title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link href="/admin/layui/css/layui.css" rel="stylesheet"/>
-    <link href="/admin/style/admin.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" th:href="@{/admin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/admin/style/admin.css}" media="all">
+
 </head>
 <body>
 <div class="layui-fluid">
@@ -28,7 +29,10 @@
                     <script type="text/html" id="TreeTable-toolbarDemo">
                         <div class="layui-btn-container">
                             <button class="layui-btn layui-btn-sm layui-bg-cyan" lay-event="Add"><i
-                                    class="layui-icon layui-icon-add-1"></i>添加菜单
+                                    class="layui-icon layui-icon-add-1"></i>新增菜单
+                            </button>
+                            <button class="layui-btn layui-btn-sm  layui-btn-warm" lay-event="Export"><i
+                                    class="layui-icon layui-icon-export"></i>导出
                             </button>
                         </div>
                     </script>
@@ -44,11 +48,12 @@
     </div>
 </div>
 
-<script src="/admin/layui/layui.js"></script>
+<script th:src="@{/admin/layui/layui.js}"></script>
+<script th:src="@{/admin/axios/axios.min.js}"></script>
 
-<script>
+<script type="text/javascript"> // 使用时封装到js文件中
     layui.config({
-        base: '../admin/' //静态资源所在路径
+        base: '[[@{/admin/}]]'  //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'table', 'treeTable', 'form', 'admin'], function () {
@@ -150,44 +155,11 @@
                         let l = parent === self ? layui : top.layui;
                         l.index.openTabsPage(url, title);
                     } else {
-                        layer.msg('你没有添加菜单权限！', {icon: 5});
+                        layer.msg('你没有新增菜单权限！', {icon: 5});
                     }
-                    // var pop = layer.open({
-                    //     title: '添加菜单',
-                    //     type: 1,
-                    //     shadeClose: true,
-                    //     area: ['700px', '520px'],
-                    //     content: $("#pop-content")
-                    // });
-                    //
-                    // form.on('submit(component-form-element)', function (data) {
-                    //
-                    //     //console.log(data);
-                    //
-                    //     // $.ajax({
-                    //     //     url: "@Url.Action("Add", "Menu")",
-                    //     //     type: "post",
-                    //     //     data: {
-                    //     //         menu: data.field
-                    //     //     },
-                    //     //     dataType: "json",
-                    //     //     success: function (r) {
-                    //     //         if (r.code === 0) {
-                    //     //             //layer.alert('添加成功');
-                    //     //             treeTable.reload('TreeTable');
-                    //     //             layer.close(pop);
-                    //     //         } else {
-                    //     //             layer.alert(r.msg, {
-                    //     //                 icon: 5,
-                    //     //                 title: '失败'
-                    //     //             });
-                    //     //         }
-                    //     //     }
-                    //     // });
-                    //
-                    //     return false;
-                    // });
-
+                    break;
+                case 'Export':
+                    location.href = prefix + "/export";
                     break;
             }
         });
@@ -218,26 +190,6 @@
                 } else {
                     layer.msg('你没有删除菜单权限！', {icon: 5});
                 }
-                // $.ajax({
-                //     url: "@Url.Action("Del", "Menu")",
-                //     type: "post",
-                //     data: {
-                //         menuid: obj.data.Id
-                //     },
-                //     dataType: "json",
-                //     success: function (r) {
-                //         if (r.code === 0) {
-                //             //layer.alert('添加成功');
-                //             treeTable.reload('TreeTable');
-                //             layer.close(pop);
-                //         } else {
-                //             layer.alert(r.msg, {
-                //                 icon: 5,
-                //                 title: '失败'
-                //             });
-                //         }
-                //     }
-                // });
             } else if (obj.event === 'edit') {
                 if (editFlag) {
                     let url = prefix + '/edit?id=' + data.menuId;

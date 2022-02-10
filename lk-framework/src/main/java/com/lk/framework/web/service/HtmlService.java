@@ -1,13 +1,10 @@
 package com.lk.framework.web.service;
 
 import com.alibaba.fastjson.JSONArray;
-import com.lk.common.core.domain.entity.SysRole;
 import com.lk.common.utils.ShiroUtils;
 import com.lk.common.utils.spring.SpringUtils;
 import com.lk.system.mapper.SysMessageMapper;
-import com.lk.system.mapper.SysUserMapper;
 import com.lk.system.service.ISysUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,14 +1,22 @@
 package com.lk.web.core.domain;
 
+
+
 /**
  *
  * @author LiKe_Ren
  */
+
 public class Database {
+//    @ApiModelProperty(value = "数据库类型")
     public int type;
+//    @ApiModelProperty(value = "地址")
     public String url;
+//    @ApiModelProperty(value = "用户名")
     public String username;
+//    @ApiModelProperty(value = "密码")
     public String password;
+//    @ApiModelProperty(value = "sql")
     public String sql;
 
 

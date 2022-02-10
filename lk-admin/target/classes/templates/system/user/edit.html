@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/admin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/admin/style/admin.css" media="all"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" th:href="@{/admin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/admin/style/admin.css}" media="all">
+    <link rel="stylesheet" th:href="@{/admin/hplus/css/plugins/jsTree/style.min.css}" media="all">
+    <link rel="stylesheet" th:href="@{/admin/hplus/css/font-awesome.css?v=4.4.0}" media="all">
 </head>
 <body>
 <div class="layui-fluid">
@@ -40,6 +47,21 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <div class="layui-col-md6">
+                    <label class="layui-form-label">部门：</label>
+                    <div class="layui-input-block">
+                        <fieldset class="layui-elem-field">
+                            <legend>选择部门</legend>
+                            <div class="layui-field-box">
+                                <div id="deptTree"></div>
+                            </div>
+                        </fieldset>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label class="layui-form-label">备注：</label>
                 <div class="layui-input-block">
                     <textarea name="remark" placeholder="" class="layui-textarea">[[${user.remark}]]</textarea>
@@ -47,58 +69,120 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn  layui-bg-blue" lay-submit lay-filter="component-form-element">立即提交</button>
+                    <button class="layui-btn  layui-bg-blue" lay-submit lay-filter="component-form-element">立即提交
+                    </button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="/admin/layui/layui.js"></script>
-<script>
-    layui.config({
-        base: '../../admin/' //静态资源所在路径
-    }).extend({
-        index: 'lib/index' //主入口模块
-    }).use(['index', 'form'], function () {
-        let $ = layui.$
-            , admin = layui.admin
-            , element = layui.element
-            , form = layui.form;
 
-        let ctx = '[[@{/}]]';
-        let prefix = ctx + "system/user";
+<script th:src="@{/admin/layui/layui.js}"></script>
+<script th:src="@{/admin/layui/xm-select.js}"></script>
+<script th:src="@{/admin/axios/axios.min.js}"></script>
 
-        let args = new URL(location.href).searchParams;
+<script th:src="@{/admin/hplus/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/admin/hplus/js/bootstrap.min.js?v=3.3.7}"></script>
+<!-- jsTree plugin javascript -->
+<script th:src="@{/admin/hplus/js/plugins/jsTree/jstree.min.js}"></script>
 
-        form.on('submit(component-form-element)', function (obj) {
-            let data = obj.field;
-            $.ajax({
-                url: prefix + "/edit",
-                type: "post",
-                data: {
-                    userId: args.get('id'),
-                    loginName: data.loginName,
-                    userName: data.userName,
-                    sex: data.sex,
-                    // roleId: data.role,
-                    remark: data.remark
-                },
-                dataType: "json",
-                success: function (r) {
-                    if (r.code === 0) {
-                        layer.msg('修改成功');
-                    } else {
-                        layer.alert(r.msg, {
-                            icon: 5,
-                            title: '失败'
-                        });
+<script type="application/javascript">
+    function getTreeSelected() {
+        let ref = $('#deptTree').jstree(true);
+        let sel = ref.get_selected();
+        if (!sel.length) {
+            return 0;
+        }
+        sel = sel[0];
+        return parseInt(sel);
+    }
+</script>
+
+<script type="text/javascript"> // 使用时封装到js文件中
+layui.config({
+    base: '[[@{/admin/}]]'  //静态资源所在路径
+}).extend({
+    index: 'lib/index' //主入口模块
+}).use(['index', 'form'], function () {
+    let $ = layui.$
+        , admin = layui.admin
+        , element = layui.element
+        , form = layui.form;
+
+    let ctx = '[[@{/}]]';
+    let prefix = ctx + "system/user";
+
+    let args = new URL(location.href).searchParams;
+
+
+    let deptTree = $('#deptTree').jstree({
+        'core': {
+            themes: {
+                "dots": true//,  // 连接线
+                //"responsive": false
+            },
+            multiple: false,
+            'data': {
+                'url': prefix + '/tree',
+                'data': function (node) {
+                    if (node.id === '#') {
+                        return {'id': 0, 'deptId': [[${user.deptId}]]};
                     }
+                    return {'id': node.id, 'deptId': [[${user.deptId}]]};
                 }
-            });
-            return false;
-        });
+            }
+        }, ui: {
+            theme_name: "checkbox"
+        },
+        plugins: ["wholerow", "sort", "types", "checkbox", "themes", "html_data", 'changed'],
+        "checkbox": {
+            "keep_selected_style": false, // 是否默认选中
+            "three_state": false,    //是否进行父子节点级联选择
+            "tie_selection": true
+        }
     });
+    $('#deptTree').on('ready.jstree', function(event, obj) {
+        $('#deptTree').jstree('select_node', [[${user.deptId}]] , true);
+    });
+
+
+    form.on('submit(component-form-element)', function (obj) {
+        let data = obj.field;
+
+        let treeNode = $('#deptTree').jstree(true).get_selected(true);
+        console.log(treeNode)
+        if(treeNode.length != 1){
+            layer.msg('请选中一个部门!');
+            return false;
+        }
+        $.ajax({
+            url: prefix + "/edit",
+            type: "post",
+            data: {
+                userId: args.get('id'),
+                loginName: data.loginName,
+                userName: data.userName,
+                sex: data.sex,
+                deptId: treeNode[0].id,
+                remark: data.remark
+            },
+            dataType: "json",
+            success: function (r) {
+                if (r.code === 0) {
+                    layer.msg('修改成功');
+                    setTimeout(function (){parent.layui.admin.events.closeThisTabs();},500)
+                } else {
+                    layer.alert(r.msg, {
+                        icon: 5,
+                        title: '失败'
+                    });
+                }
+            }
+        });
+        return false;
+    });
+});
 </script>
 </body>
 </html>

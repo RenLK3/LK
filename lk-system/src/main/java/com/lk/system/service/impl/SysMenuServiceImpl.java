@@ -4,7 +4,6 @@ import com.lk.system.mapper.SysMenuMapper;
 import com.lk.system.mapper.SysRoleMenuMapper;
 import com.lk.system.service.ISysUserService;
 import com.lk.common.constant.UserConstants;
-import com.lk.common.core.domain.JSTree;
 import com.lk.common.core.domain.XmSelect;
 import com.lk.common.core.domain.Ztree;
 import com.lk.common.core.domain.entity.SysMenu;
@@ -66,22 +65,22 @@ public class SysMenuServiceImpl implements ISysMenuService
      * 
      * @return 所有菜单信息
      */
-    @Override
-    public List<SysMenu> selectMenuList(SysMenu menu, Long userId)
-    {
-        List<SysMenu> menuList = null;
-        SysUser sysUser = userService.selectUserById(userId);
-        if (sysUser.isAdmin())
-        {
-            menuList = menuMapper.selectMenuList(menu);
-        }
-        else
-        {
-            menu.getParams().put("userId", userId);
-            menuList = menuMapper.selectMenuListByUserId(menu);
-        }
-        return menuList;
-    }
+//    @Override
+//    public List<SysMenu> selectMenuList(SysMenu menu, Long userId)
+//    {
+//        List<SysMenu> menuList = null;
+//        SysUser sysUser = userService.selectUserById(userId);
+//        if (sysUser.isAdmin())
+//        {
+//            menuList = menuMapper.selectMenuList(menu);
+//        }
+//        else
+//        {
+//            menu.getParams().put("userId", userId);
+//            menuList = menuMapper.selectMenuListByUserId(menu);
+//        }
+//        return menuList;
+//    }
 
     /**
      * 根据菜单父ID查询菜单

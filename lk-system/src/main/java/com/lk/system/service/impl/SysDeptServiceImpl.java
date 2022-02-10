@@ -1,9 +1,7 @@
 package com.lk.system.service.impl;
 
 import com.lk.system.service.ISysDeptService;
-import com.lk.common.constant.UserConstants;
 import com.lk.common.core.domain.entity.SysDept;
-import com.lk.common.exception.ServiceException;
 import com.lk.system.mapper.SysDeptMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;

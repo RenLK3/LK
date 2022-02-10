@@ -1,8 +1,6 @@
 package com.lk.system.mapper;
 
-import com.lk.common.core.domain.entity.SysDept;
 import com.lk.system.domain.SysShare;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

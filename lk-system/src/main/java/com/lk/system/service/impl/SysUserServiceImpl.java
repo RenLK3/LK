@@ -37,17 +37,9 @@ public class SysUserServiceImpl implements ISysUserService
     @Autowired
     private SysRoleMapper roleMapper;
 
-//    @Autowired
-//    private SysPostMapper postMapper;
-
-//    @Autowired
-//    private SysUserPostMapper userPostMapper;
-//
     @Autowired
     private SysUserRoleMapper userRoleMapper;
 
-//    @Autowired
-//    private ISysConfigService configService;
 
     /**
      * 根据条件分页查询用户列表
@@ -157,7 +149,9 @@ public class SysUserServiceImpl implements ISysUserService
         Long[] userIds = Convert.toLongArray(ids);
         for (Long userId : userIds)
         {
-            checkUserAllowed(new SysUser(userId));
+            SysUser user = new SysUser();
+            user.setUserId(userId);
+            checkUserAllowed(user);
         }
         // 删除用户与角色关联
         userRoleMapper.deleteUserRole(userIds);

@@ -1,28 +1,34 @@
 package com.lk.web.controller.system;
 
-import com.alibaba.fastjson.JSONObject;
 import com.lk.common.annotation.Log;
 import com.lk.common.constant.UserConstants;
+import com.lk.common.core.domain.JSTree;
 import com.lk.common.core.domain.LayResult;
 import com.lk.common.core.controller.BaseController;
+import com.lk.common.core.domain.entity.SysDept;
+import com.lk.common.core.domain.entity.SysMenu;
 import com.lk.common.core.domain.entity.SysRole;
 import com.lk.common.core.domain.entity.SysUser;
+import com.lk.common.core.domain.vo.UserExcelVO;
 import com.lk.common.enums.BusinessType;
 import com.lk.framework.shiro.service.SysPasswordService;
 import com.lk.system.domain.SysUserRole;
+import com.lk.system.mapper.SysDeptMapper;
 import com.lk.system.mapper.SysUserRoleMapper;
+import com.lk.system.service.ISysDeptService;
 import com.lk.system.service.ISysRoleService;
 import com.lk.system.service.ISysUserService;
-import org.apache.shiro.authc.credential.PasswordService;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 用户
@@ -45,6 +51,9 @@ public class SysUserController extends BaseController {
 
     @Autowired
     private SysUserRoleMapper userRoleMapper;
+
+    @Autowired
+    private ISysDeptService deptService;
 
     @RequiresPermissions("system:user:view")
     @GetMapping()
@@ -75,6 +84,66 @@ public class SysUserController extends BaseController {
     @ResponseBody
     public LayResult list(SysUser user, int page, int limit) {
         return page(userService.selectUserList(user), page, limit);
+    }
+
+    @RequiresPermissions("system:dept:list")
+    @GetMapping("/tree")
+    @ResponseBody
+    public List<JSTree> tree(long id, long deptId) {
+        SysDept sysDept = new SysDept();
+        sysDept.setParentId(id);
+        List<SysDept> deptList = deptService.selectDeptList(sysDept);
+        return initJSTree(deptList, deptId);
+    }
+
+    public List<JSTree> initJSTree(List<SysDept> deptList, long deptId) {
+        if (deptList == null || deptList.size() == 0) return new ArrayList<>();
+        List<JSTree> trees = new ArrayList<>();
+        deptList.forEach((dept) -> {
+            JSTree tree = new JSTree();
+            tree.setId(dept.getDeptId());
+            tree.setText(dept.getDeptName());
+            tree.setIcon("fa fa-folder");
+            JSTree.State state = new JSTree.State();
+            state.setOpened(true);
+//            state.setChecked(true);
+            if (deptId != 0 && tree.getId() == deptId) {
+                state.setChecked(true);
+            }
+            tree.setState(state);
+            tree.setChildren(true);
+
+            trees.add(tree);
+        });
+        return trees;
+    }
+
+    public void tree(List<JSTree> trees, JSTree tree) {
+        List<JSTree> filter = trees.stream().filter((d) -> d.getpId().equals(tree.getId())).collect(Collectors.toList());
+        if (filter.isEmpty()) return;
+        ((List<JSTree>) tree.getChildren()).addAll(filter);
+        for (JSTree t : filter) {
+            tree(trees, t);
+        }
+    }
+
+    /**
+     * 导出excel 表格
+     *
+     * @return
+     */
+    @RequiresPermissions("system:user:export")
+    @ResponseExcel
+    @GetMapping("/export")
+    public List<UserExcelVO> export(SysUser user) {
+        List<SysUser> users = userService.selectUserList(user);
+        List<UserExcelVO> userExcelVOS = new ArrayList<>();
+        users.forEach(u -> {
+            UserExcelVO excelVO = new UserExcelVO();
+            BeanUtils.copyProperties(u, excelVO);
+            userExcelVOS.add(excelVO);
+        });
+        return userExcelVOS;
     }
 
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
@@ -126,7 +195,6 @@ public class SysUserController extends BaseController {
     @PostMapping("/changeRole")
     @ResponseBody
     public LayResult changeRole(long userid, @RequestParam(value = "roleIds[]", required = false) List<Long> roleIds) {
-
         SysUser targetUser = new SysUser();
         targetUser.setUserId(userid);
 

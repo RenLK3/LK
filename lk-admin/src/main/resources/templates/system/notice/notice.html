@@ -5,10 +5,9 @@
     <title></title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="/admin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/admin/style/admin.css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" th:href="@{/admin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/admin/style/admin.css}" media="all">
 </head>
 <body>
 <div class="layui-fluid">
@@ -55,10 +54,13 @@
 
             <script type="text/html" id="table-notice-manager-toolbarDemo">
                 <div class="layui-btn-container">
-                    <button class="layui-btn layui-btn-sm layui-bg-cyan" lay-event="Add"><i class="layui-icon layui-icon-add-1"></i>添加
+                    <button class="layui-btn layui-btn-sm layui-bg-cyan" lay-event="Add"><i class="layui-icon layui-icon-add-1"></i>新增
                     </button>
-                    <button class="layui-btn layui-btn-sm layui-bg-orange" lay-event="Notice"><i
+                    <button class="layui-btn layui-btn-sm layui-bg-blue" lay-event="Notice"><i
                             class="layui-icon layui-icon-notice"></i>通知
+                    </button>
+                    <button class="layui-btn layui-btn-sm  layui-btn-warm" lay-event="Export"><i
+                            class="layui-icon layui-icon-export"></i>导出
                     </button>
                 </div>
             </script>
@@ -71,8 +73,7 @@
     </div>
 </div>
 
-
-<!-- 添加部门人员 -->
+<!-- 新增部门人员 -->
 <div id="selectUser" style="display: none">
     <div class="layui-fluid">
         <div class="layui-card">
@@ -90,14 +91,14 @@
         </div>
     </div>
 </div>
-<script src="/admin/layui/layui.js"></script>
-<script type="text/javascript" src="/admin/layui/xm-select.js"></script>
-<script type="text/javascript" src="/admin/axios/axios.min.js"></script>
 
-<script type="text/javascript">
+<script th:src="@{/admin/layui/layui.js}"></script>
+<script th:src="@{/admin/layui/xm-select.js}"></script>
+<script th:src="@{/admin/axios/axios.min.js}"></script>
 
+<script type="text/javascript"> // 使用时封装到js文件中
     layui.config({
-        base: '../admin/' //静态资源所在路径
+        base: '[[@{/admin/}]]'  //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'admin', 'table'], function () {
@@ -113,8 +114,7 @@
         let ctx = '[[@{/}]]';
         let prefix = ctx + "system/notice";
 
-
-
+        // 动态表格初始化
         table.render({
             elem: '#table-notice-manager'
             , toolbar: '#table-notice-manager-toolbarDemo'
@@ -192,34 +192,6 @@
                                     }
                                 })
                             }
-
-                            // if(editFlag){
-                            //     let ls = [];
-                            //     data.arr.forEach(da=>{
-                            //         ls.push(da.roleId);
-                            //     })
-                            //
-                            //     $.ajax({
-                            //         url: prefix + "/changeRole",
-                            //         type: "post",
-                            //         data: {
-                            //             userid: item.userId,
-                            //             roleIds: ls
-                            //         },
-                            //         dataType: "json",
-                            //         success: function (r) {
-                            //             if(r.code === 0){
-                            //                 table.reload('table-user-manager');
-                            //             }else {
-                            //                 table.reload('table-user-manager');
-                            //                 layer.alert(r.msg, {
-                            //                     icon: 5,
-                            //                     title: '失败'
-                            //                 });
-                            //             }
-                            //         }
-                            //     });
-                            // }
                         }
                     })
                     item.__xm = xm;
@@ -234,7 +206,7 @@
                 case 'Add':
                     if (addFlag) {
                         let url = prefix + '/add';
-                        let title = "添加通知";
+                        let title = "新增通知";
                         let l = parent === self ? layui : top.layui;
                         l.index.openTabsPage(url, title);
                     } else {
@@ -261,6 +233,9 @@
                         });
                     }
 
+                    break;
+                case 'Export':
+                    location.href = prefix + "/export";
                     break;
             }
 
@@ -291,7 +266,6 @@
                 } else {
                     layer.msg('你没有删除用户权限！', {icon: 5});
                 }
-
             } else if (obj.event === 'edit') {
                 if (editFlag) {
                     let url = prefix + '/edit?id=' + data.noticeId;

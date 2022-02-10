@@ -5,10 +5,9 @@
     <title></title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="/admin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/admin/style/admin.css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" th:href="@{/admin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/admin/style/admin.css}" media="all">
 </head>
 <body>
 <div class="layui-fluid">
@@ -51,7 +50,10 @@
 
             <script type="text/html" id="table-role-manager-toolbarDemo">
                 <div class="layui-btn-container">
-                    <button class="layui-btn layui-btn-sm  layui-bg-cyan" lay-event="Add"><i class="layui-icon layui-icon-add-1"></i>添加
+                    <button class="layui-btn layui-btn-sm  layui-bg-cyan" lay-event="Add"><i class="layui-icon layui-icon-add-1"></i>新增
+                    </button>
+                    <button class="layui-btn layui-btn-sm  layui-btn-warm" lay-event="Export"><i
+                            class="layui-icon layui-icon-export"></i>导出
                     </button>
                 </div>
             </script>
@@ -64,11 +66,11 @@
     </div>
 </div>
 
-<script src="/admin/layui/layui.js"></script>
+<script th:src="@{/admin/layui/layui.js}"></script>
 
-<script>
+<script type="text/javascript"> // 使用时封装到js文件中
     layui.config({
-        base: '../admin/' //静态资源所在路径
+        base: '[[@{/admin/}]]'  //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'admin', 'table'], function () {
@@ -165,8 +167,11 @@
                         let l = parent === self ? layui : top.layui;
                         l.index.openTabsPage(url, title);
                     } else {
-                        layer.msg('你没有添加角色权限！', {icon: 5});
+                        layer.msg('你没有新增角色权限！', {icon: 5});
                     }
+                    break;
+                case 'Export':
+                    location.href = prefix + "/export";
                     break;
             }
         });

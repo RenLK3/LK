@@ -1,8 +1,8 @@
 package com.lk.common.utils;
 
-import com.lk.common.core.domain.entity.SysUser;
 import com.lk.common.utils.bean.BeanUtils;
 
+import com.lk.common.core.domain.entity.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.session.Session;

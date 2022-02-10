@@ -33,7 +33,7 @@ public interface ISysMenuService
      * @param userId 用户ID
      * @return 菜单列表
      */
-    public List<SysMenu> selectMenuList(SysMenu menu, Long userId);
+//    public List<SysMenu> selectMenuList(SysMenu menu, Long userId);
 
     /**
      * 根据菜单父ID查询菜单

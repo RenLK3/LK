@@ -33,8 +33,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND dept_name like concat(concat('%',#{deptName}),'%')
 		</if>
 
-		<!-- 数据范围过滤 -->
-		${params.dataScope}
+		<!-- ${params.dataScope}数据范围过滤 -->
+
 		order by d.parent_id
     </select>
 	

@@ -11,7 +11,6 @@ import com.lk.system.service.ISysRoleService;
 import com.lk.common.annotation.DataScope;
 import com.lk.common.constant.UserConstants;
 import com.lk.common.core.domain.entity.SysRole;
-import com.lk.common.core.domain.entity.SysUser;
 import com.lk.common.core.text.Convert;
 import com.lk.common.exception.ServiceException;
 import com.lk.common.utils.ShiroUtils;
@@ -50,7 +49,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @return 角色数据集合信息
      */
     @Override
-    @DataScope(deptAlias = "d")
+//    @DataScope(deptAlias = "d")
     public List<SysRole> selectRoleList(SysRole role) {
         return roleMapper.selectRoleList(role);
     }

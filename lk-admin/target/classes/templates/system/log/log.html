@@ -7,8 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="/admin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/admin/style/admin.css" media="all"/>
+
+    <link rel="stylesheet" th:href="@{/admin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/admin/style/admin.css}" media="all">
 </head>
 <body>
 <div class="layui-fluid">
@@ -40,7 +41,8 @@
                 </div>
 
                 <div class="layui-inline">
-                    <button class="layui-btn layuiadmin-btn-useradmin layui-bg-blue" lay-submit lay-filter="user-search">
+                    <button class="layui-btn layuiadmin-btn-useradmin layui-bg-blue" lay-submit
+                            lay-filter="user-search">
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>搜索
                     </button>
                 </div>
@@ -55,8 +57,11 @@
             <table class="layui-hide" id="table-log-manager" lay-filter="table-log-manager"></table>
             <script type="text/html" id="table-log-manager-toolbarDemo">
                 <div class="layui-btn-container">
-                    <button class="layui-btn layui-btn-sm layui-btn-warm" lay-event="del"><i
+                    <button class="layui-btn layui-btn-sm layui-bg-red" lay-event="del"><i
                             class="layui-icon layui-icon-delete"></i>删除
+                    </button>
+                    <button class="layui-btn layui-btn-sm  layui-btn-warm" lay-event="Export"><i
+                            class="layui-icon layui-icon-export"></i>导出
                     </button>
                 </div>
             </script>
@@ -68,175 +73,176 @@
     </div>
 </div>
 
-<script src="/admin/layui/layui.js"></script>
-<script type="text/javascript" src="/admin/layui/xm-select.js"></script>
-<script type="text/javascript" src="/admin/axios/axios.min.js"></script>
+<script th:src="@{/admin/layui/layui.js}"></script>
+<script th:src="@{/admin/axios/axios.min.js}"></script>
 
-<script type="text/javascript">
+<script type="text/javascript"> // 使用时封装到js文件中
+layui.config({
+    base: '[[@{/admin/}]]'  //静态资源所在路径
+}).extend({
+    index: 'lib/index' //主入口模块
+}).use(['index', 'admin', 'table'], function () {
+    let $ = layui.$
+        , form = layui.form
+        , admin = layui.admin
+        , table = layui.table;
 
-    layui.config({
-        base: '../admin/' //静态资源所在路径
-    }).extend({
-        index: 'lib/index' //主入口模块
-    }).use(['index', 'admin', 'table'], function () {
-        let $ = layui.$
-            , form = layui.form
-            , admin = layui.admin
-            , table = layui.table;
+    let removeFlag = [[${@permission.hasPerm('system:log:del')}]];
 
-        let removeFlag = [[${@permission.hasPerm('system:log:del')}]];
-
-        let ctx = '[[@{/}]]';
-        let prefix = ctx + "system/log";
+    let ctx = '[[@{/}]]';
+    let prefix = ctx + "system/log";
 
 
-        table.render({
-            elem: '#table-log-manager'
-            , toolbar: '#table-log-manager-toolbarDemo'
-            , method: 'post'
-            , url: prefix + '/list'//数据接口
-            , page: true //开启分页
-            , cols: [
-                [
-                    {field: 'operId', title: '日志ID', hide: true}
-                    , {type: 'checkbox', fixed: 'left'}
-                    , {field: 'title', align: 'center', title: '模块标题', width: 100}
-                    , {
-                    field: 'businessType', align: 'center', title: '业务类型', width: 100, templet: function (obj) {
-                        switch (obj.businessType) {
-                            case 0:
-                                return '其他';
-                            case 1:
-                                return '新增';
-                            case 2:
-                                return '修改';
-                            case 3:
-                                return '删除';
-                            case 4:
-                                return '授权';
-                            case 5:
-                                return '导出';
-                            case 6:
-                                return '导入';
-                            case 7:
-                                return '强退';
-                            case 8:
-                                return '生成代码';
-                            case 9:
-                                return '清空';
-                            case 10:
-                                return '登录';
-                            default:
-                                return obj.businessType;
-                        }
+    table.render({
+        elem: '#table-log-manager'
+        , toolbar: '#table-log-manager-toolbarDemo'
+        , method: 'post'
+        , url: prefix + '/list'//数据接口
+        , page: true //开启分页
+        , cols: [
+            [
+                {field: 'operId', title: '日志ID', hide: true}
+                , {type: 'checkbox', fixed: 'left'}
+                , {field: 'title', align: 'center', title: '模块标题', width: 100}
+                , {
+                field: 'businessType', align: 'center', title: '业务类型', width: 100, templet: function (obj) {
+                    switch (obj.businessType) {
+                        case 0:
+                            return '其他';
+                        case 1:
+                            return '新增';
+                        case 2:
+                            return '修改';
+                        case 3:
+                            return '删除';
+                        case 4:
+                            return '授权';
+                        case 5:
+                            return '导出';
+                        case 6:
+                            return '导入';
+                        case 7:
+                            return '强退';
+                        case 8:
+                            return '生成代码';
+                        case 9:
+                            return '清空';
+                        case 10:
+                            return '登录';
+                        default:
+                            return obj.businessType;
                     }
                 }
-                    , {field: 'requestMethod', title: '请求方式', align: 'center', width: 100}
-                    , {field: 'method', align: 'center', title: '方法名称', width: 150}
+            }
+                , {field: 'requestMethod', title: '请求方式', align: 'center', width: 100}
+                , {field: 'method', align: 'center', title: '方法名称', width: 150}
 
-                    , {
-                    field: 'operatorType', align: 'center', title: '操作类别', width: 120, templet: function (obj) {
-                        switch (obj.operatorType) {
-                            case 0:
-                                return '其他';
-                            case 1:
-                                return '后台用户';
-                            case 2:
-                                return '手机端用户';
-                            default:
-                                return obj.operatorType;
-                        }
+                , {
+                field: 'operatorType', align: 'center', title: '操作类别', width: 120, templet: function (obj) {
+                    switch (obj.operatorType) {
+                        case 0:
+                            return '其他';
+                        case 1:
+                            return '后台用户';
+                        case 2:
+                            return '手机端用户';
+                        default:
+                            return obj.operatorType;
                     }
                 }
-                    , {field: 'operName', align: 'center', title: '操作人员', width: 120}
-                    , {field: 'operUrl', align: 'center', title: '请求URL', width: 120}
-                    , {field: 'operIp', title: '主机地址', width: 100}
+            }
+                , {field: 'operName', align: 'center', title: '操作人员', width: 120}
+                , {field: 'operUrl', align: 'center', title: '请求URL', width: 120}
+                , {field: 'operIp', title: '主机地址', width: 100}
 
-                    , {field: 'operLocation', align: 'center', title: '操作地点', width: 120}
-                    , {field: 'operParam', align: 'center', title: '请求参数', minWidth: 150}
-                    , {field: 'jsonResult', align: 'center', title: '返回参数', minWidth: 150}
-                    , {field: 'errorMsg', title: '错误消息', minWidth: 150}
-                    , {field: 'operTime', align: 'center', title: '操作时间', minWidth: 200}
-                    , {title: '操作', width: 90,fixed:'right', toolbar: '#table-log-manager-barDemo'}
-                ]
+                , {field: 'operLocation', align: 'center', title: '操作地点', width: 120}
+                , {field: 'operParam', align: 'center', title: '请求参数', minWidth: 150}
+                , {field: 'jsonResult', align: 'center', title: '返回参数', minWidth: 150}
+                , {field: 'errorMsg', title: '错误消息', minWidth: 150}
+                , {field: 'operTime', align: 'center', title: '操作时间', minWidth: 200}
+                , {title: '操作', width: 90, fixed: 'right', toolbar: '#table-log-manager-barDemo'}
             ]
-            , done: function (res) {
-                //修改一些css样式, 这里虽然能够使用, 但是还是不太友好, 努力中...
+        ]
+        , done: function (res) {
+            //修改一些css样式, 这里虽然能够使用, 但是还是不太友好, 努力中...
 
+        }
+    });
+
+
+    form.on('submit(user-search)', function (obj) {
+        table.reload('table-log-manager', {
+            where: {
+                title: obj.field.title,
+                businessType: obj.field.businessType
             }
         });
+    })
 
-
-        form.on('submit(user-search)', function (obj) {
-            table.reload('table-log-manager', {
-                where: {
-                    title: obj.field.title,
-                    businessType: obj.field.businessType
-                }
-            });
-        })
-
-        //头工具栏事件
-        table.on('toolbar(table-log-manager)', function (obj) {
-            switch (obj.event) {
-                case 'del':
-                    if (removeFlag) {
-                        let checkStatus = table.checkStatus(obj.config.id);
-                        let data = checkStatus.data;
-                        let arr = [];
-                        data.forEach(item => {
-                            arr.push(item.operId);
-                        })
-
-                        axios({
-                            method: 'post',
-                            url: prefix + '/remove',
-                            params: {
-                                operIds: arr.toString()
-                            }
-                        }).then(response => {
-                            let res = response.data;
-                            table.reload('table-log-manager');
-                            if (res.code === 0) {
-                                layer.msg('删除成功!');
-                            } else {
-                                layer.msg('删除失败:' + res.msg);
-                            }
-                        });
-                    } else {
-                        layer.msg('你没有删除权限！', {icon: 5});
-                    }
-                    break;
-            }
-
-        });
-        // 行工具
-        table.on('tool(table-log-manager)', function (obj) {
-            let data = obj.data;
-            if (obj.event === 'del') {
-
+    //头工具栏事件
+    table.on('toolbar(table-log-manager)', function (obj) {
+        switch (obj.event) {
+            case 'del':
                 if (removeFlag) {
+                    let checkStatus = table.checkStatus(obj.config.id);
+                    let data = checkStatus.data;
+                    let arr = [];
+                    data.forEach(item => {
+                        arr.push(item.operId);
+                    })
+
                     axios({
                         method: 'post',
                         url: prefix + '/remove',
                         params: {
-                            operIds: data.operId
+                            operIds: arr.toString()
                         }
                     }).then(response => {
                         let res = response.data;
                         table.reload('table-log-manager');
-                        if (res.code != 0)  {
+                        if (res.code === 0) {
+                            layer.msg('删除成功!');
+                        } else {
                             layer.msg('删除失败:' + res.msg);
                         }
                     });
                 } else {
-                    layer.msg('你没有删除用户权限！', {icon: 5});
+                    layer.msg('你没有删除权限！', {icon: 5});
                 }
-
-            }
-        });
+                break;
+            case 'Export':
+                location.href = prefix + "/export";
+                break;
+        }
 
     });
+    // 行工具
+    table.on('tool(table-log-manager)', function (obj) {
+        let data = obj.data;
+        if (obj.event === 'del') {
+
+            if (removeFlag) {
+                axios({
+                    method: 'post',
+                    url: prefix + '/remove',
+                    params: {
+                        operIds: data.operId
+                    }
+                }).then(response => {
+                    let res = response.data;
+                    table.reload('table-log-manager');
+                    if (res.code != 0) {
+                        layer.msg('删除失败:' + res.msg);
+                    }
+                });
+            } else {
+                layer.msg('你没有删除用户权限！', {icon: 5});
+            }
+
+        }
+    });
+
+});
 </script>
 </body>
 

@@ -5,17 +5,16 @@ import com.lk.common.constant.UserConstants;
 import com.lk.common.core.controller.BaseController;
 import com.lk.common.core.domain.LayResult;
 import com.lk.common.core.domain.XmSelect;
-import com.lk.common.core.domain.Ztree;
 import com.lk.common.core.domain.entity.SysMenu;
 import com.lk.common.core.domain.entity.SysRole;
-import com.lk.common.core.domain.entity.SysUser;
+import com.lk.common.core.domain.vo.MenuExcelVO;
+import com.lk.common.core.domain.vo.RoleExcelVO;
 import com.lk.common.enums.BusinessType;
 import com.lk.common.utils.ShiroUtils;
 import com.lk.system.service.ISysMenuService;
-import com.lk.system.service.ISysRoleService;
-import com.lk.system.service.ISysUserService;
-import org.apache.commons.collections.list.LazyList;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,8 +24,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
@@ -62,6 +62,25 @@ public class SysMenuController extends BaseController {
         model.put("menu", menuService.selectMenuById(id));
         model.put("level", getSysUser().maxLevel());
         return prefix + "/edit";
+    }
+
+    /**
+     * 导出excel 表格
+     *
+     * @return
+     */
+    @RequiresPermissions("system:menu:export")
+    @ResponseExcel
+    @GetMapping("/export")
+    public List<MenuExcelVO> export(SysMenu menu) {
+        List<SysMenu> menus = menuService.selectMenusByUser(getSysUser());
+        List<MenuExcelVO> menuExcelVOS = new ArrayList<>();
+        menus.forEach(u -> {
+            MenuExcelVO excelVO = new MenuExcelVO();
+            BeanUtils.copyProperties(u, excelVO);
+            menuExcelVOS.add(excelVO);
+        });
+        return menuExcelVOS;
     }
 
     @RequiresPermissions("system:menu:list")

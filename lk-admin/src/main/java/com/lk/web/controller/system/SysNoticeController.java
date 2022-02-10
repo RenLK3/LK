@@ -1,20 +1,19 @@
 package com.lk.web.controller.system;
 
-import com.lk.common.constant.UserConstants;
 import com.lk.common.core.controller.BaseController;
 import com.lk.common.core.domain.LayResult;
+import com.lk.common.core.domain.entity.SysMenu;
 import com.lk.common.core.domain.entity.SysNotice;
-import com.lk.common.core.domain.entity.SysRole;
 import com.lk.common.core.domain.entity.SysUser;
-import com.lk.framework.shiro.service.SysPasswordService;
+import com.lk.common.core.domain.vo.MenuExcelVO;
+import com.lk.common.core.domain.vo.NoticeExcelVO;
 import com.lk.system.domain.SysMessage;
-import com.lk.system.domain.SysUserRole;
 import com.lk.system.mapper.SysMessageMapper;
-import com.lk.system.mapper.SysUserRoleMapper;
 import com.lk.system.service.ISysNoticeService;
 import com.lk.system.service.ISysRoleService;
-import com.lk.system.service.ISysUserService;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -53,7 +52,7 @@ public class SysNoticeController extends BaseController {
 
     @RequiresPermissions("system:notice:add")
     @GetMapping("/add")
-    public String add( ) {
+    public String add() {
         return prefix + "/add";
     }
 
@@ -100,6 +99,25 @@ public class SysNoticeController extends BaseController {
     @ResponseBody
     public LayResult edit(@Validated SysNotice notice) {
         return toAjax(noticeService.updateNotice(notice));
+    }
+
+    /**
+     * 导出excel 表格
+     *
+     * @return
+     */
+    @RequiresPermissions("system:notice:export")
+    @ResponseExcel
+    @GetMapping("/export")
+    public List<NoticeExcelVO> export(SysNotice notice) {
+        List<SysNotice> notices = noticeService.selectNoticeList(new SysNotice());
+        List<NoticeExcelVO> noticeExcelVOS = new ArrayList<>();
+        notices.forEach(u -> {
+            NoticeExcelVO excelVO = new NoticeExcelVO();
+            BeanUtils.copyProperties(u, excelVO);
+            noticeExcelVOS.add(excelVO);
+        });
+        return noticeExcelVOS;
     }
 
     @RequiresPermissions("system:notice:remove")

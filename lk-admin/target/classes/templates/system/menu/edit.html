@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/admin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/admin/style/admin.css" media="all"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" th:href="@{/admin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/admin/style/admin.css}" media="all">
 </head>
 <body>
 <div class="layui-fluid">
@@ -87,13 +91,13 @@
         </div>
     </div>
 </div>
-<script src="/admin/layui/layui.js"></script>
-<script type="text/javascript" src="/admin/layui/xm-select.js"></script>
-<script type="text/javascript" src="/admin/axios/axios.min.js"></script>
+<script th:src="@{/admin/layui/layui.js}"></script>
+<script th:src="@{/admin/layui/xm-select.js}"></script>
+<script th:src="@{/admin/axios/axios.min.js}"></script>
 
 <script type="text/javascript">
     layui.config({
-        base: '../../admin/' //静态资源所在路径
+        base: '[[@{/admin/}]]'  //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'form'], function () {
@@ -208,6 +212,7 @@
 
                     if (res.code === 0) {
                         layer.msg('修改成功');
+                        setTimeout(function (){parent.layui.admin.events.closeThisTabs();},500)
                     } else {
                         layer.alert(res.msg, {
                             icon: 5,

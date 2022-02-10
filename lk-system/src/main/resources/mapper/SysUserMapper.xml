@@ -61,12 +61,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="status != null and status != ''">
 			AND u.status = #{status}
 		</if>
-		<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-			AND u.create_time &gt;= to_date(#{params.beginTime},'yyyy-MM-dd HH24:mi:ss')
-		</if>
-		<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-			AND u.create_time &lt;= to_date(#{params.endTime},'yyyy-MM-dd HH24:mi:ss')
-		</if>
+<!--		<if test="params.beginTime != null and params.beginTime != ''">&lt;!&ndash; 开始时间检索 &ndash;&gt;-->
+<!--			AND u.create_time &gt;= to_date(#{params.beginTime},'yyyy-MM-dd HH24:mi:ss')-->
+<!--		</if>-->
+<!--		<if test="params.endTime != null and params.endTime != ''">&lt;!&ndash; 结束时间检索 &ndash;&gt;-->
+<!--			AND u.create_time &lt;= to_date(#{params.endTime},'yyyy-MM-dd HH24:mi:ss')-->
+<!--		</if>-->
 		<if test="deptId != null">
 			AND u.dept_id = #{deptId}
 		</if>

@@ -4,19 +4,16 @@ import com.lk.common.core.controller.BaseController;
 import com.lk.common.core.domain.JSTree;
 import com.lk.common.core.domain.LayResult;
 import com.lk.common.core.domain.entity.SysDept;
-import com.lk.common.core.domain.entity.SysMenu;
 import com.lk.common.core.domain.entity.SysUser;
-import com.lk.common.utils.ShiroUtils;
+import com.lk.common.core.domain.vo.DeptExcelVO;
 import com.lk.common.utils.StringUtils;
 import com.lk.system.service.ISysDeptService;
-import com.lk.system.service.ISysMenuService;
-import com.lk.system.service.ISysRoleService;
 import com.lk.system.service.ISysUserService;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -91,7 +88,6 @@ public class SysDeptController extends BaseController {
         return initJSTree(deptList);
     }
 
-
     public List<JSTree> initJSTree(List<SysDept> deptList) {
         if (deptList == null || deptList.size() == 0) return new ArrayList<>();
         List<JSTree> trees = new ArrayList<>();
@@ -151,6 +147,25 @@ public class SysDeptController extends BaseController {
         dept.setDeptId(id);
         dept.setDeptName(name);
         return toAjax(deptService.updateDept(dept));
+    }
+
+    /**
+     * 导出excel 表格
+     *
+     * @return
+     */
+    @RequiresPermissions("system:dept:export")
+    @ResponseExcel
+    @GetMapping("/export")
+    public List<DeptExcelVO> export(SysDept dept) {
+        List<SysDept> depts = deptService.selectDeptList(new SysDept());
+        List<DeptExcelVO> deptExcelVOS = new ArrayList<>();
+        depts.forEach(u -> {
+            DeptExcelVO excelVO = new DeptExcelVO();
+            BeanUtils.copyProperties(u, excelVO);
+            deptExcelVOS.add(excelVO);
+        });
+        return deptExcelVOS;
     }
 
     @RequiresPermissions("system:dept:edit")

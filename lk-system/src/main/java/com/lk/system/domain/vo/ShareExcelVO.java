@@ -1,59 +1,37 @@
-package com.lk.system.domain;
+package com.lk.system.domain.vo;
 
 
-import com.alibaba.excel.annotation.ExcelProperty;
-import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.lk.common.core.domain.entity.BaseEntity;
 
 /**
  * 共享文件表 sys_share
- *
+ * 
  * @author lk
  */
-@ColumnWidth(30)
-public class SysShare extends BaseEntity {
+
+public class ShareExcelVO extends BaseEntity
+{
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 共享ID
-     */
-    @ExcelProperty("共享ID")
+    /** ID */
     private Long shareId;
 
-    /**
-     * 父ID
-     */
-    @ExcelProperty("父ID")
+    /** 父ID */
     private Long parentId;
 
-    /**
-     * 名称
-     */
-    @ExcelProperty("名称")
+    /** 名称 */
     private String name;
 
-    /**
-     * 类型
-     */
-    @ExcelProperty("类型")
+    /** 类型 */
     private Integer type;
 
-    /**
-     * 路径
-     */
-    @ExcelProperty("路径")
+    /** 路径 */
     private String path;
 
-    /**
-     * 级别
-     */
-    @ExcelProperty("级别")
+    /** 级别 */
     private Integer level;
 
-    /**
-     * 大小
-     */
-    @ExcelProperty("大小")
+    /** 大小 */
     private Long size;
 
     public Long getShareId() {

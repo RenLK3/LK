@@ -12,12 +12,23 @@ import org.springframework.context.annotation.Bean;
 import java.util.concurrent.TimeUnit;
 
 
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class LKAdminApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LKAdminApplication.class, args);
-        System.out.println("---------------启动成功---------------");
+        System.out.println(
+                "---------------启动成功-------------------\n" +
+                        "------||--------------||--------//-------\n" +
+                        "------||--------------||------//---------\n" +
+                        "------||--------------||----//-----------\n" +
+                        "------||--------------||--//-------------\n" +
+                        "------||--------------||//-//------------\n" +
+                        "------||--------------||-----//----------\n" +
+                        "------||--------------||-------//--------\n" +
+                        "------||--------------||---------//------\n" +
+                        "------||--------------||-----------//----\n" +
+                        "------//////////------||-------------//--\n");
     }
 
 }

@@ -1,29 +1,35 @@
-package com.lk.common.core.domain.entity;
+package com.lk.common.core.domain.vo;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.lk.common.core.domain.entity.BaseEntity;
 
-/**
- * 通知
- */
-public class SysNotice extends BaseEntity {
+@ColumnWidth(30)
+public class NoticeExcelVO extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /**  id */
+    /**  通知ID */
+    @ExcelProperty("通知ID")
     private Long noticeId;
 
     /**  名称 */
+    @ExcelProperty("通知名称")
     private String name;
 
     /**  标题 */
+    @ExcelProperty("通知标题")
     private String title;
 
     /**  内容 */
+    @ExcelProperty("通知内容")
     private String content;
 
     /**  类型 */
+    @ExcelProperty("通知类型")
     private String type;
 
     /**  状态 */
+    @ExcelProperty("通知状态")
     private String status;
 
     public Long getNoticeId() {

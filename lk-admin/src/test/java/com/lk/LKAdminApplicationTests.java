@@ -1,6 +1,9 @@
 package com.lk;
 
+import com.lk.common.core.domain.entity.SysDept;
 import com.lk.common.utils.spring.SpringUtils;
+import com.lk.framework.shiro.service.SysPasswordService;
+import com.lk.system.service.ISysDeptService;
 import com.lk.xxl.domain.XxlJobGroup;
 import com.lk.xxl.domain.XxlJobLog;
 import com.lk.xxl.domain.XxlJobRegistry;
@@ -12,6 +15,7 @@ import com.lk.xxl.task.TestTask;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authc.credential.PasswordService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +57,17 @@ class LKAdminApplicationTests {
 
     private static final String VALUE = "value";
 
+    @Autowired
+    private SysPasswordService passwordService;
+
+
+    @Autowired
+    private ISysDeptService deptService;
+
     @Test
     void contextLoads() throws Exception {
-
-        System.out.println();
+        List<SysDept> depts = deptService.selectDeptList(new SysDept());
+        System.out.println(depts);
 
     }
 

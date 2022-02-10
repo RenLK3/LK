@@ -61,9 +61,10 @@
 </div>
 
 <script th:src="@{/admin/layui/layui.js}"></script>
-<script>
+
+<script type="text/javascript"> // 使用时封装到js文件中
     layui.config({
-        base: '../admin/' //静态资源所在路径
+        base: '[[@{/admin/}]]'  //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'table', 'form', 'util'], function () {

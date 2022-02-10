@@ -5,22 +5,17 @@ import com.lk.common.core.domain.JSTree;
 import com.lk.common.core.domain.LayResult;
 import com.lk.common.core.domain.entity.SysDept;
 import com.lk.common.core.domain.entity.SysUser;
+import com.lk.common.core.domain.vo.DeptExcelVO;
 import com.lk.common.utils.StringUtils;
-import com.lk.framework.config.LKConfig;
 import com.lk.system.domain.SysShare;
-import com.lk.system.mapper.SysShareMapper;
-import com.lk.system.service.ISysDeptService;
-import com.lk.system.service.ISysRoleService;
+import com.lk.system.domain.vo.ShareExcelVO;
 import com.lk.system.service.ISysShareService;
-import com.lk.system.service.ISysUserService;
-import com.lk.xxl.service.XxlJobService;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.FileEncodingApplicationListener;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -98,7 +93,6 @@ public class ShareController extends BaseController {
         List<SysShare> shares = shareService.selectShareList(share);
         return initJSTree(shares);
     }
-
 
     public List<JSTree> initJSTree(List<SysShare> shareList) {
         if (shareList == null || shareList.size() == 0) return new ArrayList<>();
@@ -219,7 +213,24 @@ public class ShareController extends BaseController {
             return error("不能更改高级别文档");
         }
     }
-
+    /**
+     * 导出excel 表格
+     *
+     * @return
+     */
+    @RequiresPermissions("system:share:export")
+    @ResponseExcel
+    @GetMapping("/export")
+    public List<ShareExcelVO> export(SysShare share) {
+        List<SysShare> shares = shareService.selectShareList(new SysShare());
+        List<ShareExcelVO> shareExcelVOS = new ArrayList<>();
+        shares.forEach(u -> {
+            ShareExcelVO excelVO = new ShareExcelVO();
+            BeanUtils.copyProperties(u, excelVO);
+            shareExcelVOS.add(excelVO);
+        });
+        return shareExcelVOS;
+    }
     @RequiresPermissions("tool:share:edit")
     @PostMapping("/del")
     @ResponseBody

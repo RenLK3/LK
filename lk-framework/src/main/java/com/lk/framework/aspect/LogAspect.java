@@ -1,7 +1,6 @@
 package com.lk.framework.aspect;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.support.spring.PropertyPreFilters;
 import com.lk.framework.manager.AsyncManager;
 import com.lk.framework.manager.factory.AsyncFactory;
 import com.lk.common.annotation.Log;
@@ -12,7 +11,6 @@ import com.lk.common.utils.ShiroUtils;
 import com.lk.common.utils.StringUtils;
 import com.lk.system.domain.SysOperLog;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

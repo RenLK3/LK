@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="/admin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/admin/style/admin.css" media="all"/>
+    <link rel="stylesheet" th:href="@{/admin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/admin/style/admin.css}" media="all">
 </head>
 <body>
 <div class="layui-fluid">
@@ -31,7 +31,8 @@
                     </select>
                 </div>
                 <div class="layui-inline">
-                    <button class="layui-btn layuiadmin-btn-useradmin layui-bg-blue" lay-submit lay-filter="user-search">
+                    <button class="layui-btn layuiadmin-btn-useradmin layui-bg-blue" lay-submit
+                            lay-filter="user-search">
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>搜索
                     </button>
                 </div>
@@ -50,13 +51,18 @@
             </script>
 
             <script type="text/html" id="table-user-manager-toolbarDemo">
-                <div class="layui-btn-container" >
-                    <button class="layui-btn layui-btn-sm  layui-bg-cyan" lay-event="Add"><i class="layui-icon layui-icon-add-1"></i>添加
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm  layui-bg-cyan" lay-event="Add"><i
+                            class="layui-icon layui-icon-add-1"></i>新增
+                    </button>
+                    <button class="layui-btn layui-btn-sm  layui-btn-warm" lay-event="Export"><i
+                            class="layui-icon layui-icon-export"></i>导出
                     </button>
                 </div>
             </script>
             <script type="text/html" id="table-user-manager-barDemo">
-                <a class="layui-btn layui-btn-xs layui-bg-orange" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>修改</a>
+                <a class="layui-btn layui-btn-xs layui-bg-orange" lay-event="edit"><i
+                        class="layui-icon layui-icon-edit"></i>修改</a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
                         class="layui-icon layui-icon-delete"></i>删除</a>
             </script>
@@ -64,311 +70,256 @@
     </div>
 </div>
 
-<script src="/admin/layui/layui.js"></script>
-<script type="text/javascript" src="/admin/layui/xm-select.js"></script>
+<script th:src="@{/admin/layui/layui.js}"></script>
+<script th:src="@{/admin/layui/xm-select.js}"></script>
 
-<script type="text/javascript" >
+<script type="text/javascript"> // 使用时封装到js文件中
+layui.config({
+    base: '[[@{/admin/}]]'  //静态资源所在路径
+}).extend({
+    index: 'lib/index' //主入口模块
+}).use(['index', 'admin', 'table'], function () {
+    let $ = layui.$
+        , form = layui.form
+        , admin = layui.admin
+        , table = layui.table;
 
-    layui.config({
-        base: '../admin/' //静态资源所在路径
-    }).extend({
-        index: 'lib/index' //主入口模块
-    }).use(['index', 'admin', 'table'], function () {
-        let $ = layui.$
-            , form = layui.form
-            , admin = layui.admin
-            , table = layui.table;
+    let addFlag = [[${@permission.hasPerm('system:user:add')}]];
+    let editFlag = [[${@permission.hasPerm('system:user:edit')}]];
+    let removeFlag = [[${@permission.hasPerm('system:user:del')}]];
 
-        let addFlag = [[${@permission.hasPerm('system:user:add')}]];
-        let editFlag = [[${@permission.hasPerm('system:user:edit')}]];
-        let removeFlag = [[${@permission.hasPerm('system:user:del')}]];
+    let ctx = '[[@{/}]]';
+    let prefix = ctx + "system/user";
 
-        let ctx = '[[@{/}]]';
-        let prefix = ctx + "system/user";
+    if (!editFlag) {
+        $('input[type="checkbox"][name="state"]').attr({"readonly": "readonly"})
+    }
 
-        if (!editFlag) {
-            $('input[type="checkbox"][name="state"]').attr({"readonly": "readonly"})
-        }
-
-        table.render({
-            elem: '#table-user-manager'
-            , toolbar: '#table-user-manager-toolbarDemo'
-            , method: 'post'
-            , url: prefix + '/list'//数据接口
-            , page: true //开启分页
-            , cols: [
-                [
-                    {field: 'userId',hide:true}
-                    , {
-                    field: 'dept_id', title: '部门名称',align: 'center', width: 150, templet: function (obj) {
-                        return obj.dept.deptName;
-                        //return '<div id="XM-dept-' + obj.userId + '"></div>'
-                    }
-                }
-                    , {
-                    field: 'roles', align: 'center', title: '角色名称', minWidth: 150, templet: function (obj) {
-                        return '<div id="XM-' + obj.userId + '"></div>'
-                    }
-                }
-                    , {field: 'loginName',align: 'center', title: '登录账号', width: 150}
-                    , {field: 'userName',align: 'center', title: '用户名称', width: 120}
-                    , {
-                    field: 'sex', title: '性别',align: 'center', width: 70, templet: function (obj) {
-                        return obj.sex === '1' ? '男' : '女';
-                    }
-                }
-                    , {field: 'status', title: '状态',align: 'center', templet: '#switchTpl', width: 100}
-                    , {field: 'remark', align: 'center', title: '备注', width: 100}
-                     , {field: 'createBy', title: '创建人', minWidth: 150}
-                    , {field: 'createTime',align: 'center', title: '创建时间', minWidth: 150}
-                    , {field: 'updateBy', title: '更新人', minWidth: 150}
-                    , {field: 'updateTime', title: '更新时间', minWidth: 150}
-                    , {title: '操作', align: 'center',fixed: 'right', width: 150, toolbar: '#table-user-manager-barDemo'}
-                ]
-            ]
-            , done: function (res) {
-                //修改一些css样式, 这里虽然能够使用, 但是还是不太友好, 努力中...
-                let cells = document.querySelectorAll('div[lay-id="table-user-manager"] .layui-table-cell');
-                for(let i = 0 ; i < cells.length ; i++ ){
-                    //cells[i].style.overflow = 'unset';
-                    cells[i].style.height = 'auto';
-                }
-                //渲染多选
-                res.data.forEach(item =>  {
-
-                    let roles = [(${@html.toHtmlText(roles)})];
-                    let thisLevel = [[${level}]];
-
-                    item.roles.forEach(role=>{
-                        roles.forEach(allRole=>{
-                            if(allRole.roleId === role.roleId){
-                                allRole.selected = true;
-                            }
-                            if(allRole.level < thisLevel){
-                                allRole.disabled = true;
-                            }
-                            if(!editFlag){
-                                //data.disabled = true;
-                                allRole.disabled = true;
-                            }
-
-                        })
-                    });
-
-                    let xm = xmSelect.render({
-                        el: '#XM-' + item.userId,
-                        autoRow: true,
-                        theme: {
-                            color: '#1cbbb4',
-                        },
-                        model: { type: 'fixed' },
-                        prop: {
-                            name: 'roleName',
-                            value: 'roleId',
-                        },
-                        clickClose: true,
-                        data: roles,
-                        on: function (data){
-                            if(editFlag){
-                                let ls = [];
-                                data.arr.forEach(da=>{
-                                    ls.push(da.roleId);
-                                })
-
-                                $.ajax({
-                                    url: prefix + "/changeRole",
-                                    type: "post",
-                                    data: {
-                                        userid: item.userId,
-                                        roleIds: ls
-                                    },
-                                    dataType: "json",
-                                    success: function (r) {
-                                        table.reload('table-user-manager');
-                                        if(r.code != 0){
-                                            table.reload('table-user-manager');
-                                            layer.alert(r.msg, {
-                                                icon: 5,
-                                                title: '失败'
-                                            });
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    })
-
-                    let xm_dept = xmSelect.render({
-                        el: '#XM-dept-' + item.userId,
-
-                        theme: {
-                            color: '#1cbbb4',
-                        },
-                        radio: true,
-                        //选中关闭
-                        clickClose: true,
-                        model: { label: { type: 'text' } },
-                        tree: {
-                            show: true,
-                            strict: false,
-                            expandedKeys: [ -1 ],
-                        },
-                        // prop: {
-                        //     name: 'roleName',
-                        //     value: 'roleId',
-                        // },
-                        height: 'auto',
-                        data(){
-                            return [
-                                {name: '销售员', value: -1, children: [
-                                        {name: '张三', value: 100, selected: true, children: []},
-                                        {name: '李四1', value: 2, selected: true},
-                                        {name: '王五1', value: 3, disabled: true},
-                                    ]},
-                                {name: '奖品', value: -2, children: [
-                                        {name: '奖品3', value: -3, children: [
-                                                {name: '苹果3', value: 14, selected: true},
-                                                {name: '香蕉3', value: 15},
-                                                {name: '葡萄3', value: 16},
-                                            ]},
-                                        {name: '苹果2', value: 4, selected: true, disabled: true},
-                                        {name: '香蕉2', value: 5},
-                                        {name: '葡萄2', value: 6},
-                                    ]},
-                            ]
-                        },
-                        on: function (data){
-                            // if(editFlag){
-                            //     let ls = [];
-                            //     data.arr.forEach(da=>{
-                            //         ls.push(da.roleId);
-                            //     })
-                            //
-                            //     $.ajax({
-                            //         url: prefix + "/changeRole",
-                            //         type: "post",
-                            //         data: {
-                            //             userid: item.userId,
-                            //             roleIds: ls
-                            //         },
-                            //         dataType: "json",
-                            //         success: function (r) {
-                            //             table.reload('table-user-manager');
-                            //             if(r.code != 0) {
-                            //                 layer.alert(r.msg, {
-                            //                     icon: 5,
-                            //                     title: '失败'
-                            //                 });
-                            //             }
-                            //         }
-                            //     });
-                            // }
-                        }
-                    })
-                    item.__xm = xm;
-                })
-            }
-        });
-
-        //表格滚动时 重新计算位置
-        // document.querySelector('.layui-table-body').addEventListener('scroll', () => {
-        //     xmSelect.get().forEach(function(item){
-        //         item.calcPosition();
-        //     })
-        // })
-
-        //监听操作
-        form.on('switch(State)', function (obj) {
-            // console.log(this.value + ' ' + this.name + '：' + obj.elem.checked);
-            $.ajax({
-                url: prefix + "/state",
-                type: "post",
-                data: {
-                    userid: this.value,
-                    state: obj.elem.checked ? 1 : 0
-                },
-                dataType: "json",
-                success: function (r) {
-                    if (r.code != 0) {
-                        layer.alert(r.msg, {
-                            icon: 5,
-                            title: '失败'
-                        });
-                    }
-                }
-            });
-            return false;
-        });
-
-        form.on('submit(user-search)', function (obj) {
-            //console.log(obj);
-            table.reload('table-user-manager', {
-                where: {
-                    loginName: obj.field.loginName,
-                    status: obj.field.state
-                }
-            });
-        })
-
-        //头工具栏事件
-        table.on('toolbar(table-user-manager)', function (obj) {
-            switch (obj.event) {
-                case 'Add':
-                    if (addFlag) {
-                        let url = prefix + '/add';
-                        let title = "新增用户";
-                        let l = parent === self ? layui : top.layui;
-                        l.index.openTabsPage(url, title);
+    table.render({
+        elem: '#table-user-manager'
+        , toolbar: '#table-user-manager-toolbarDemo'
+        , method: 'post'
+        , url: prefix + '/list'//数据接口
+        , page: true //开启分页
+        , cols: [
+            [
+                {field: 'userId', hide: true}
+                , {
+                field: 'dept_id', title: '部门名称', align: 'center', width: 150, templet: function (obj) {
+                    if (obj.dept.deptName == null) {
+                        return '';
                     } else {
-                        layer.msg('你没有添加用户权限！', {icon: 5});
+                        return obj.dept.deptName;
                     }
-                    break;
-            }
-
-        });
-
-        //监听行工具事件
-        table.on('tool(table-user-manager)', function (obj) {
-            let data = obj.data;
-
-            console.log(data)
-            if (obj.event === 'del') {
-                if (removeFlag) {
-                    $.ajax({
-                        url: prefix + "/remove",
-                        type: "post",
-                        data: {userid: data.userId},
-                        dataType: "json",
-                        success: function (r) {
-                            if (r.code === 0) {
-                                layer.msg('删除成功');
-                                // table.reload('table-user-manager');
-                                obj.del();
-                            } else {
-                                layer.alert(r.msg, {
-                                    icon: 5,
-                                    title: '失败'
-                                });
-                            }
-                        }
-                    });
-                } else {
-                    layer.msg('你没有删除用户权限！', {icon: 5});
+                    //return '<div id="XM-dept-' + obj.userId + '"></div>'
                 }
+            }
+                , {
+                field: 'roles', align: 'center', title: '角色名称', minWidth: 150, templet: function (obj) {
+                    return '<div id="XM-' + obj.userId + '"></div>'
+                }
+            }
+                , {field: 'loginName', align: 'center', title: '登录账号', width: 150}
+                , {field: 'userName', align: 'center', title: '用户名称', width: 120}
+                , {
+                field: 'sex', title: '性别', align: 'center', width: 70, templet: function (obj) {
+                    return obj.sex === '1' ? '男' : '女';
+                }
+            }
+                , {field: 'status', title: '状态', align: 'center', templet: '#switchTpl', width: 100}
+                , {field: 'remark', align: 'center', title: '备注', width: 100}
+                , {field: 'createBy', title: '创建人', minWidth: 150}
+                , {field: 'createTime', align: 'center', title: '创建时间', minWidth: 150}
+                , {field: 'updateBy', title: '更新人', minWidth: 150}
+                , {field: 'updateTime', title: '更新时间', minWidth: 150}
+                , {title: '操作', align: 'center', fixed: 'right', width: 150, toolbar: '#table-user-manager-barDemo'}
+            ]
+        ]
+        , done: function (res) {
+            //修改一些css样式, 这里虽然能够使用, 但是还是不太友好, 努力中...
+            let cells = document.querySelectorAll('div[lay-id="table-user-manager"] .layui-table-cell');
+            for (let i = 0; i < cells.length; i++) {
+                //cells[i].style.overflow = 'unset';
+                cells[i].style.height = 'auto';
+            }
+            // 用于解决动态表格操作列的高度问题
+            cells = $('table').eq(4).find('.layui-table-cell');
+            for (let i = 0; i < cells.length; i++) {
+                cells[i].style.height = '38px';
+            }
+            //渲染多选
+            res.data.forEach(item => {
 
-            } else if (obj.event === 'edit') {
-                if (editFlag) {
-                    let url = prefix + '/edit?id=' + data.userId;
-                    let title = "编辑用户";
+                let roles = [(${@html.toHtmlText(roles)})];
+                let thisLevel = [[${level}]];
+
+                item.roles.forEach(role => {
+                    roles.forEach(allRole => {
+                        if (allRole.roleId === role.roleId) {
+                            allRole.selected = true;
+                        }
+                        if (allRole.level < thisLevel) {
+                            allRole.disabled = true;
+                        }
+                        if (!editFlag) {
+                            //data.disabled = true;
+                            allRole.disabled = true;
+                        }
+
+                    })
+                });
+
+                let xm = xmSelect.render({
+                    el: '#XM-' + item.userId,
+                    autoRow: true,
+                    theme: {
+                        color: '#1cbbb4',
+                    },
+                    model: {type: 'fixed'},
+                    prop: {
+                        name: 'roleName',
+                        value: 'roleId',
+                    },
+                    clickClose: true,
+                    data: roles,
+                    on: function (data) {
+                        if (editFlag) {
+                            let ls = [];
+                            data.arr.forEach(da => {
+                                ls.push(da.roleId);
+                            })
+
+                            $.ajax({
+                                url: prefix + "/changeRole",
+                                type: "post",
+                                data: {
+                                    userid: item.userId,
+                                    roleIds: ls
+                                },
+                                dataType: "json",
+                                success: function (r) {
+                                    table.reload('table-user-manager');
+                                    if (r.code != 0) {
+                                        table.reload('table-user-manager');
+                                        layer.alert(r.msg, {
+                                            icon: 5,
+                                            title: '失败'
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    }
+                })
+
+
+                item.__xm = xm;
+            })
+        }
+    });
+
+    //表格滚动时 重新计算位置
+    // document.querySelector('.layui-table-body').addEventListener('scroll', () => {
+    //     xmSelect.get().forEach(function(item){
+    //         item.calcPosition();
+    //     })
+    // })
+
+    //监听操作
+    form.on('switch(State)', function (obj) {
+        // console.log(this.value + ' ' + this.name + '：' + obj.elem.checked);
+        $.ajax({
+            url: prefix + "/state",
+            type: "post",
+            data: {
+                userid: this.value,
+                state: obj.elem.checked ? 1 : 0
+            },
+            dataType: "json",
+            success: function (r) {
+                if (r.code != 0) {
+                    layer.alert(r.msg, {
+                        icon: 5,
+                        title: '失败'
+                    });
+                }
+            }
+        });
+        return false;
+    });
+
+    form.on('submit(user-search)', function (obj) {
+        //console.log(obj);
+        table.reload('table-user-manager', {
+            where: {
+                loginName: obj.field.loginName,
+                status: obj.field.state
+            }
+        });
+    })
+
+    //头工具栏事件
+    table.on('toolbar(table-user-manager)', function (obj) {
+        switch (obj.event) {
+            case 'Add':
+                if (addFlag) {
+                    let url = prefix + '/add';
+                    let title = "新增用户";
                     let l = parent === self ? layui : top.layui;
                     l.index.openTabsPage(url, title);
                 } else {
-                    layer.msg('你没有编辑用户权限！', {icon: 5});
+                    layer.msg('你没有新增用户权限！', {icon: 5});
                 }
+                break;
+            case 'Export':
+                location.href = prefix + "/export";
+                break;
+        }
 
-            }
-        });
     });
+
+    //监听行工具事件
+    table.on('tool(table-user-manager)', function (obj) {
+        let data = obj.data;
+
+        console.log(data)
+        if (obj.event === 'del') {
+            if (removeFlag) {
+                $.ajax({
+                    url: prefix + "/remove",
+                    type: "post",
+                    data: {userid: data.userId},
+                    dataType: "json",
+                    success: function (r) {
+                        if (r.code === 0) {
+                            layer.msg('删除成功');
+                            // table.reload('table-user-manager');
+                            obj.del();
+                        } else {
+                            layer.alert(r.msg, {
+                                icon: 5,
+                                title: '失败'
+                            });
+                        }
+                    }
+                });
+            } else {
+                layer.msg('你没有删除用户权限！', {icon: 5});
+            }
+
+        } else if (obj.event === 'edit') {
+            if (editFlag) {
+                let url = prefix + '/edit?id=' + data.userId;
+                let title = "编辑用户";
+                let l = parent === self ? layui : top.layui;
+                l.index.openTabsPage(url, title);
+            } else {
+                layer.msg('你没有编辑用户权限！', {icon: 5});
+            }
+
+        }
+    });
+});
 </script>
 </body>
 
