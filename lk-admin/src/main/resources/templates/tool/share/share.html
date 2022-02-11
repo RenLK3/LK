@@ -5,7 +5,8 @@
     <title></title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
     <link rel="stylesheet" th:href="@{/admin/layui/css/layui.css}" media="all">
     <link rel="stylesheet" th:href="@{/admin/style/admin.css}" media="all">
@@ -83,7 +84,8 @@
                         </div>
                     </script>
                     <script type="text/html" id="table-share-manager-barDemo">
-                        <!--                        <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>修改</a>-->
+                        <a class="layui-btn layui-btn-xs"  lay-event="download" ><i
+                                class="layui-icon layui-icon-edit"></i>下载</a>
                         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
                                 class="layui-icon layui-icon-delete"></i>删除</a>
                     </script>
@@ -92,7 +94,7 @@
         </div>
     </div>
 </div>
-
+<!-- 上传文件 -->
 <div id="uploadShare" style="display: none">
     <div class="layui-fluid">
         <div class="layui-card">
@@ -128,7 +130,7 @@
         </div>
     </div>
 </div>
-
+<!-- 添加目录 -->
 <div id="addFolder" style="display: none">
     <div class="layui-fluid">
         <div class="layui-card">
@@ -137,17 +139,15 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">名称</label>
                         <div class="layui-inline">
-                            <input class="layui-input" name="name" >
+                            <input class="layui-input" name="name">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-md12">
-                    <!--                    <div class="layui-form-item">-->
                     <label class="layui-form-label">级别</label>
                     <div class="layui-inline">
                         <div id="folderLevel" class="xm-select-demo"></div>
                     </div>
-                    <!--                    </div>-->
                 </div>
                 <button type="button" class="layui-btn" lay-submit lay-filter="folder-form-element">新增目录
                 </button>
@@ -177,291 +177,306 @@
     }
 </script>
 <script type="text/javascript"> // 使用时封装到js文件中
-    layui.config({
-        base: '[[@{/admin/}]]'  //静态资源所在路径
-    }).extend({
-        index: 'lib/index' //主入口模块
-    }).use(['index', 'table', 'form', 'util', 'admin', 'upload'], function () {
-        let $ = layui.$,
-            form = layui.form,
-            util = layui.util,
-            admin = layui.admin,
-            table = layui.table,
-            upload = layui.upload;
+layui.config({
+    base: '[[@{/admin/}]]'  //静态资源所在路径
+}).extend({
+    index: 'lib/index' //主入口模块
+}).use(['index', 'table', 'form', 'util', 'admin', 'upload'], function () {
+    let $ = layui.$,
+        form = layui.form,
+        util = layui.util,
+        admin = layui.admin,
+        table = layui.table,
+        upload = layui.upload;
 
-        let addFlag = [[${@permission.hasPerm('tool:share:add')}]];
-        let editFlag = [[${@permission.hasPerm('tool:share:edit')}]];
-        let removeFlag = [[${@permission.hasPerm('tool:share:del')}]];
+    let addFlag = [[${@permission.hasPerm('tool:share:add')}]];
+    let editFlag = [[${@permission.hasPerm('tool:share:edit')}]];
+    let removeFlag = [[${@permission.hasPerm('tool:share:del')}]];
 
-        let ctx = '[[@{/}]]';
-        let prefix = ctx + "tool/share";
+    let ctx = '[[@{/}]]';
+    let prefix = ctx + "tool/share";
 
-        let thisLevel = [[${@html.getLoginRoleLevel()}]]
+    let thisLevel = [[${@html.getLoginRoleLevel()}]]
 
-        let data = [];
-        for (let i = thisLevel; i < 99; i++) {
-            if (i == thisLevel) {
-                data.push({name: '' + i, value: i, selected: true})
-            } else {
-                data.push({name: '' + i, value: i})
+    let data = [];
+    for (let i = thisLevel; i < 99; i++) {
+        if (i == thisLevel) {
+            data.push({name: '' + i, value: i, selected: true})
+        } else {
+            data.push({name: '' + i, value: i})
+        }
+    }
+
+    let folderLevel = xmSelect.render({
+        el: '#folderLevel',
+        name: 'level',
+        layVerify: 'required',
+        radio: true,
+        autoRow: true,
+        clickClose: true,
+        data: data
+    })
+
+    let level = xmSelect.render({
+        el: '#level',
+        name: 'level',
+        layVerify: 'required',
+        radio: true,
+        autoRow: true,
+        clickClose: true,
+        data: data
+    })
+
+    let shareTree = $('#shareTree').jstree({
+        'core': {
+            'data': {
+                'url': prefix + '/tree',
+                'data': function (node) {
+                    if (node.id === '#') {
+                        return {'id': -1};
+                    }
+                    return {'id': node.id};
+                }
             }
         }
+    });
 
-        let folderLevel = xmSelect.render({
-            el: '#folderLevel',
-            name: 'level',
-            layVerify: 'required',
-            radio: true,
-            autoRow: true,
-            clickClose: true,
-            data: data
-        })
-
-        let level = xmSelect.render({
-            el: '#level',
-            name: 'level',
-            layVerify: 'required',
-            radio: true,
-            autoRow: true,
-            clickClose: true,
-            data: data
-        })
-
-        let shareTree = $('#shareTree').jstree({
-            'core': {
-                'data': {
-                    'url': prefix + '/tree',
-                    'data': function (node) {
-                        if (node.id === '#') {
-                            return {'id': -1};
-                        }
-                        return {'id': node.id};
-                    }
-                }
-            }
-        });
-
-        $('#shareTree').on("changed.jstree", function (e, data) {
-            let sel = data.selected[0];
-            console.log()
-            if (sel === undefined) {
-                sel = 0;
-            }
-            let choose = data.selected[0];
-            if (choose != undefined && choose != null)
-                table.reload('table-share-manager', {
-                    where: {shareId: data.selected[0]}
-                });
-        });
-
-        //拖拽上传
-        upload.render({
-            elem: '#test-upload-drag'
-            , url: prefix + '/upload'
-            , accept: 'file' //普通文件
-            , auto: false
-            , bindAction: '#test-upload-change-action'
-            , data: {
-                pId: function () {
-                    return getTreeSelected()
-                }, name: function () {
-                    return $('#name').val()
-                }, level: level.getValue('value')
-            }
-            , done: function (res) {
-                layer.closeAll();
-                if (res.code === 0) {
-                    layer.msg('上传成功');
-                } else {
-                    layer.alert(res.msg, {title: '上传失败', icon: 5});
-                }
-                $('#shareTree').jstree(true).refresh();
-            }, choose: function (obj) {
-                obj.preview(function (index, file, result) {
-                    let fileName = file.name;
-                    $('#name').val(fileName);
-                });
-            }
-        });
-
-        table.render({
-            elem: '#table-share-manager'
-            , toolbar: '#table-share-manager-toolbarDemo'
-            , method: 'post'
-            , url: prefix + '/list'
-            , where: {shareId: -1}
-            , page: true
-            , cols: [
-                [
-                    {field: 'shareId', title: 'ID',hide:true, align: 'center', width: 50}
-                    , {field: 'name', align: 'center', title: '文件名', width: 100}
-                    , {
-                    field: 'type', align: 'center', title: '类型', width: 60, templet: function (obj) {
-                        return obj.type === 0 ? '目录' : '文件';
-                    }
-                }
-                    , {field: 'path', align: 'center', title: '路径', width: 100}
-                    , {field: 'size', align: 'center', title: '大小', width: 60}
-                    , {
-                    field: 'level', title: '级别', align: 'center', width: 60, templet: function (obj) {
-                        return obj.level;
-                    }
-                }
-                    , {field: 'createBy', align: 'center', title: '创建者', width: 100}
-                    , {field: 'createTime', align: 'center', title: '创建时间', width: 200}
-                    , {field: 'updateBy', align: 'center', title: '更新者', width: 100}
-                    , {field: 'updateTime', align: 'center', title: '更新时间', width: 200}
-                    , {field: 'remark', align: 'center', title: '备注', width: 100}
-                    , {title: '操作', width: 90, fixed: 'right', toolbar: '#table-share-manager-barDemo'}
-                ]
-            ]
-        });
-
-        table.on('toolbar(table-share-manager)', function (obj) {
-            switch (obj.event) {
-                case 'Add':
-                    if (addFlag) {
-                        if ((pId = getTreeSelected()) == 0) {
-                            layer.alert('请选中部门');
-                        } else {
-                            layer.open({
-                                title: '上传'
-                                , type: 1
-                                //,skin: 'layui-layer-rim'
-                                , shadeClose: true
-                                , area: ['700px', '500px']
-                                , content: $('#uploadShare')
-                            });
-                        }
-                    } else {
-                        layer.msg('你没有新增角色权限！', {icon: 5});
-                    }
-                    break;
-                case 'Export':
-                    location.href = prefix + "/export";
-                    break;
-            }
-        });
-
-        //监听行工具事件
-        table.on('tool(table-share-manager)', function (obj) {
-            let data = obj.data;
-            if (obj.event === 'del') {
-                //console.log(data)
-                axios({
-                    method: 'post',
-                    url: prefix + '/del',
-                    params: {
-                        id: data.shareId
-                    }
-                }).then(response => {
-                    let res = response.data;
-                    $('#shareTree').jstree(true).refresh();
-                    table.reload('table-share-manager');
-                    if(res.code != 0){
-                        layer.alert(res.msg, {title: '失败', icon: 5});
-                    }
-                });
-            }
-        });
-
-        form.on('submit(share-search)', function (obj) {
+    $('#shareTree').on("changed.jstree", function (e, data) {
+        let sel = data.selected[0];
+        console.log()
+        if (sel === undefined) {
+            sel = 0;
+        }
+        let choose = data.selected[0];
+        if (choose != undefined && choose != null)
             table.reload('table-share-manager', {
-                where: {
-                    shareId: getTreeSelected(),
-                    name: obj.field.name,
-                    type: obj.field.type
-                }
+                where: {shareId: data.selected[0]}
             });
-        })
+    });
 
-        form.on('submit(folder-form-element)', function (obj) {
-            let data = obj.field;
+    //拖拽上传
+    upload.render({
+        elem: '#test-upload-drag'
+        , url: prefix + '/upload'
+        , accept: 'file' //普通文件
+        , auto: false
+        , bindAction: '#test-upload-change-action'
+        , data: {
+            pId: function () {
+                return getTreeSelected()
+            }, name: function () {
+                return $('#name').val()
+            }, level: level.getValue('value')
+        }
+        , done: function (res) {
+            layer.closeAll();
+            if (res.code === 0) {
+                layer.msg('上传成功');
+            } else {
+                layer.alert(res.msg, {title: '上传失败', icon: 5});
+            }
+            $('#shareTree').jstree(true).refresh();
+        }, choose: function (obj) {
+            obj.preview(function (index, file, result) {
+                let fileName = file.name;
+                $('#name').val(fileName);
+            });
+        }
+    });
 
+    table.render({
+        elem: '#table-share-manager'
+        , toolbar: '#table-share-manager-toolbarDemo'
+        , method: 'post'
+        , url: prefix + '/list'
+        , where: {shareId: -1}
+        , page: true
+        , cols: [
+            [
+                {field: 'shareId', title: 'ID', hide: true, align: 'center', width: 50}
+                , {field: 'name', align: 'center', title: '文件名', width: 100}
+                , {
+                field: 'type', align: 'center', title: '类型', width: 60, templet: function (obj) {
+                    return obj.type === 0 ? '目录' : '文件';
+                }
+            }
+                , {field: 'path', align: 'center', title: '路径', width: 100}
+                , {field: 'size', align: 'center', title: '大小', width: 60}
+                , {
+                field: 'level', title: '级别', align: 'center', width: 60, templet: function (obj) {
+                    return obj.level;
+                }
+            }
+                , {field: 'createBy', align: 'center', title: '创建者', width: 100}
+                , {field: 'createTime', align: 'center', title: '创建时间', width: 200}
+                , {field: 'updateBy', align: 'center', title: '更新者', width: 100}
+                , {field: 'updateTime', align: 'center', title: '更新时间', width: 200}
+                , {field: 'remark', align: 'center', title: '备注', width: 100}
+                , {title: '操作', width: 150, fixed: 'right', toolbar: '#table-share-manager-barDemo'}
+            ]
+        ]
+    });
+
+    table.on('toolbar(table-share-manager)', function (obj) {
+        switch (obj.event) {
+            case 'Add':
+                if (addFlag) {
+                    if ((pId = getTreeSelected()) == 0) {
+                        layer.alert('请选中部门');
+                    } else {
+                        layer.open({
+                            title: '上传'
+                            , type: 1
+                            //,skin: 'layui-layer-rim'
+                            , shadeClose: true
+                            , area: ['700px', '500px']
+                            , content: $('#uploadShare')
+                        });
+                    }
+                } else {
+                    layer.msg('你没有新增角色权限！', {icon: 5});
+                }
+                break;
+            case 'Export':
+                location.href = prefix + "/export";
+                break;
+        }
+    });
+
+    //监听行工具事件
+    table.on('tool(table-share-manager)', function (obj) {
+        let data = obj.data;
+        if (obj.event === 'del') {
             axios({
                 method: 'post',
-                url: prefix + '/add',
+                url: prefix + '/del',
                 params: {
-                    pId: getTreeSelected(),
-                    level:data.level ,
-                    name: data.name
+                    id: data.shareId
                 }
             }).then(response => {
                 let res = response.data;
                 $('#shareTree').jstree(true).refresh();
-                if(res.code != 0){
+                table.reload('table-share-manager');
+                if (res.code != 0) {
                     layer.alert(res.msg, {title: '失败', icon: 5});
                 }
             });
+        } else if (obj.event === 'download') {
+            if(data.type === 0){
+                layer.msg('不能下载目录')
+            }else{
 
-            return false;
+                var form=$("<form>");
+                form.attr("style","display:none");
+                form.attr("target","");
+                form.attr("method","post");//提交方式为post
+                form.attr("action",prefix + "/download/"+data.shareId);//定义action
+                $("body").append(form);
+                // debugger
+                form.submit();
+                // location.href = prefix + "/download/"+data.shareId
+            }
+
+        }
+    });
+
+    form.on('submit(share-search)', function (obj) {
+        table.reload('table-share-manager', {
+            where: {
+                shareId: getTreeSelected(),
+                name: obj.field.name,
+                type: obj.field.type
+            }
         });
+    })
 
-        util.event('lay-node-event', {
-            add: function () {
-                let pId = 0;
-                if ((pId = getTreeSelected()) == 0) {
-                    layer.alert('请选中部门');
-                } else {
-                    layer.open({
-                        title: '新增目录'
-                        , type: 1
-                        //,skin: 'layui-layer-rim'
-                        , shadeClose: true
-                        , area: ['700px', '500px']
-                        , content: $('#addFolder')
-                    });
-                }
-            },
-            edit: function () {
-                let id = getTreeSelected();
-                if (id != 0) {
-                    layer.prompt({title: '请输入名称，并确认', formType: 0}, function (text, index) {
-                        layer.close(index);
-                        axios({
-                            method: 'post',
-                            url: prefix + '/edit',
-                            params: {
-                                id: id,
-                                name: text
-                            }
-                        }).then(response => {
-                            let res = response.data;
-                            $('#shareTree').jstree(true).refresh();
-                            if(res.code != 0){
-                                layer.alert(res.msg, {title: '失败', icon: 5});
-                            }
-                        });
-                    });
-                } else {
-                    layer.alert('请选中部门');
-                }
-                //ref.edit(sel);
-            },
-            del: function () {
-                let id = getTreeSelected();
-                if (id != 0) {
-                    axios({
-                        method: 'post',
-                        url: prefix + '/del',
-                        params: {
-                            id: id
-                        }
-                    }).then(response => {
-                        let res = response.data;
-                        if(res.code != 0){
-                            layer.alert(res.msg, {title: '失败', icon: 5});
-                        }
-                        $('#shareTree').jstree(true).refresh();
-                        table.reload('table-share-manager', {where: {shareId: -1}});
-                    });
-                } else {
-                    layer.alert('请选中部门');
-                }
+    form.on('submit(folder-form-element)', function (obj) {
+        let data = obj.field;
+
+        axios({
+            method: 'post',
+            url: prefix + '/add',
+            params: {
+                pId: getTreeSelected(),
+                level: data.level,
+                name: data.name
+            }
+        }).then(response => {
+            let res = response.data;
+            $('#shareTree').jstree(true).refresh();
+            if (res.code != 0) {
+                layer.alert(res.msg, {title: '失败', icon: 5});
             }
         });
 
+        return false;
     });
+
+    util.event('lay-node-event', {
+        add: function () {
+            let pId = 0;
+            if ((pId = getTreeSelected()) == 0) {
+                layer.alert('请选中部门');
+            } else {
+                layer.open({
+                    title: '新增目录'
+                    , type: 1
+                    //,skin: 'layui-layer-rim'
+                    , shadeClose: true
+                    , area: ['700px', '500px']
+                    , content: $('#addFolder')
+                });
+            }
+        },
+        edit: function () {
+            let id = getTreeSelected();
+            if (id != 0) {
+                layer.prompt({title: '请输入名称，并确认', formType: 0}, function (text, index) {
+                    layer.close(index);
+                    axios({
+                        method: 'post',
+                        url: prefix + '/edit',
+                        params: {
+                            id: id,
+                            name: text
+                        }
+                    }).then(response => {
+                        let res = response.data;
+                        $('#shareTree').jstree(true).refresh();
+                        if (res.code != 0) {
+                            layer.alert(res.msg, {title: '失败', icon: 5});
+                        }
+                    });
+                });
+            } else {
+                layer.alert('请选中部门');
+            }
+            //ref.edit(sel);
+        },
+        del: function () {
+            let id = getTreeSelected();
+            if (id != 0) {
+                axios({
+                    method: 'post',
+                    url: prefix + '/del',
+                    params: {
+                        id: id
+                    }
+                }).then(response => {
+                    let res = response.data;
+                    if (res.code != 0) {
+                        layer.alert(res.msg, {title: '失败', icon: 5});
+                    }
+                    $('#shareTree').jstree(true).refresh();
+                    table.reload('table-share-manager', {where: {shareId: -1}});
+                });
+            } else {
+                layer.alert('请选中部门');
+            }
+        }
+    });
+
+});
 </script>
 </body>
 

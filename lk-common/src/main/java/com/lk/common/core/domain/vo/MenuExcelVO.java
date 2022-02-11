@@ -84,8 +84,8 @@ public class MenuExcelVO extends BaseEntity {
     /**
      * 子菜单
      */
-    @ExcelProperty("子菜单")
-    private List<MenuExcelVO> children = new ArrayList<MenuExcelVO>();
+//    @ExcelProperty("子菜单")
+//    private List<MenuExcelVO> children = new ArrayList<MenuExcelVO>();
 
     public Long getMenuId() {
         return menuId;
@@ -95,8 +95,6 @@ public class MenuExcelVO extends BaseEntity {
         this.menuId = menuId;
     }
 
-    //    @NotBlank(message = "菜单名称不能为空")
-//    @Size(min = 0, max = 50, message = "菜单名称长度不能超过50个字符")
     public String getMenuName() {
         return menuName;
     }
@@ -218,13 +216,13 @@ public class MenuExcelVO extends BaseEntity {
         this.icon = icon;
     }
 
-    public List<MenuExcelVO> getChildren() {
-        return children;
-    }
+//    public List<MenuExcelVO> getChildren() {
+//        return children;
+//    }
 
-    public void setChildren(List<MenuExcelVO> children) {
-        this.children = children;
-    }
+//    public void setChildren(List<MenuExcelVO> children) {
+//        this.children = children;
+//    }
 
     @Override
     public String toString() {

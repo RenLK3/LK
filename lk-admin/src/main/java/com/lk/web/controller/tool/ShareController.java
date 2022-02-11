@@ -7,8 +7,10 @@ import com.lk.common.core.domain.entity.SysDept;
 import com.lk.common.core.domain.entity.SysUser;
 import com.lk.common.core.domain.vo.DeptExcelVO;
 import com.lk.common.utils.StringUtils;
+import com.lk.common.utils.spring.SpringUtils;
 import com.lk.system.domain.SysShare;
 import com.lk.system.domain.vo.ShareExcelVO;
+import com.lk.system.service.INetFileService;
 import com.lk.system.service.ISysShareService;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -19,10 +21,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -160,10 +160,10 @@ public class ShareController extends BaseController {
         if (!SysUser.battleLevel(SysUser.maxLevel(getSysUser()), (long) level)) {
             return error("不能上传高级别文档");
         }
-        if(StringUtils.isNotEmpty(name)){
+        if (StringUtils.isEmpty(name)) {
             return error("不能空名称");
         }
-
+        String oriName = name;
         name = System.currentTimeMillis() + "_" + name;
         File path = new File(upload, name);
 
@@ -184,13 +184,24 @@ public class ShareController extends BaseController {
             out.close();
             SysShare share = new SysShare();
             share.setParentId(pId);
-            share.setName(name);
+            share.setName(oriName);
             share.setLevel(level);
             share.setPath(path.getAbsolutePath());
             share.setCreateBy(getLoginName());
             return toAjax(shareService.insertFileShare(share));
         } catch (IOException e) {
             return error(e.getMessage());
+        }
+    }
+
+    @RequiresPermissions("tool:share:list")
+    @RequestMapping( value = "/download/{shareId}", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    private void download(@PathVariable Long shareId, HttpServletResponse response) {
+        try{
+            SpringUtils.getBean(INetFileService.class).downloadFile(shareId,response);
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -213,6 +224,7 @@ public class ShareController extends BaseController {
             return error("不能更改高级别文档");
         }
     }
+
     /**
      * 导出excel 表格
      *
@@ -231,6 +243,7 @@ public class ShareController extends BaseController {
         });
         return shareExcelVOS;
     }
+
     @RequiresPermissions("tool:share:edit")
     @PostMapping("/del")
     @ResponseBody

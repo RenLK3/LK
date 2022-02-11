@@ -73,8 +73,9 @@ public class SysMenuController extends BaseController {
     @ResponseExcel
     @GetMapping("/export")
     public List<MenuExcelVO> export(SysMenu menu) {
-        List<SysMenu> menus = menuService.selectMenusByUser(getSysUser());
+        List<SysMenu> menus = menuService.selectMenuAll(getSysUser().getUserId());
         List<MenuExcelVO> menuExcelVOS = new ArrayList<>();
+//        expand(menus,menuExcelVOS);
         menus.forEach(u -> {
             MenuExcelVO excelVO = new MenuExcelVO();
             BeanUtils.copyProperties(u, excelVO);
@@ -82,6 +83,17 @@ public class SysMenuController extends BaseController {
         });
         return menuExcelVOS;
     }
+
+//    private void expand(List<SysMenu> menus,List<MenuExcelVO> menuExcelVOS){
+//        menus.stream().forEach(m->{
+//            MenuExcelVO excelVO = new MenuExcelVO();
+//            BeanUtils.copyProperties(m, excelVO);
+//            menuExcelVOS.add(excelVO);
+//            if(!m.getChildren().isEmpty()){
+//                expand(m.getChildren(),menuExcelVOS);
+//            }
+//        });
+//    }
 
     @RequiresPermissions("system:menu:list")
     @GetMapping("/list")

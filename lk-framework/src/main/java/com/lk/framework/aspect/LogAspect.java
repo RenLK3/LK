@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -83,6 +84,8 @@ public class LogAspect {
             operLog.setMethod(className + "." + methodName + "()");
             // 设置请求方式
             operLog.setRequestMethod(ServletUtils.getRequest().getMethod());
+            operLog.setCreateBy(ShiroUtils.getLoginName());
+            operLog.setCreateTime(new Date());
             // 处理设置注解上的参数
             getControllerMethodDescription(joinPoint, controllerLog, operLog, jsonResult);
             // 保存数据库
